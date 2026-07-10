@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { AnalyticsRecord, PlayerRecord } from "../../../../core/Schemas";
 import {
   GOLD_INDEX_STEAL,
@@ -10,19 +11,21 @@ import {
   PLAYER_INDEX_NATION,
 } from "../../../../core/StatsSchemas";
 
-export enum RankType {
-  ConquestHumans = "ConquestHumans",
-  ConquestBots = "ConquestBots",
-  Atoms = "Atoms",
-  Hydros = "Hydros",
-  MIRV = "MIRV",
-  TotalGold = "TotalGold",
-  StolenGold = "StolenGold",
-  NavalTrade = "NavalTrade",
-  TrainTrade = "TrainTrade",
-  ConqueredGold = "ConqueredGold",
-  Lifetime = "Lifetime",
-}
+const rankTypeSchema = z.enum([
+  "ConquestHumans",
+  "ConquestBots",
+  "Atoms",
+  "Hydros",
+  "MIRV",
+  "TotalGold",
+  "StolenGold",
+  "NavalTrade",
+  "TrainTrade",
+  "ConqueredGold",
+  "Lifetime",
+]);
+
+export type RankType = z.infer<typeof rankTypeSchema>;
 
 export interface PlayerInfo {
   id: string;
@@ -118,33 +121,33 @@ export class Ranking {
 
   private getScore(player: PlayerInfo, type: RankType): number {
     switch (type) {
-      case RankType.Lifetime:
+      case "Lifetime":
         if (player.killedAt) {
           return (player.killedAt / Math.max(this.duration, 1)) * 10;
         }
         return 100;
-      case RankType.ConquestHumans:
+      case "ConquestHumans":
         return Number(player.conquests[PLAYER_INDEX_HUMAN] ?? 0n);
-      case RankType.ConquestBots:
+      case "ConquestBots":
         return (
           Number(player.conquests[PLAYER_INDEX_BOT] ?? 0n) +
           Number(player.conquests[PLAYER_INDEX_NATION] ?? 0n)
         );
-      case RankType.Atoms:
+      case "Atoms":
         return player.atoms;
-      case RankType.Hydros:
+      case "Hydros":
         return player.hydros;
-      case RankType.MIRV:
+      case "MIRV":
         return player.mirv;
-      case RankType.TotalGold:
+      case "TotalGold":
         return Number(player.gold.reduce((sum, gold) => sum + gold, 0n));
-      case RankType.StolenGold:
+      case "StolenGold":
         return Number(player.gold[GOLD_INDEX_STEAL] ?? 0n);
-      case RankType.NavalTrade:
+      case "NavalTrade":
         return Number(player.gold[GOLD_INDEX_TRADE] ?? 0n);
-      case RankType.ConqueredGold:
+      case "ConqueredGold":
         return Number(player.gold[GOLD_INDEX_WAR] ?? 0n);
-      case RankType.TrainTrade: {
+      case "TrainTrade": {
         const ownTrains = player.gold[GOLD_INDEX_TRAIN_SELF] ?? 0n;
         const otherTrains = player.gold[GOLD_INDEX_TRAIN_OTHER] ?? 0n;
         return Number(ownTrains + otherTrains);

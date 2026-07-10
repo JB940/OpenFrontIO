@@ -1,11 +1,11 @@
 import { LitElement, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { translateText } from "../../../Utils";
-import { RankType } from "./GameInfoRanking";
+import type { RankType } from "./GameInfoRanking";
 
 @customElement("ranking-header")
 export class RankingHeader extends LitElement {
-  @property({ type: String }) rankType = RankType.Lifetime;
+  @property({ type: String }) rankType: RankType = "Lifetime";
 
   private onSort(type: RankType) {
     this.dispatchEvent(new CustomEvent("sort", { detail: type }));
@@ -23,70 +23,70 @@ export class RankingHeader extends LitElement {
 
   private renderHeaderContent() {
     switch (this.rankType) {
-      case RankType.Lifetime:
+      case "Lifetime":
         return html`<div class="w-full">
           ${translateText("game_info_modal.survival_time")}
         </div>`;
-      case RankType.ConquestHumans:
-      case RankType.ConquestBots:
+      case "ConquestHumans":
+      case "ConquestBots":
         return html`
           <div class="flex justify-between sm:px-17.5 w-full">
             ${this.renderMultipleChoiceHeaderButton(
               translateText("game_info_modal.num_of_conquests_humans"),
-              RankType.ConquestHumans,
+              "ConquestHumans",
             )}
             /
             ${this.renderMultipleChoiceHeaderButton(
               translateText("game_info_modal.num_of_conquests_bots"),
-              RankType.ConquestBots,
+              "ConquestBots",
             )}
           </div>
         `;
-      case RankType.Atoms:
-      case RankType.Hydros:
-      case RankType.MIRV:
+      case "Atoms":
+      case "Hydros":
+      case "MIRV":
         return html`
           <div class="flex justify-between sm:px-17.5 w-full">
             ${this.renderMultipleChoiceHeaderButton(
               translateText("game_info_modal.atoms"),
-              RankType.Atoms,
+              "Atoms",
             )}
             /
             ${this.renderMultipleChoiceHeaderButton(
               translateText("game_info_modal.hydros"),
-              RankType.Hydros,
+              "Hydros",
             )}
             /
             ${this.renderMultipleChoiceHeaderButton(
               translateText("game_info_modal.mirv"),
-              RankType.MIRV,
+              "MIRV",
             )}
           </div>
         `;
-      case RankType.TotalGold:
+      case "TotalGold":
         return html`<div class="w-full">
           ${translateText("game_info_modal.all_gold")}
         </div>`;
-      case RankType.NavalTrade:
-      case RankType.TrainTrade:
+      case "NavalTrade":
+      case "TrainTrade":
         return html`
           <div class="flex justify-between sm:px-17.5 w-full">
             ${this.renderMultipleChoiceHeaderButton(
               translateText("game_info_modal.train_trade"),
-              RankType.TrainTrade,
+              "TrainTrade",
             )}
             /
             ${this.renderMultipleChoiceHeaderButton(
               translateText("game_info_modal.naval_trade"),
-              RankType.NavalTrade,
+              "NavalTrade",
             )}
           </div>
         `;
-      case RankType.ConqueredGold:
+      case "ConqueredGold":
         return html`<div class="w-full">
           ${translateText("game_info_modal.conquest_gold")}
         </div>`;
-      case RankType.StolenGold:
+      case "StolenGold":
         return html`<div class="w-full">
           ${translateText("game_info_modal.stolen_gold")}
         </div>`;

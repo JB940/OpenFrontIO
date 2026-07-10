@@ -7,7 +7,8 @@ import {
 } from "src/core/StatsSchemas";
 import { assetUrl } from "../../../../core/AssetUrls";
 import { renderNumber } from "../../../Utils";
-import { PlayerInfo, RankType } from "./GameInfoRanking";
+import { PlayerInfo } from "./GameInfoRanking";
+import type { RankType } from "./GameInfoRanking";
 
 @customElement("player-row")
 export class PlayerRow extends LitElement {
@@ -63,20 +64,20 @@ export class PlayerRow extends LitElement {
 
   private renderPlayerInfo() {
     switch (this.rankType) {
-      case RankType.Lifetime:
-      case RankType.ConquestHumans:
-      case RankType.ConquestBots:
+      case "Lifetime":
+      case "ConquestHumans":
+      case "ConquestBots":
         return this.renderScoreAsBar();
-      case RankType.Atoms:
-      case RankType.Hydros:
-      case RankType.MIRV:
+      case "Atoms":
+      case "Hydros":
+      case "MIRV":
         return this.renderBombScore();
-      case RankType.TotalGold:
-      case RankType.ConqueredGold:
-      case RankType.StolenGold:
+      case "TotalGold":
+      case "ConqueredGold":
+      case "StolenGold":
         return this.renderGoldScore();
-      case RankType.NavalTrade:
-      case RankType.TrainTrade:
+      case "NavalTrade":
+      case "TrainTrade":
         return this.renderTradeScore();
       default:
         return html``;
@@ -132,20 +133,11 @@ export class PlayerRow extends LitElement {
   private renderAllBombs() {
     return html`
       <div class="flex justify-between text-sm sm:pr-20">
-        ${this.renderMultiScoreType(
-          this.player.atoms,
-          this.rankType === RankType.Atoms,
-        )}
+        ${this.renderMultiScoreType(this.player.atoms, this.rankType === "Atoms")}
         /
-        ${this.renderMultiScoreType(
-          this.player.hydros,
-          this.rankType === RankType.Hydros,
-        )}
+        ${this.renderMultiScoreType(this.player.hydros, this.rankType === "Hydros")}
         /
-        ${this.renderMultiScoreType(
-          this.player.mirv,
-          this.rankType === RankType.MIRV,
-        )}
+        ${this.renderMultiScoreType(this.player.mirv, this.rankType === "MIRV")}
       </div>
     `;
   }
@@ -158,12 +150,12 @@ export class PlayerRow extends LitElement {
       <div class="flex justify-between text-sm align-baseline">
         ${this.renderMultiScoreType(
           Number(ownTrainTrade + otherTrainTrade),
-          this.rankType === RankType.TrainTrade,
+          this.rankType === "TrainTrade",
         )}
         /
         ${this.renderMultiScoreType(
           Number(navalTrade),
-          this.rankType === RankType.NavalTrade,
+          this.rankType === "NavalTrade",
         )}
       </div>
     `;

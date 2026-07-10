@@ -1,28 +1,25 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { translateText } from "../../../Utils";
-import { RankType } from "./GameInfoRanking";
+import type { RankType } from "./GameInfoRanking";
 
-const economyRankings = new Set([
-  RankType.TotalGold,
-  RankType.StolenGold,
-  RankType.ConqueredGold,
-  RankType.NavalTrade,
-  RankType.TrainTrade,
+const economyRankings = new Set<RankType>([
+  "TotalGold",
+  "StolenGold",
+  "ConqueredGold",
+  "NavalTrade",
+  "TrainTrade",
 ]);
-const warRankings = new Set([
-  RankType.ConquestHumans,
-  RankType.ConquestBots,
-  RankType.Atoms,
-  RankType.Hydros,
-  RankType.MIRV,
+const warRankings = new Set<RankType>([
+  "ConquestHumans",
+  "ConquestBots",
+  "Atoms",
+  "Hydros",
+  "MIRV",
 ]);
-const tradeRankings = new Set([RankType.NavalTrade, RankType.TrainTrade]);
-const bombRankings = new Set([RankType.Atoms, RankType.Hydros, RankType.MIRV]);
-const conquestRankings = new Set([
-  RankType.ConquestHumans,
-  RankType.ConquestBots,
-]);
+const tradeRankings = new Set<RankType>(["NavalTrade", "TrainTrade"]);
+const bombRankings = new Set<RankType>(["Atoms", "Hydros", "MIRV"]);
+const conquestRankings = new Set<RankType>(["ConquestHumans", "ConquestBots"]);
 
 const isEconomyRanking = (t: RankType) => economyRankings.has(t);
 const isTradeRanking = (t: RankType) => tradeRankings.has(t);
@@ -32,7 +29,7 @@ const isConquestRanking = (t: RankType) => conquestRankings.has(t);
 
 @customElement("ranking-controls")
 export class RankingControls extends LitElement {
-  @property({ type: String }) rankType = RankType.Lifetime;
+  @property({ type: String }) rankType: RankType = "Lifetime";
 
   private onSort(type: RankType) {
     this.dispatchEvent(new CustomEvent("sort", { detail: type }));
@@ -42,17 +39,17 @@ export class RankingControls extends LitElement {
     return html`
       <div class="flex items-end justify-center p-6 pb-2 gap-5">
         ${this.renderButton(
-          RankType.Lifetime,
-          this.rankType === RankType.Lifetime,
+          "Lifetime",
+          this.rankType === "Lifetime",
           "game_info_modal.duration",
         )}
         ${this.renderButton(
-          RankType.ConquestHumans,
+          "ConquestHumans",
           isWarRanking(this.rankType),
           "game_info_modal.war",
         )}
         ${this.renderButton(
-          RankType.TotalGold,
+          "TotalGold",
           isEconomyRanking(this.rankType),
           "game_info_modal.economy",
         )}
@@ -79,12 +76,12 @@ export class RankingControls extends LitElement {
     return html`
       <div class="flex justify-center gap-3 pb-1">
         ${this.renderSubButton(
-          RankType.MIRV,
+          "MIRV",
           isBombRanking(this.rankType),
           "game_info_modal.bombs",
         )}
         ${this.renderSubButton(
-          RankType.ConquestHumans,
+          "ConquestHumans",
           isConquestRanking(this.rankType),
           "game_info_modal.conquests",
         )}
@@ -96,15 +93,15 @@ export class RankingControls extends LitElement {
     if (!isEconomyRanking(this.rankType)) return "";
 
     const econButtons = [
-      [RankType.StolenGold, "game_info_modal.pirate"],
-      [RankType.ConqueredGold, "game_info_modal.conquered"],
-      [RankType.TotalGold, "game_info_modal.total_gold"],
+      ["StolenGold", "game_info_modal.pirate"],
+      ["ConqueredGold", "game_info_modal.conquered"],
+      ["TotalGold", "game_info_modal.total_gold"],
     ];
 
     return html`
       <div class="flex justify-center gap-3 pb-1">
         ${this.renderSubButton(
-          RankType.NavalTrade,
+          "NavalTrade",
           isTradeRanking(this.rankType),
           "game_info_modal.trade",
         )}
