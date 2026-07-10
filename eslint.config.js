@@ -59,6 +59,13 @@ export default [
           caughtErrors: "none",
         },
       ],
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "TSEnumDeclaration",
+          message: "See https://www.youtube.com/watch?v=jjMbPt_H3RQ",
+        },
+      ],
     },
   },
 ];
