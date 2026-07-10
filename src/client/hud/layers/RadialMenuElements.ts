@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { assetUrl } from "../../../core/AssetUrls";
 import { Config } from "../../../core/configuration/Config";
 import {
@@ -112,15 +113,17 @@ export const COLORS = {
   },
 };
 
-export enum Slot {
-  Info = "info",
-  Boat = "boat",
-  Build = "build",
-  Attack = "attack",
-  Ally = "ally",
-  Back = "back",
-  Delete = "delete",
-}
+export const slotSchema = z.enum([
+  "Info",
+  "Boat",
+  "Build",
+  "Attack",
+  "Ally",
+  "Back",
+  "Delete",
+]);
+
+export type Slot = z.infer<typeof slotSchema>;
 
 function isFriendlyTarget(params: MenuElementParams): boolean {
   const selectedPlayer = params.selected;
@@ -368,7 +371,7 @@ const infoEmojiElement: MenuElement = {
 };
 
 export const infoMenuElement: MenuElement = {
-  id: Slot.Info,
+  id: "Info",
   name: "info",
   disabled: (params: MenuElementParams) =>
     !params.selected || params.game.inSpawnPhase(),
@@ -467,7 +470,7 @@ function createMenuElements(
 }
 
 export const attackMenuElement: MenuElement = {
-  id: Slot.Attack,
+  id: slotSchema.enum.Attack,
   name: "radial_attack",
   disabled: (params: MenuElementParams) => params.game.inSpawnPhase(),
   icon: swordIcon,
@@ -480,7 +483,7 @@ export const attackMenuElement: MenuElement = {
 };
 
 const donateGoldRadialElement: MenuElement = {
-  id: Slot.Attack,
+  id: slotSchema.enum.Attack,
   name: "radial_donate_gold",
   disabled: (params: MenuElementParams) =>
     params.game.inSpawnPhase() ||
@@ -498,7 +501,7 @@ const donateGoldRadialElement: MenuElement = {
 };
 
 export const deleteUnitElement: MenuElement = {
-  id: Slot.Delete,
+  id: slotSchema.enum.Delete,
   name: "delete",
   cooldown: (params: MenuElementParams) => params.myPlayer.deleteUnitCooldown(),
   disabled: (params: MenuElementParams) => {
@@ -572,7 +575,7 @@ export const deleteUnitElement: MenuElement = {
 };
 
 export const buildMenuElement: MenuElement = {
-  id: Slot.Build,
+  id: slotSchema.enum.Build,
   name: "build",
   disabled: (params: MenuElementParams) => params.game.inSpawnPhase(),
   icon: buildIcon,
@@ -585,7 +588,7 @@ export const buildMenuElement: MenuElement = {
 };
 
 export const boatMenuElement: MenuElement = {
-  id: Slot.Boat,
+  id: slotSchema.enum.Boat,
   name: "boat",
   disabled: (params: MenuElementParams) =>
     !params.playerActions.buildableUnits.some(
