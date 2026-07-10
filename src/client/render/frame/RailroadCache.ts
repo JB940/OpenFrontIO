@@ -21,15 +21,20 @@ import {
   RailroadSnapUpdate,
 } from "../../../core/game/GameUpdates";
 
-// Regular enum (not const enum) for cross-package use.
-export enum RailType {
-  VERTICAL,
-  HORIZONTAL,
-  TOP_LEFT,
-  TOP_RIGHT,
-  BOTTOM_LEFT,
-  BOTTOM_RIGHT,
-}
+import { z } from "zod";
+
+// Explicit numbers, these numbers are used in the shader 
+// "src\client\render\gl\passes\RailroadPass.ts", so they must not change.
+const RailTypeSchema = z.enum({
+  "VERTICAL": 1,
+  "HORIZONTAL": 2,
+  "TOP_LEFT": 3,
+  "TOP_RIGHT": 4,
+  "BOTTOM_LEFT": 5,
+  "BOTTOM_RIGHT": 6,
+});
+
+type RailType = z.infer<typeof RailTypeSchema>;
 
 interface RailTile {
   ref: number;
@@ -52,9 +57,9 @@ const RAIL_INCREMENT = 3;
 function railExtremity(tile: number, next: number, w: number): RailType {
   const dx = (next % w) - (tile % w);
   const dy = (next - (next % w)) / w - (tile - (tile % w)) / w;
-  if (dx === 0) return RailType.VERTICAL;
-  if (dy === 0) return RailType.HORIZONTAL;
-  return RailType.VERTICAL;
+  if (dx === 0) return RailTypeSchema.enum.VERTICAL;
+  if (dy === 0) return RailTypeSchema.enum.HORIZONTAL;
+  return RailTypeSchema.enum.VERTICAL;
 }
 
 function railDirection(
@@ -74,25 +79,25 @@ function railDirection(
   const dx2 = x3 - x2,
     dy2 = y3 - y2;
   if (dx1 === dx2 && dy1 === dy2) {
-    return dx1 !== 0 ? RailType.HORIZONTAL : RailType.VERTICAL;
+    return dx1 !== 0 ? RailTypeSchema.enum.HORIZONTAL : RailTypeSchema.enum.VERTICAL;
   }
   if ((dx1 === 0 && dx2 !== 0) || (dx1 !== 0 && dx2 === 0)) {
-    if (dx1 === 0 && dx2 === 1 && dy1 === -1) return RailType.BOTTOM_RIGHT;
-    if (dx1 === 0 && dx2 === -1 && dy1 === -1) return RailType.BOTTOM_LEFT;
-    if (dx1 === 0 && dx2 === 1 && dy1 === 1) return RailType.TOP_RIGHT;
-    if (dx1 === 0 && dx2 === -1 && dy1 === 1) return RailType.TOP_LEFT;
-    if (dx1 === 1 && dx2 === 0 && dy2 === -1) return RailType.TOP_LEFT;
-    if (dx1 === -1 && dx2 === 0 && dy2 === -1) return RailType.TOP_RIGHT;
-    if (dx1 === 1 && dx2 === 0 && dy2 === 1) return RailType.BOTTOM_LEFT;
-    if (dx1 === -1 && dx2 === 0 && dy2 === 1) return RailType.BOTTOM_RIGHT;
+    if (dx1 === 0 && dx2 === 1 && dy1 === -1) return RailTypeSchema.enum.BOTTOM_RIGHT;
+    if (dx1 === 0 && dx2 === -1 && dy1 === -1) return RailTypeSchema.enum.BOTTOM_LEFT;
+    if (dx1 === 0 && dx2 === 1 && dy1 === 1) return RailTypeSchema.enum.TOP_RIGHT;
+    if (dx1 === 0 && dx2 === -1 && dy1 === 1) return RailTypeSchema.enum.TOP_LEFT;
+    if (dx1 === 1 && dx2 === 0 && dy2 === -1) return RailTypeSchema.enum.TOP_LEFT;
+    if (dx1 === -1 && dx2 === 0 && dy2 === -1) return RailTypeSchema.enum.TOP_RIGHT;
+    if (dx1 === 1 && dx2 === 0 && dy2 === 1) return RailTypeSchema.enum.BOTTOM_LEFT;
+    if (dx1 === -1 && dx2 === 0 && dy2 === 1) return RailTypeSchema.enum.BOTTOM_RIGHT;
   }
-  return RailType.VERTICAL;
+  return RailTypeSchema.enum.VERTICAL;
 }
 
 function computeRailTiles(tileRefs: number[], w: number): RailTile[] {
   if (tileRefs.length === 0) return [];
   if (tileRefs.length === 1)
-    return [{ ref: tileRefs[0]!, type: RailType.VERTICAL }];
+    return [{ ref: tileRefs[0]!, type: RailTypeSchema.enum.VERTICAL }];
   const result: RailTile[] = [];
   result.push({
     ref: tileRefs[0]!,
@@ -260,7 +265,7 @@ export class RailroadCache {
         }
         for (let i = anim.tailIndex - RAIL_INCREMENT; i < anim.tailIndex; i++) {
           const t = anim.tiles[i]!;
-          this.railroadState[t.ref] = t.type + 1;
+          this.railroadState[t.ref] = t.type  + 1;
           this.revealedRailTiles.push(t.ref);
         }
         anim.headIndex += RAIL_INCREMENT;
