@@ -11,7 +11,7 @@ import {
   PLAYER_INDEX_NATION,
 } from "../../../../core/StatsSchemas";
 
-const rankTypeSchema = z.enum([
+export const rankTypeSchema = z.enum([
   "ConquestHumans",
   "ConquestBots",
   "Atoms",

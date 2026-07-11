@@ -37,7 +37,6 @@ import { PlayerPanel } from "../../../../src/client/hud/layers/PlayerPanel";
 import { showInGameConfirm } from "../../../../src/client/InGameModal";
 import { SendKickPlayerIntentEvent } from "../../../../src/client/Transport";
 import { PlayerView } from "../../../../src/client/view";
-import { PlayerType } from "../../../../src/core/game/Game";
 
 describe("PlayerPanel - kick player moderation", () => {
   let panel: PlayerPanel;
@@ -60,7 +59,7 @@ describe("PlayerPanel - kick player moderation", () => {
       id: () => 2,
       name: () => "Other",
       displayName: () => "[TAG] Other",
-      type: () => PlayerType.Human,
+      type: () => "Human",
       clientID: () => "client-2",
     } as unknown as PlayerView;
 
@@ -93,7 +92,7 @@ describe("PlayerPanel - kick player moderation", () => {
       id: () => 2,
       name: () => "Other",
       displayName: () => "[TAG] Other",
-      type: () => PlayerType.Human,
+      type: () => "Human",
       clientID: () => "client-2",
     } as unknown as PlayerView;
 
@@ -107,7 +106,7 @@ describe("PlayerPanel - kick player moderation", () => {
       id: () => 2,
       name: () => "Other",
       displayName: () => "[TAG] Other",
-      type: () => PlayerType.Human,
+      type: () => "Human",
       clientID: () => "client-2",
     } as unknown as PlayerView;
 
@@ -140,7 +139,7 @@ describe("PlayerModerationModal - kick confirmation", () => {
       id: () => 2,
       name: () => "Other",
       displayName: () => "[TAG] Other",
-      type: () => PlayerType.Human,
+      type: () => "Human",
       clientID: () => "client-2",
     } as unknown as PlayerView;
 
@@ -173,7 +172,7 @@ describe("PlayerModerationModal - kick confirmation", () => {
       id: () => 2,
       name: () => "Other",
       displayName: () => "[TAG] Other",
-      type: () => PlayerType.Human,
+      type: () => "Human",
       clientID: () => "client-2",
     } as unknown as PlayerView;
 
@@ -200,7 +199,7 @@ describe("PlayerModerationModal - kick confirmation", () => {
     const nonCreator = { isLobbyCreator: () => false } as unknown as PlayerView;
     const creator = { isLobbyCreator: () => true } as unknown as PlayerView;
     const humanOther = {
-      type: () => PlayerType.Human,
+      type: () => "Human",
       clientID: () => "client-other",
     } as unknown as PlayerView;
 

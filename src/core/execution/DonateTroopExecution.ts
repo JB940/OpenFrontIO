@@ -1,11 +1,4 @@
-import {
-  Difficulty,
-  Execution,
-  Game,
-  Player,
-  PlayerID,
-  PlayerType,
-} from "../game/Game";
+import { Difficulty, Execution, Game, Player, PlayerID } from "../game/Game";
 import { PseudoRandom } from "../PseudoRandom";
 import { assertNever } from "../Util";
 import { EmojiExecution } from "./EmojiExecution";
@@ -67,7 +60,7 @@ export class DonateTroopsExecution implements Execution {
 
       // Only AI nations auto-respond with emojis, human players should not
       if (
-        this.recipient.type() === PlayerType.Nation &&
+        this.recipient.type() === "Nation" &&
         this.recipient.canSendEmoji(this.sender)
       ) {
         this.mg.addExecution(

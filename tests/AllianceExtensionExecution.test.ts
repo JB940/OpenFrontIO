@@ -1,6 +1,6 @@
 import { AllianceExtensionExecution } from "../src/core/execution/alliance/AllianceExtensionExecution";
 import { AllianceRequestExecution } from "../src/core/execution/alliance/AllianceRequestExecution";
-import { Game, MessageType, Player, PlayerType } from "../src/core/game/Game";
+import { Game, MessageType, Player } from "../src/core/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 
 let game: Game;
@@ -14,9 +14,9 @@ describe("AllianceExtensionExecution", () => {
       "ocean_and_land",
       { infiniteGold: true, instantBuild: true, infiniteTroops: true },
       [
-        playerInfo("player1", PlayerType.Human),
-        playerInfo("player2", PlayerType.Human),
-        playerInfo("player3", PlayerType.Nation),
+        playerInfo("player1", "Human"),
+        playerInfo("player2", "Human"),
+        playerInfo("player3", "Nation"),
       ],
     );
 

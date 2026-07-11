@@ -6,7 +6,7 @@
  */
 import { Executor } from "../src/core/execution/ExecutionManager";
 import { SpawnExecution } from "../src/core/execution/SpawnExecution";
-import { Game, Player, PlayerInfo, PlayerType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import {
   GameUpdateType,
   GameUpdateViewData,
@@ -24,7 +24,7 @@ describe("packedPlayerUpdates (GameImpl drain)", () => {
     game = await setup("plains", {});
     const aliceInfo = new PlayerInfo(
       "alice",
-      PlayerType.Human,
+      "Human",
       "alice_client",
       "alice_id",
     );
@@ -81,7 +81,7 @@ describe("GameRunner payload cadence", () => {
     );
     const aliceInfo = new PlayerInfo(
       "alice",
-      PlayerType.Human,
+      "Human",
       "alice_client",
       "alice_id",
     );

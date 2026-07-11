@@ -19,7 +19,6 @@ import {
   PlayerID,
   PlayerInfo,
   PlayerProfile,
-  PlayerType,
   UnitType,
 } from "./game/Game";
 import { createGame } from "./game/GameImpl";
@@ -49,7 +48,7 @@ export async function createGameRunner(
   const humans = gameStart.players.map((p) => {
     return new PlayerInfo(
       p.username,
-      PlayerType.Human,
+      "Human",
       p.clientID,
       random.nextID(),
       p.isLobbyCreator ?? false,
@@ -171,7 +170,7 @@ export class GameRunner {
     let viewDataChanged = false;
     if (this.game.inSpawnPhase()) {
       for (const p of this.game.players()) {
-        if (p.type() !== PlayerType.Human && p.type() !== PlayerType.Nation) {
+        if (p.type() !== "Human" && p.type() !== "Nation") {
           continue;
         }
         if (p.spawnTile() === undefined) continue;

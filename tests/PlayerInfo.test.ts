@@ -1,11 +1,11 @@
-import { PlayerInfo, PlayerType } from "../src/core/game/Game";
+import { PlayerInfo } from "../src/core/game/Game";
 
 describe("PlayerInfo", () => {
   describe("clanTag from explicit clanTag parameter", () => {
     test("should set clanTag from clanTag parameter", () => {
       const playerInfo = new PlayerInfo(
         "PlayerName",
-        PlayerType.Human,
+        "Human",
         null,
         "player_id",
         false,
@@ -17,7 +17,7 @@ describe("PlayerInfo", () => {
     test("should preserve already-uppercase clan tag", () => {
       const playerInfo = new PlayerInfo(
         "PlayerName",
-        PlayerType.Human,
+        "Human",
         null,
         "player_id",
         false,
@@ -29,7 +29,7 @@ describe("PlayerInfo", () => {
     test("should set clan to null when clanTag is not provided", () => {
       const playerInfo = new PlayerInfo(
         "PlayerName",
-        PlayerType.Human,
+        "Human",
         null,
         "player_id",
       );
@@ -39,7 +39,7 @@ describe("PlayerInfo", () => {
     test("should set clan to null when clanTag is null", () => {
       const playerInfo = new PlayerInfo(
         "PlayerName",
-        PlayerType.Human,
+        "Human",
         null,
         "player_id",
         false,
@@ -51,7 +51,7 @@ describe("PlayerInfo", () => {
     test("should set clan to null when clanTag is undefined", () => {
       const playerInfo = new PlayerInfo(
         "PlayerName",
-        PlayerType.Human,
+        "Human",
         null,
         "player_id",
         false,
@@ -65,7 +65,7 @@ describe("PlayerInfo", () => {
     test("should construct display name with clan tag", () => {
       const playerInfo = new PlayerInfo(
         "PlayerName",
-        PlayerType.Human,
+        "Human",
         null,
         "player_id",
         false,
@@ -77,7 +77,7 @@ describe("PlayerInfo", () => {
     test("should return just name when no clan tag", () => {
       const playerInfo = new PlayerInfo(
         "PlayerName",
-        PlayerType.Human,
+        "Human",
         null,
         "player_id",
       );
@@ -87,7 +87,7 @@ describe("PlayerInfo", () => {
     test("should preserve clan tag casing in display name", () => {
       const playerInfo = new PlayerInfo(
         "PlayerName",
-        PlayerType.Human,
+        "Human",
         null,
         "player_id",
         false,

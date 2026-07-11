@@ -3,7 +3,6 @@ import {
   ColoredTeams,
   GameMode,
   PlayerInfo,
-  PlayerType,
   RankedType,
 } from "../../../src/core/game/Game";
 import { playerInfo, setup } from "../../util/Setup";
@@ -97,7 +96,7 @@ describe("WinCheckExecution - Nation Winners", () => {
     // Create Nation player
     const nationInfo = new PlayerInfo(
       "TestNation",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_id",
     );
@@ -145,19 +144,14 @@ describe("WinCheckExecution - Nation Winners", () => {
     });
 
     // Create human player
-    const humanInfo = new PlayerInfo(
-      "HumanPlayer",
-      PlayerType.Human,
-      null,
-      "human_id",
-    );
+    const humanInfo = new PlayerInfo("HumanPlayer", "Human", null, "human_id");
     game.addPlayer(humanInfo);
     const human = game.player("human_id");
 
     // Create Nation player
     const nationInfo = new PlayerInfo(
       "TestNation",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_id",
     );
@@ -218,30 +212,15 @@ describe("WinCheckExecution - Nation Winners", () => {
     });
 
     // Create 3 Nation players
-    const nation1Info = new PlayerInfo(
-      "Nation1",
-      PlayerType.Nation,
-      null,
-      "nation1_id",
-    );
+    const nation1Info = new PlayerInfo("Nation1", "Nation", null, "nation1_id");
     game.addPlayer(nation1Info);
     const nation1 = game.player("nation1_id");
 
-    const nation2Info = new PlayerInfo(
-      "Nation2",
-      PlayerType.Nation,
-      null,
-      "nation2_id",
-    );
+    const nation2Info = new PlayerInfo("Nation2", "Nation", null, "nation2_id");
     game.addPlayer(nation2Info);
     const nation2 = game.player("nation2_id");
 
-    const nation3Info = new PlayerInfo(
-      "Nation3",
-      PlayerType.Nation,
-      null,
-      "nation3_id",
-    );
+    const nation3Info = new PlayerInfo("Nation3", "Nation", null, "nation3_id");
     game.addPlayer(nation3Info);
     const nation3 = game.player("nation3_id");
 
@@ -299,11 +278,11 @@ describe("WinCheckExecution - Nation Winners", () => {
     });
 
     // Create 2 bot players (auto-assigned to Bot team)
-    const bot1Info = new PlayerInfo("Bot1", PlayerType.Bot, null, "bot1_id");
+    const bot1Info = new PlayerInfo("Bot1", "Bot", null, "bot1_id");
     game.addPlayer(bot1Info);
     const bot1 = game.player("bot1_id");
 
-    const bot2Info = new PlayerInfo("Bot2", PlayerType.Bot, null, "bot2_id");
+    const bot2Info = new PlayerInfo("Bot2", "Bot", null, "bot2_id");
     game.addPlayer(bot2Info);
     const bot2 = game.player("bot2_id");
 
@@ -364,10 +343,7 @@ describe("WinCheckExecution - 1v1 Ranked Mode", () => {
         instantBuild: true,
         rankedType: RankedType.OneVOne,
       },
-      [
-        playerInfo("Player1", PlayerType.Human),
-        playerInfo("Player2", PlayerType.Human),
-      ],
+      [playerInfo("Player1", "Human"), playerInfo("Player2", "Human")],
     );
 
     const human1 = game.player("Player1");
@@ -416,10 +392,7 @@ describe("WinCheckExecution - 1v1 Ranked Mode", () => {
         instantBuild: true,
         rankedType: RankedType.OneVOne,
       },
-      [
-        playerInfo("Player1", PlayerType.Human),
-        playerInfo("Player2", PlayerType.Human),
-      ],
+      [playerInfo("Player1", "Human"), playerInfo("Player2", "Human")],
     );
 
     const human1 = game.player("Player1");
@@ -469,10 +442,7 @@ describe("WinCheckExecution - 1v1 Ranked Mode", () => {
         instantBuild: true,
         rankedType: RankedType.OneVOne,
       },
-      [
-        playerInfo("Player1", PlayerType.Human),
-        playerInfo("Player2", PlayerType.Human),
-      ],
+      [playerInfo("Player1", "Human"), playerInfo("Player2", "Human")],
     );
 
     const human1 = game.player("Player1");
@@ -509,9 +479,9 @@ describe("WinCheckExecution - 1v1 Ranked Mode", () => {
         rankedType: RankedType.OneVOne,
       },
       [
-        playerInfo("HumanPlayer", PlayerType.Human),
-        playerInfo("BotPlayer", PlayerType.Bot),
-        playerInfo("NationPlayer", PlayerType.Nation),
+        playerInfo("HumanPlayer", "Human"),
+        playerInfo("BotPlayer", "Bot"),
+        playerInfo("NationPlayer", "Nation"),
       ],
     );
 

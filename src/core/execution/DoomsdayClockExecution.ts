@@ -7,7 +7,6 @@ import {
   Game,
   GameMode,
   Player,
-  PlayerType,
   Team,
   UnitType,
 } from "../game/Game";
@@ -58,7 +57,7 @@ export class DoomsdayClockExecution implements Execution {
     // Humans and Nations are subject to it; the small map bots are not (the
     // !== Bot idiom used across the codebase). players() already returns only
     // alive players.
-    const contenders = mg.players().filter((p) => p.type() !== PlayerType.Bot);
+    const contenders = mg.players().filter((p) => p.type() !== "Bot");
 
     // The bar applies per side: each player in FFA, each whole team otherwise.
     const ffa = mg.config().gameConfig().gameMode === GameMode.FFA;

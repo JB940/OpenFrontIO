@@ -1,12 +1,6 @@
 import { MoveWarshipExecution } from "../src/core/execution/MoveWarshipExecution";
 import { WarshipExecution } from "../src/core/execution/WarshipExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-  UnitType,
-} from "../src/core/game/Game";
+import { Game, Player, PlayerInfo, UnitType } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 import { executeTicks } from "./util/utils";
 
@@ -21,8 +15,8 @@ describe("Warship multi-selection (MoveWarshipExecution)", () => {
       "half_land_half_ocean",
       { infiniteGold: true, instantBuild: true },
       [
-        new PlayerInfo("p1", PlayerType.Human, null, "p1"),
-        new PlayerInfo("p2", PlayerType.Human, null, "p2"),
+        new PlayerInfo("p1", "Human", null, "p1"),
+        new PlayerInfo("p2", "Human", null, "p2"),
       ],
     );
     player1 = game.player("p1");

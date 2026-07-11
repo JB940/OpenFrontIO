@@ -5,7 +5,6 @@ import {
   Gold,
   Player,
   PlayerID,
-  PlayerType,
 } from "../game/Game";
 import { PseudoRandom } from "../PseudoRandom";
 import { assertNever, toInt } from "../Util";
@@ -63,7 +62,7 @@ export class DonateGoldExecution implements Execution {
 
       // Only AI nations auto-respond with emojis, human players should not
       if (
-        this.recipient.type() === PlayerType.Nation &&
+        this.recipient.type() === "Nation" &&
         this.recipient.canSendEmoji(this.sender)
       ) {
         // Select emoji based on donation value

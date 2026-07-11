@@ -1,6 +1,5 @@
 import {
   Ranking,
-  RankType,
 } from "../src/client/components/baseComponents/ranking/GameInfoRanking";
 import {
   Difficulty,
@@ -112,7 +111,7 @@ describe("Ranking class", () => {
 
   test("summarizes players correctly", () => {
     const r = new Ranking(makeSession());
-    const players = r.sortedBy(RankType.ConquestHumans);
+    const players = r.sortedBy("ConquestHumans");
 
     expect(players.length).toBe(3);
 
@@ -126,13 +125,13 @@ describe("Ranking class", () => {
 
   test("correctly identifies winner", () => {
     const r = new Ranking(makeSession());
-    const p2 = r.sortedBy(RankType.ConquestHumans).find((p) => p.id === "p2")!;
+    const p2 = r.sortedBy("ConquestHumans").find((p) => p.id === "p2")!;
     expect(p2.winner).toBe(true);
   });
 
   test("rank by total gold", () => {
     const r = new Ranking(makeSession());
-    const rankedPlayers = r.sortedBy(RankType.TotalGold);
+    const rankedPlayers = r.sortedBy("TotalGold");
     expect(rankedPlayers.length).toBe(3);
     expect(rankedPlayers[0].id).toBe("p1");
     expect(rankedPlayers[1].id).toBe("p2");
@@ -141,7 +140,7 @@ describe("Ranking class", () => {
 
   test("rank by stolen gold", () => {
     const r = new Ranking(makeSession());
-    const rankedPlayers = r.sortedBy(RankType.StolenGold);
+    const rankedPlayers = r.sortedBy("StolenGold");
     expect(rankedPlayers.length).toBe(3);
     expect(rankedPlayers[0].id).toBe("p3");
     expect(rankedPlayers[1].id).toBe("p2");
@@ -150,7 +149,7 @@ describe("Ranking class", () => {
 
   test("rank by hydros", () => {
     const r = new Ranking(makeSession());
-    const rankedPlayers = r.sortedBy(RankType.Hydros);
+    const rankedPlayers = r.sortedBy("Hydros");
     expect(rankedPlayers.length).toBe(3);
     expect(rankedPlayers[0].id).toBe("p2");
     expect(rankedPlayers[1].id).toBe("p1");
@@ -159,38 +158,38 @@ describe("Ranking class", () => {
 
   test("lifetime score is percentage of duration", () => {
     const r = new Ranking(makeSession());
-    const p3 = r.sortedBy(RankType.ConquestHumans).find((p) => p.id === "p3")!;
+    const p3 = r.sortedBy("ConquestHumans").find((p) => p.id === "p3")!;
     const expected = Number(BigInt(600)) / gameDuration;
-    expect(r.score(p3, RankType.Lifetime)).toBe(expected);
+    expect(r.score(p3, "Lifetime")).toBe(expected);
   });
 
   test("lifetime score gives 100 when alive", () => {
     const r = new Ranking(makeSession());
     const p1 = r.allPlayers.find((p) => p.id === "p1")!;
-    expect(r.score(p1, RankType.Lifetime)).toBe(100);
+    expect(r.score(p1, "Lifetime")).toBe(100);
   });
 
   test("winners should be ahead of players with same score", () => {
     const r = new Ranking(makeSession());
-    const sortedPlayers = r.sortedBy(RankType.ConquestHumans);
+    const sortedPlayers = r.sortedBy("ConquestHumans");
     expect(sortedPlayers[0].id).toBe("p2"); // p2 & p3 same score but winner first
   });
 
   test("gold scores work correctly", () => {
     const r = new Ranking(makeSession());
-    const p1 = r.sortedBy(RankType.TotalGold).find((p) => p.id === "p1")!;
-    expect(r.score(p1, RankType.StolenGold)).toBe(
+    const p1 = r.sortedBy("TotalGold").find((p) => p.id === "p1")!;
+    expect(r.score(p1, "StolenGold")).toBe(
       Number(p1.gold[GOLD_INDEX_STEAL] ?? 0n),
     );
-    expect(r.score(p1, RankType.NavalTrade)).toBe(
+    expect(r.score(p1, "NavalTrade")).toBe(
       Number(p1.gold[GOLD_INDEX_TRADE] ?? 0n),
     );
     const ownTrain = p1.gold[GOLD_INDEX_TRAIN_SELF] ?? 0n;
     const otherTrain = p1.gold[GOLD_INDEX_TRAIN_OTHER] ?? 0n;
-    expect(r.score(p1, RankType.TrainTrade)).toBe(
+    expect(r.score(p1, "TrainTrade")).toBe(
       Number(ownTrain + otherTrain),
     );
-    expect(r.score(p1, RankType.ConqueredGold)).toBe(
+    expect(r.score(p1, "ConqueredGold")).toBe(
       Number(p1.gold[GOLD_INDEX_WAR] ?? 0n),
     );
   });

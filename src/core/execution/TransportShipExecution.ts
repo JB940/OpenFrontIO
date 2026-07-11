@@ -4,7 +4,6 @@ import {
   Game,
   MessageType,
   Player,
-  PlayerType,
   TerraNullius,
   Unit,
   UnitType,
@@ -83,10 +82,7 @@ export class TransportShipExecution implements Execution {
 
     if (this.target.isPlayer()) {
       const targetPlayer = this.target as Player;
-      if (
-        targetPlayer.type() !== PlayerType.Bot &&
-        this.attacker.type() !== PlayerType.Bot
-      ) {
+      if (targetPlayer.type() !== "Bot" && this.attacker.type() !== "Bot") {
         this.rejectIncomingAllianceRequests(targetPlayer);
       }
     }

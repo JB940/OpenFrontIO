@@ -2,7 +2,7 @@ import Benchmark from "benchmark";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { MirvExecution } from "../../src/core/execution/MIRVExecution";
-import { PlayerInfo, PlayerType, UnitType } from "../../src/core/game/Game";
+import { PlayerInfo, UnitType } from "../../src/core/game/Game";
 import { setup } from "../util/Setup";
 
 // Setup sparse territory scenario (small target area)
@@ -12,7 +12,7 @@ const sparseTerritoryGame = await setup(
     infiniteGold: true,
     instantBuild: true,
   },
-  [new PlayerInfo("player", PlayerType.Human, "client_id1", "player_id")],
+  [new PlayerInfo("player", "Human", "client_id1", "player_id")],
   dirname(fileURLToPath(import.meta.url)),
 );
 
@@ -48,7 +48,7 @@ const denseTerritoryGame = await setup(
     infiniteGold: true,
     instantBuild: true,
   },
-  [new PlayerInfo("player", PlayerType.Human, "client_id1", "player_id")],
+  [new PlayerInfo("player", "Human", "client_id1", "player_id")],
   dirname(fileURLToPath(import.meta.url)),
 );
 
@@ -72,7 +72,7 @@ const giantMapGame = await setup(
     infiniteGold: true,
     instantBuild: true,
   },
-  [new PlayerInfo("player", PlayerType.Human, "client_id1", "player_id")],
+  [new PlayerInfo("player", "Human", "client_id1", "player_id")],
   dirname(fileURLToPath(import.meta.url)),
 );
 

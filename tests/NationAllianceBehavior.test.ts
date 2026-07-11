@@ -5,7 +5,6 @@ import {
   Game,
   Player,
   PlayerInfo,
-  PlayerType,
   Tick,
 } from "../src/core/game/Game";
 import { PseudoRandom } from "../src/core/PseudoRandom";
@@ -23,15 +22,10 @@ describe("AllianceBehavior.handleAllianceRequests", () => {
       instantBuild: true,
     });
 
-    const playerInfo = new PlayerInfo(
-      "player_id",
-      PlayerType.Bot,
-      null,
-      "player_id",
-    );
+    const playerInfo = new PlayerInfo("player_id", "Bot", null, "player_id");
     const requestorInfo = new PlayerInfo(
       "requestor_id",
-      PlayerType.Human,
+      "Human",
       null,
       "requestor_id",
     );
@@ -175,7 +169,7 @@ describe("AllianceBehavior.handleAllianceExtensionRequests", () => {
       alliances: vi.fn(() => [mockAlliance]),
       relation: vi.fn(),
       id: vi.fn(() => "bot_id"),
-      type: vi.fn(() => PlayerType.Nation),
+      type: vi.fn(() => "Nation"),
     };
 
     allianceBehavior = new NationAllianceBehavior(

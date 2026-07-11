@@ -4,7 +4,6 @@ import {
   GameMode,
   Gold,
   Player,
-  PlayerType,
   Relation,
   Structures,
   Tick,
@@ -73,7 +72,7 @@ export class NationNukeBehavior {
     }
 
     if (
-      nukeTarget.type() === PlayerType.Bot || // Don't nuke tribes (as opposed to nations and humans)
+      nukeTarget.type() === "Bot" || // Don't nuke tribes (as opposed to nations and humans)
       this.player.isOnSameTeam(nukeTarget) ||
       this.attackBehavior.shouldAttack(nukeTarget) === false
     ) {
@@ -269,7 +268,7 @@ export class NationNukeBehavior {
     const myGold = this.player.gold();
     for (const other of this.game.players()) {
       if (other === this.player) continue;
-      if (other.type() !== PlayerType.Nation) continue;
+      if (other.type() !== "Nation") continue;
       if (other.gold() > myGold) return false;
     }
     return true;
@@ -280,7 +279,7 @@ export class NationNukeBehavior {
     let bestDensity = HIGH_DENSITY_NUKE_THRESHOLD;
     for (const other of this.game.players()) {
       if (other === this.player) continue;
-      if (other.type() === PlayerType.Bot) continue;
+      if (other.type() === "Bot") continue;
       if (this.player.isFriendly(other)) continue;
       const tilesOwned = other.numTilesOwned();
       if (tilesOwned === 0) continue;

@@ -1,11 +1,6 @@
 import { beforeEach, describe, expect, test } from "vitest";
 import { PlayerExecution } from "../../../src/core/execution/PlayerExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-} from "../../../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../../../src/core/game/Game";
 import { setup } from "../../util/Setup";
 import { executeTicks } from "../../util/utils";
 
@@ -19,8 +14,8 @@ describe("PlayerExecution Annexation Bug", () => {
       "big_plains",
       { infiniteGold: true, instantBuild: true },
       [
-        new PlayerInfo("large", PlayerType.Human, "client1", "large_id"),
-        new PlayerInfo("small", PlayerType.Human, "client2", "small_id"),
+        new PlayerInfo("large", "Human", "client1", "large_id"),
+        new PlayerInfo("small", "Human", "client2", "small_id"),
       ],
     );
 

@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { SpawnExecution } from "../../../src/core/execution/SpawnExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-} from "../../../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../../../src/core/game/Game";
 import { TileRef } from "../../../src/core/game/GameMap";
 import { SpatialQuery } from "../../../src/core/pathfinding/spatial/SpatialQuery";
 import { createGame, L, W } from "./_fixtures";
@@ -13,7 +8,7 @@ import { createGame, L, W } from "./_fixtures";
 // Spawns player and **expands territory** via getSpawnTiles (euclidean dist 4)
 // Ref: src/core/execution/Util.ts
 function addPlayer(game: Game, tile: TileRef): Player {
-  const info = new PlayerInfo("test", PlayerType.Human, null, "test_id");
+  const info = new PlayerInfo("test", "Human", null, "test_id");
   game.addPlayer(info);
   game.addExecution(new SpawnExecution("game_id", info, tile));
   game.executeNextTick();

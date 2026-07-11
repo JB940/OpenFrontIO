@@ -1,7 +1,7 @@
 import { PseudoRandom } from "../PseudoRandom";
 import { ClientID } from "../Schemas";
 import { simpleHash } from "../Util";
-import { PlayerInfo, PlayerType, Team } from "./Game";
+import { PlayerInfo, Team } from "./Game";
 
 export function assignTeams(
   players: PlayerInfo[],
@@ -116,16 +116,12 @@ export function assignTeams(
     if (p.clientID !== null) teamByClientID.set(p.clientID, bestTeam);
   };
 
-  let nationPlayers = nonClanPlayers.filter(
-    (p) => p.playerType === PlayerType.Nation,
-  );
+  let nationPlayers = nonClanPlayers.filter((p) => p.playerType === "Nation");
   if (nationPlayers.length > 0) {
     const random = new PseudoRandom(simpleHash(nationPlayers[0].id));
     nationPlayers = random.shuffleArray(nationPlayers);
   }
-  const otherPlayers = nonClanPlayers.filter(
-    (p) => p.playerType !== PlayerType.Nation,
-  );
+  const otherPlayers = nonClanPlayers.filter((p) => p.playerType !== "Nation");
   for (const p of otherPlayers.concat(nationPlayers)) {
     placePlayer(p);
   }

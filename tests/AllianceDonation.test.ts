@@ -1,6 +1,6 @@
 import { AllianceRequestExecution } from "../src/core/execution/alliance/AllianceRequestExecution";
 import { DonateGoldExecution } from "../src/core/execution/DonateGoldExecution";
-import { Game, Player, PlayerType } from "../src/core/game/Game";
+import { Game, Player } from "../src/core/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 
 let game: Game;
@@ -18,10 +18,7 @@ describe("Alliance Donation", () => {
         donateGold: true,
         donateTroops: true,
       },
-      [
-        playerInfo("player1", PlayerType.Human),
-        playerInfo("player2", PlayerType.Human),
-      ],
+      [playerInfo("player1", "Human"), playerInfo("player2", "Human")],
     );
 
     player1 = game.player("player1");

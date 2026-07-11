@@ -28,7 +28,12 @@ import {
   PlayerUpdate,
 } from "../../core/game/GameUpdates";
 import { UserSettings } from "../../core/game/UserSettings";
-import { PlayerState, PlayerStatic, PlayerTypeEnum } from "../render/types";
+import {
+  PlayerState,
+  PlayerStatic,
+  PlayerType as PlayerTypeNum,
+  PlayerTypeSchema as PlayerTypeSchemaNum,
+} from "../render/types";
 import { themeProvider } from "../theme/ThemeProvider";
 import { GameView } from "./GameView";
 import { UnitView } from "./UnitView";
@@ -39,17 +44,9 @@ const FRIENDLY_TINT_TARGET = { r: 0, g: 255, b: 0, a: 1 };
 const EMBARGO_TINT_TARGET = { r: 255, g: 0, b: 0, a: 1 };
 const BORDER_TINT_RATIO = 0.35;
 
-function gamePlayerTypeToEnum(t: PlayerType): PlayerTypeEnum {
-  switch (t) {
-    case PlayerType.Human:
-      return PlayerTypeEnum.Human;
-    case PlayerType.Bot:
-      return PlayerTypeEnum.Bot;
-    case PlayerType.Nation:
-      return PlayerTypeEnum.Nation;
-    default:
-      return PlayerTypeEnum.Bot;
-  }
+function gamePlayerTypeToEnum(t: PlayerType): PlayerTypeNum {
+  // default of Bot if unable to parse, otherwise the correct number associated with the String.
+  return PlayerTypeSchemaNum.enum[t] ?? PlayerTypeSchemaNum.enum.Bot;
 }
 
 // First-emission updates from the engine always include every field; these
@@ -441,14 +438,14 @@ export class PlayerView {
   type(): PlayerType {
     // Map PlayerStatic's numeric enum back to engine string enum.
     switch (this.static.playerType) {
-      case PlayerTypeEnum.Human:
-        return PlayerType.Human;
-      case PlayerTypeEnum.Bot:
-        return PlayerType.Bot;
-      case PlayerTypeEnum.Nation:
-        return PlayerType.Nation;
+      case PlayerTypeSchemaNum.enum.Human:
+        return "Human";
+      case PlayerTypeSchemaNum.enum.Bot:
+        return "Bot";
+      case PlayerTypeSchemaNum.enum.Nation:
+        return "Nation";
       default:
-        return PlayerType.Bot;
+        return "Bot";
     }
   }
   isAlive(): boolean {

@@ -1,4 +1,4 @@
-﻿import { Game, PlayerInfo, PlayerType } from "../game/Game";
+﻿import { Game, PlayerInfo } from "../game/Game";
 import { PseudoRandom } from "../PseudoRandom";
 import { GameID } from "../Schemas";
 import { simpleHash } from "../Util";
@@ -28,7 +28,7 @@ export class TribeSpawner {
   spawnTribe(tribeName: string): SpawnExecution {
     return new SpawnExecution(
       this.gameID,
-      new PlayerInfo(tribeName, PlayerType.Bot, null, this.random.nextID()),
+      new PlayerInfo(tribeName, "Bot", null, this.random.nextID()),
     );
   }
 

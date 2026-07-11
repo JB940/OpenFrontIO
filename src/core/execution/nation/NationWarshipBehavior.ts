@@ -4,7 +4,6 @@ import {
   Game,
   Gold,
   Player,
-  PlayerType,
   Unit,
   UnitType,
 } from "../../game/Game";
@@ -340,7 +339,7 @@ export class NationWarshipBehavior {
   // Check if current player is one of the 3 richest (We don't want poor nations to use their precious gold on this)
   private isRichPlayer(isTeamGame: boolean): boolean {
     const players = this.game.players().filter((p) => {
-      if (p.type() === PlayerType.Human) return false;
+      if (p.type() === "Human") return false;
       return isTeamGame ? p.team() === this.player.team() : true;
     });
     const topThree = players

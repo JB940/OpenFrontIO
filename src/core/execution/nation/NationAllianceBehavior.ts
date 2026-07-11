@@ -1,11 +1,4 @@
-import {
-  Difficulty,
-  Game,
-  GameMode,
-  Player,
-  PlayerType,
-  Relation,
-} from "../../game/Game";
+import { Difficulty, Game, GameMode, Player, Relation } from "../../game/Game";
 import { PseudoRandom } from "../../PseudoRandom";
 import { assertNever } from "../../Util";
 import { AllianceExtensionExecution } from "../alliance/AllianceExtensionExecution";
@@ -67,9 +60,9 @@ export class NationAllianceBehavior {
 
     // Only easy nations are allowed to send alliance requests to bots
     const isAcceptablePlayerType = (p: Player) =>
-      (p.type() === PlayerType.Bot &&
+      (p.type() === "Bot" &&
         this.game.config().gameConfig().difficulty === Difficulty.Easy) ||
-      p.type() !== PlayerType.Bot;
+      p.type() !== "Bot";
 
     for (const enemy of borderingEnemies) {
       if (
@@ -158,7 +151,7 @@ export class NationAllianceBehavior {
 
     const totalPlayers = this.game
       .players()
-      .filter((p) => p.type() !== PlayerType.Bot).length;
+      .filter((p) => p.type() !== "Bot").length;
     const otherPlayerAlliances = otherPlayer.alliances().length;
 
     if (difficulty === Difficulty.Hard) {
@@ -283,9 +276,7 @@ export class NationAllianceBehavior {
         // On hard and impossible we try to not ally with all our neighbors (If we have 2+ neighbors)
         const borderingPlayers = this.player
           .nearby()
-          .filter(
-            (n): n is Player => n.isPlayer() && n.type() !== PlayerType.Bot,
-          );
+          .filter((n): n is Player => n.isPlayer() && n.type() !== "Bot");
         const borderingFriends = borderingPlayers.filter(
           (o) => this.player?.isFriendly(o) === true,
         );
@@ -394,10 +385,7 @@ export class NationAllianceBehavior {
     // On easy, don't betray humans
     if (
       (difficulty === Difficulty.Easy || difficulty === Difficulty.Medium) &&
-      !(
-        difficulty === Difficulty.Easy &&
-        otherPlayer.type() === PlayerType.Human
-      ) &&
+      !(difficulty === Difficulty.Easy && otherPlayer.type() === "Human") &&
       this.player.troops() >= otherPlayer.troops() * 10
     ) {
       this.betray(otherPlayer);

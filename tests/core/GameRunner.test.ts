@@ -1,6 +1,6 @@
 import { NationExecution } from "../../src/core/execution/NationExecution";
 import { SpawnExecution } from "../../src/core/execution/SpawnExecution";
-import { Cell, Nation, PlayerInfo, PlayerType } from "../../src/core/game/Game";
+import { Cell, Nation, PlayerInfo } from "../../src/core/game/Game";
 import { GameConfig, GameID } from "../../src/core/Schemas";
 import { setup } from "../util/Setup";
 import { executeTicks } from "../util/utils";
@@ -20,19 +20,14 @@ async function createTestGame(
     false,
   );
 
-  const humanInfo = new PlayerInfo(
-    "human",
-    PlayerType.Human,
-    "client_1",
-    "human_id",
-  );
+  const humanInfo = new PlayerInfo("human", "Human", "client_1", "human_id");
   game.addPlayer(humanInfo);
 
   const nations: { info: PlayerInfo; nation: Nation }[] = [];
   for (let i = 0; i < nationCells.length; i++) {
     const info = new PlayerInfo(
       nationCells.length === 1 ? "TestNation" : `Nation${i}`,
-      PlayerType.Nation,
+      "Nation",
       null,
       nationCells.length === 1 ? "nation_id" : `nation_${i}`,
     );

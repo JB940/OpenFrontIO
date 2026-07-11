@@ -37,7 +37,7 @@ import type { Config } from "src/core/configuration/Config";
 import type { RendererConfig, UnitState } from "../../types";
 import {
   SMOOTHED_NUKE_TYPES,
-  TrainType,
+  TrainTypeSchema,
   UT_ATOM_BOMB,
   UT_HYDROGEN_BOMB,
   UT_MIRV,
@@ -422,7 +422,7 @@ export class UnitPass {
       // Resolve to engine/carriage/loaded carriage based on trainType + loaded fields.
       if (atlasIdx === undefined && unit.unitType === UT_TRAIN) {
         const tt = unit.trainType;
-        if (tt === TrainType.Engine || tt === TrainType.TailEngine) {
+        if (tt === TrainTypeSchema.enum.Engine || tt === TrainTypeSchema.enum.TailEngine) {
           atlasIdx = TRAIN_ENGINE_COL;
         } else {
           atlasIdx = unit.loaded

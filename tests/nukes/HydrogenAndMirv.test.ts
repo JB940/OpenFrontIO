@@ -1,17 +1,11 @@
 import { ConstructionExecution } from "../../src/core/execution/ConstructionExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-  UnitType,
-} from "../../src/core/game/Game";
+import { Game, Player, PlayerInfo, UnitType } from "../../src/core/game/Game";
 import { setup } from "../util/Setup";
 
 describe("Hydrogen Bomb and MIRV flows", () => {
   let game: Game;
   let player: Player;
-  const info = new PlayerInfo("p", PlayerType.Human, null, "p");
+  const info = new PlayerInfo("p", "Human", null, "p");
 
   beforeEach(async () => {
     game = await setup("plains", { infiniteGold: true, instantBuild: true }, [

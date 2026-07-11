@@ -1,6 +1,5 @@
 import { LitElement, css, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { PlayerType } from "../../../core/game/Game";
 import {
   BrokeAllianceUpdate,
   GameUpdateType,
@@ -197,7 +196,7 @@ export class AlertFrame extends LitElement implements Controller {
       // Only alert for non-retreating attacks
       if (!attack.retreating && !this.seenAttackIds.has(attack.id)) {
         const attacker = this.game.playerBySmallID(attack.attackerID);
-        if ((attacker as PlayerView).type() === PlayerType.Bot) {
+        if ((attacker as PlayerView).type() === "Bot") {
           this.seenAttackIds.add(attack.id);
           continue;
         }

@@ -10,7 +10,6 @@ import {
   HumansVsNations,
   Player,
   PlayerInfo,
-  PlayerType,
   UnitType,
 } from "../src/core/game/Game";
 import { toInt } from "../src/core/Util";
@@ -36,14 +35,14 @@ describe("Disconnected", () => {
   beforeEach(async () => {
     const player1Info = new PlayerInfo(
       "Active Player",
-      PlayerType.Human,
+      "Human",
       null,
       "player1_id",
     );
 
     const player2Info = new PlayerInfo(
       "Disconnected Player",
-      PlayerType.Human,
+      "Human",
       null,
       "player2_id",
     );
@@ -187,7 +186,7 @@ describe("Disconnected", () => {
     beforeEach(async () => {
       const player1Info = new PlayerInfo(
         "Player1",
-        PlayerType.Human,
+        "Human",
         null,
         "player_1_id",
         false,
@@ -195,7 +194,7 @@ describe("Disconnected", () => {
       );
       const player2Info = new PlayerInfo(
         "Player2",
-        PlayerType.Human,
+        "Human",
         null,
         "player_2_id",
         false,
@@ -422,12 +421,7 @@ describe("Disconnected", () => {
       expect(transportShip.owner()).toBe(player1);
 
       // Make sure player1 has no shore tiles for the ship to retreat to anymore
-      const enemyInfo = new PlayerInfo(
-        "Enemy",
-        PlayerType.Human,
-        null,
-        "enemy_id",
-      );
+      const enemyInfo = new PlayerInfo("Enemy", "Human", null, "enemy_id");
       enemy = game.addPlayer(enemyInfo);
 
       const shoreTiles = Array.from(player1.borderTiles()).filter((t) =>

@@ -7,7 +7,6 @@ import {
   Game,
   Player,
   PlayerInfo,
-  PlayerType,
   UnitType,
 } from "../src/core/game/Game";
 import { PseudoRandom } from "../src/core/PseudoRandom";
@@ -105,8 +104,8 @@ async function setupBehavior(
       ...(opts.disabledUnits ? { disabledUnits: opts.disabledUnits } : {}),
     },
     [
-      new PlayerInfo("nation", PlayerType.Nation, null, "nation_id"),
-      new PlayerInfo("enemy", PlayerType.Human, null, "enemy_id"),
+      new PlayerInfo("nation", "Nation", null, "nation_id"),
+      new PlayerInfo("enemy", "Human", null, "enemy_id"),
     ],
   );
 

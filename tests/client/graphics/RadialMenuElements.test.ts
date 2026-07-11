@@ -303,9 +303,15 @@ describe("RadialMenuElements", () => {
 
     it("should show build and delete menu on own territory", () => {
       const subMenu = rootMenuElement.subMenu!(mockParams);
-      const buildMenu = subMenu.find((item) => item.id === slotSchema.enum.Build);
-      const attackMenu = subMenu.find((item) => item.id === slotSchema.enum.Attack);
-      const deleteMenu = subMenu.find((item) => item.id === slotSchema.enum.Delete);
+      const buildMenu = subMenu.find(
+        (item) => item.id === slotSchema.enum.Build,
+      );
+      const attackMenu = subMenu.find(
+        (item) => item.id === slotSchema.enum.Attack,
+      );
+      const deleteMenu = subMenu.find(
+        (item) => item.id === slotSchema.enum.Delete,
+      );
 
       expect(buildMenu).toBeDefined();
       expect(attackMenu).toBeUndefined();
@@ -320,8 +326,12 @@ describe("RadialMenuElements", () => {
       mockGame.owner = vi.fn(() => enemyPlayer);
 
       const subMenu = rootMenuElement.subMenu!(mockParams);
-      const buildMenu = subMenu.find((item) => item.id === slotSchema.enum.Build);
-      const attackMenu = subMenu.find((item) => item.id === slotSchema.enum.Attack);
+      const buildMenu = subMenu.find(
+        (item) => item.id === slotSchema.enum.Build,
+      );
+      const attackMenu = subMenu.find(
+        (item) => item.id === slotSchema.enum.Attack,
+      );
       const boatMenu = subMenu.find((item) => item.id === slotSchema.enum.Boat);
 
       expect(attackMenu).toBeDefined();

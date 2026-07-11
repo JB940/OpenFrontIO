@@ -27,7 +27,6 @@ import {
   Player,
   PlayerID,
   PlayerInfo,
-  PlayerType,
   Quads,
   SpawnArea,
   Team,
@@ -665,7 +664,7 @@ export class GameImpl implements Game {
     if (this._config.gameConfig().gameMode !== GameMode.Team) {
       return null;
     }
-    if (player.playerType === PlayerType.Bot) {
+    if (player.playerType === "Bot") {
       return this.botTeam;
     }
     const rand = simpleHash(player.id);
@@ -1267,8 +1266,7 @@ export class GameImpl implements Game {
     // This is especially important when starting gold is enabled
     const stats = this._stats.getPlayerStats(conquered);
     const attacksSent = stats?.attacks?.[ATTACK_INDEX_SENT] ?? 0n;
-    const skipGoldTransfer =
-      attacksSent === 0n && conquered.type() === PlayerType.Human;
+    const skipGoldTransfer = attacksSent === 0n && conquered.type() === "Human";
     const gold = skipGoldTransfer ? 0n : conquered.gold();
     const goldCaptured = skipGoldTransfer
       ? 0n

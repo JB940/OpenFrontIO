@@ -1,13 +1,7 @@
 import { AllianceRequestExecution } from "src/core/execution/alliance/AllianceRequestExecution";
 import { GameUpdateType } from "src/core/game/GameUpdates";
 import { NukeExecution } from "../src/core/execution/NukeExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-  UnitType,
-} from "../src/core/game/Game";
+import { Game, Player, PlayerInfo, UnitType } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 import { TestConfig } from "./util/TestConfig";
 
@@ -22,9 +16,9 @@ describe("Alliance acceptance immediately destroys in-flight nukes", () => {
       "plains",
       { infiniteGold: true, instantBuild: true, infiniteTroops: true },
       [
-        new PlayerInfo("player1", PlayerType.Human, "c1", "p1"),
-        new PlayerInfo("player2", PlayerType.Human, "c2", "p2"),
-        new PlayerInfo("player3", PlayerType.Human, "c3", "p3"),
+        new PlayerInfo("player1", "Human", "c1", "p1"),
+        new PlayerInfo("player2", "Human", "c2", "p2"),
+        new PlayerInfo("player3", "Human", "c3", "p3"),
       ],
     );
 

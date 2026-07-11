@@ -1,10 +1,4 @@
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-  UnitType,
-} from "../src/core/game/Game";
+import { Game, Player, PlayerInfo, UnitType } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 
 let game: Game;
@@ -14,8 +8,8 @@ let other: Player;
 describe("PlayerImpl", () => {
   beforeEach(async () => {
     game = await setup("plains", { instantBuild: true }, [
-      new PlayerInfo("player", PlayerType.Human, null, "player_id"),
-      new PlayerInfo("other", PlayerType.Human, null, "other_id"),
+      new PlayerInfo("player", "Human", null, "player_id"),
+      new PlayerInfo("other", "Human", null, "other_id"),
     ]);
 
     player = game.player("player_id");

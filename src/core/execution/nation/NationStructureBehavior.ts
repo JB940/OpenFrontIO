@@ -5,7 +5,6 @@ import {
   GameMode,
   Gold,
   Player,
-  PlayerType,
   Structures,
   Unit,
   UnitType,
@@ -1119,7 +1118,7 @@ export class NationStructureBehavior {
     // Neighbor structures — all non-embargoed non-bot neighbors.
     for (const neighbor of player.nearby()) {
       if (!neighbor.isPlayer()) continue;
-      if (neighbor.type() === PlayerType.Bot) continue;
+      if (neighbor.type() === "Bot") continue;
       if (!player.canTrade(neighbor)) continue;
       const relType = player.isOnSameTeam(neighbor)
         ? "team"

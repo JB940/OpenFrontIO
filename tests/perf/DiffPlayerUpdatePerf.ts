@@ -1,5 +1,4 @@
 import Benchmark from "benchmark";
-import { PlayerType } from "../../src/core/game/Game";
 import { diffPlayerUpdate } from "../../src/core/game/GameUpdateUtils";
 import {
   AllianceView,
@@ -48,7 +47,7 @@ function makeRealisticUpdate(
     displayName: "Alice",
     id: "player-a",
     smallID: 1,
-    playerType: PlayerType.Human,
+    playerType: "Human",
     isAlive: true,
     isDisconnected: false,
     tilesOwned: 5000,

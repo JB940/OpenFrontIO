@@ -8,7 +8,6 @@
 
 import { describe, expect, it } from "vitest";
 import { PlayerView } from "../../../src/client/view/PlayerView";
-import { PlayerType } from "../../../src/core/game/Game";
 import { GameUpdateType } from "../../../src/core/game/GameUpdates";
 import {
   makeEmptyGu,
@@ -27,7 +26,7 @@ describe("PlayerView accessors", () => {
         clientID: "client-a",
         name: "Alice",
         displayName: "Alice",
-        playerType: PlayerType.Human,
+        playerType: "Human",
         isAlive: true,
         isDisconnected: false,
         isLobbyCreator: true,
@@ -42,7 +41,7 @@ describe("PlayerView accessors", () => {
     expect(p.clientID()).toBe("client-a");
     expect(p.name()).toBe("Alice");
     expect(p.displayName()).toBe("Alice");
-    expect(p.type()).toBe(PlayerType.Human);
+    expect(p.type()).toBe("Human");
     expect(p.isAlive()).toBe(true);
     expect(p.isDisconnected()).toBe(false);
     expect(p.isLobbyCreator()).toBe(true);

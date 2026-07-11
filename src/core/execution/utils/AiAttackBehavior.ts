@@ -6,7 +6,6 @@ import {
   HumansVsNations,
   Player,
   PlayerID,
-  PlayerType,
   Relation,
   Structures,
   TerraNullius,
@@ -206,7 +205,7 @@ export class AiAttackBehavior {
       let matchesCriteria: boolean;
       if (highInterestOnly) {
         // High-interest targeting: prioritize unowned tiles or tiles owned by bots
-        matchesCriteria = !owner.isPlayer() || owner.type() === PlayerType.Bot;
+        matchesCriteria = !owner.isPlayer() || owner.type() === "Bot";
       } else {
         // Normal targeting: return unowned tiles or tiles owned by non-friendly players
         matchesCriteria = !owner.isPlayer() || !owner.isFriendly(this.player);
@@ -384,7 +383,7 @@ export class AiAttackBehavior {
       .some(
         (n) =>
           n.isPlayer() &&
-          n.type() === PlayerType.Bot &&
+          n.type() === "Bot" &&
           !this.player.isFriendly(n) &&
           n.units().some((u) => Structures.has(u.type())),
       );
@@ -407,9 +406,9 @@ export class AiAttackBehavior {
       .incomingAttacks()
       .filter((attack) => !this.player.isFriendly(attack.attacker()));
     // Ignore bot attacks if we are not a bot.
-    if (this.player.type() !== PlayerType.Bot) {
+    if (this.player.type() !== "Bot") {
       incomingAttacks = incomingAttacks.filter(
-        (attack) => attack.attacker().type() !== PlayerType.Bot,
+        (attack) => attack.attacker().type() !== "Bot",
       );
     }
     let largestAttack = 0;
@@ -435,7 +434,7 @@ export class AiAttackBehavior {
         (n): n is Player =>
           n.isPlayer() &&
           this.player.isFriendly(n) === false &&
-          n.type() === PlayerType.Bot,
+          n.type() === "Bot",
       );
 
     if (bots.length === 0) {
@@ -723,10 +722,7 @@ export class AiAttackBehavior {
     for (const neighbor of this.random.shuffleArray(neighbors)) {
       if (!neighbor.isPlayer()) continue;
       if (this.player.isFriendly(neighbor)) continue;
-      if (
-        neighbor.type() === PlayerType.Nation ||
-        neighbor.type() === PlayerType.Human
-      ) {
+      if (neighbor.type() === "Nation" || neighbor.type() === "Human") {
         if (this.random.chance(2)) {
           continue;
         }
@@ -850,10 +846,10 @@ export class AiAttackBehavior {
     if (
       // Always attack Terra Nullius, non-humans and traitors
       other.isPlayer() === false ||
-      other.type() !== PlayerType.Human ||
+      other.type() !== "Human" ||
       other.isTraitor() ||
       // Always attack if we are a bot or in an HvN game
-      this.player.type() === PlayerType.Bot ||
+      this.player.type() === "Bot" ||
       this.game.config().gameConfig().playerTeams === HumansVsNations
     ) {
       return true;
@@ -876,7 +872,7 @@ export class AiAttackBehavior {
    * be worthwhile.  Bots and team games are exempt.
    */
   private isAttackTooWeak(troops: number, target: Player): boolean {
-    if (this.player.type() === PlayerType.Bot) return false;
+    if (this.player.type() === "Bot") return false;
     if (this.game.config().gameConfig().gameMode === GameMode.Team)
       return false;
     // Nations under attack may retaliate freely
@@ -901,7 +897,7 @@ export class AiAttackBehavior {
    * attack troops, even if that exceeds the neighbor-based cap.
    */
   private troopSendCap(): number {
-    if (this.player.type() === PlayerType.Bot) return Infinity;
+    if (this.player.type() === "Bot") return Infinity;
     if (this.game.config().gameConfig().gameMode === GameMode.Team)
       return Infinity;
 
@@ -923,7 +919,7 @@ export class AiAttackBehavior {
       if (
         n.isPlayer() &&
         !this.player.isFriendly(n) &&
-        n.type() !== PlayerType.Bot &&
+        n.type() !== "Bot" &&
         n.troops() > maxNeighborTroops
       ) {
         maxNeighborTroops = n.troops();
@@ -955,7 +951,7 @@ export class AiAttackBehavior {
     const maxTroops = this.game.config().maxTroops(this.player);
     const botWithStructures =
       target.isPlayer() &&
-      target.type() === PlayerType.Bot &&
+      target.type() === "Bot" &&
       target.units().some((u) => Structures.has(u.type()));
     // Use the expand ratio when attacking a bot that owns structures — we need to
     // recapture those structures ASAP, even before reaching the normal reserve.
@@ -966,8 +962,8 @@ export class AiAttackBehavior {
     let troops;
     if (
       target.isPlayer() &&
-      target.type() === PlayerType.Bot &&
-      this.player.type() !== PlayerType.Bot
+      target.type() === "Bot" &&
+      this.player.type() !== "Bot"
     ) {
       troops = this.calculateBotAttackTroops(
         target,
@@ -991,7 +987,7 @@ export class AiAttackBehavior {
       return null;
     }
 
-    if (target.isPlayer() && this.player.type() === PlayerType.Nation) {
+    if (target.isPlayer() && this.player.type() === "Nation") {
       if (this.emojiBehavior === undefined) throw new Error("not initialized");
       this.emojiBehavior.maybeSendAttackEmoji(target);
     }

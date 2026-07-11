@@ -4,7 +4,6 @@ import {
   MessageType,
   Player,
   PlayerInfo,
-  PlayerType,
   UnitType,
 } from "../../../src/core/game/Game";
 import { setup } from "../../util/Setup";
@@ -20,8 +19,8 @@ describe("MIRVExecution", () => {
       "big_plains",
       { infiniteGold: true, instantBuild: true },
       [
-        new PlayerInfo("player", PlayerType.Human, "client_id1", "player_id"),
-        new PlayerInfo("other", PlayerType.Human, "client_id2", "other_id"),
+        new PlayerInfo("player", "Human", "client_id1", "player_id"),
+        new PlayerInfo("other", "Human", "client_id2", "other_id"),
       ],
     );
 

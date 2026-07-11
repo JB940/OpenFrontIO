@@ -13,7 +13,6 @@ import {
   type TrailEffectAttributes,
 } from "../core/CosmeticSchemas";
 import { decodePatternData } from "../core/PatternDecoder";
-import { PlayerType } from "../core/game/Game";
 import { UserSettings } from "../core/game/UserSettings";
 import { getCachedCosmetics } from "./Cosmetics";
 import { uploadFrameData } from "./render/frame/Upload";
@@ -314,7 +313,7 @@ export class WebGLFrameBuilder {
     const myTeam = me?.team() ?? null;
     const centers: SpawnCenter[] = [];
     for (const p of gameView.players()) {
-      if (!p.isPlayer() || p.type() !== PlayerType.Human) continue;
+      if (!p.isPlayer() || p.type() !== "Human") continue;
       const spawnTile = p.state.spawnTile;
       if (spawnTile === undefined) continue;
       const isSelf = me !== null && p.smallID() === me.smallID();
@@ -373,7 +372,7 @@ export class WebGLFrameBuilder {
     set.fill(0);
     let any = false;
     for (const p of gameView.players()) {
-      if (!p.isPlayer() || p.type() !== PlayerType.Human || !p.isAlive()) {
+      if (!p.isPlayer() || p.type() !== "Human" || !p.isAlive()) {
         continue;
       }
       if (p.numTilesOwned() / denom <= SMALL_PLAYER_MAX_MAP_FRACTION) {

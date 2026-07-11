@@ -1,5 +1,5 @@
 import { SpawnExecution } from "../../../src/core/execution/SpawnExecution";
-import { PlayerInfo, PlayerType } from "../../../src/core/game/Game";
+import { PlayerInfo } from "../../../src/core/game/Game";
 import { setup } from "../../util/Setup";
 
 describe("Spawn execution", () => {
@@ -18,7 +18,7 @@ describe("Spawn execution", () => {
       for (let i = 0; i < maxPlayers; i++) {
         const playerInfo = new PlayerInfo(
           `player${i}`,
-          PlayerType.Human,
+          "Human",
           `client_id${i}`,
           `player_id${i}`,
         );
@@ -62,7 +62,7 @@ describe("Spawn execution", () => {
     for (let i = 0; i < 5; i++) {
       const playerInfo = new PlayerInfo(
         `player${i}`,
-        PlayerType.Human,
+        "Human",
         `client_id${i}`,
         `player_id${i}`,
       );
@@ -87,7 +87,7 @@ describe("Spawn execution", () => {
   test("Spawn on specific tile", async () => {
     const playerInfo = new PlayerInfo(
       `player`,
-      PlayerType.Human,
+      "Human",
       `client_id`,
       `player_id`,
     );
@@ -107,7 +107,7 @@ describe("Spawn execution", () => {
   test("Random spawn ignores client-specified tile", async () => {
     const playerInfo = new PlayerInfo(
       `player`,
-      PlayerType.Human,
+      "Human",
       `client_id`,
       `player_id`,
     );

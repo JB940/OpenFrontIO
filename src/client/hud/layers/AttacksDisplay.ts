@@ -2,7 +2,7 @@ import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
-import { MessageType, PlayerType, UnitType } from "../../../core/game/Game";
+import { MessageType, UnitType } from "../../../core/game/Game";
 import {
   AttackUpdate,
   GameUpdateType,
@@ -93,7 +93,7 @@ export class AttacksDisplay extends LitElement implements Controller {
 
     this.incomingAttacks = myPlayer.incomingAttacks().filter((a) => {
       const t = (this.game.playerBySmallID(a.attackerID) as PlayerView).type();
-      return t !== PlayerType.Bot;
+      return t !== "Bot";
     });
 
     this.outgoingAttacks = myPlayer

@@ -3,7 +3,6 @@ import {
   Game,
   Player,
   PlayerInfo,
-  PlayerType,
   Unit,
   UnitType,
 } from "../src/core/game/Game";
@@ -20,8 +19,8 @@ describe("Warship veterancy", () => {
       "half_land_half_ocean",
       { infiniteGold: true, instantBuild: true },
       [
-        new PlayerInfo("attacker", PlayerType.Human, null, "player_1_id"),
-        new PlayerInfo("defender", PlayerType.Human, null, "player_2_id"),
+        new PlayerInfo("attacker", "Human", null, "player_1_id"),
+        new PlayerInfo("defender", "Human", null, "player_2_id"),
       ],
     );
     attacker = game.player("player_1_id");

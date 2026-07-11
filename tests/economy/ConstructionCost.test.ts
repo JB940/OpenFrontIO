@@ -1,11 +1,5 @@
 import { ConstructionExecution } from "../../src/core/execution/ConstructionExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-  UnitType,
-} from "../../src/core/game/Game";
+import { Game, Player, PlayerInfo, UnitType } from "../../src/core/game/Game";
 import { setup } from "../util/Setup";
 
 // Regression test: the ghost/build-menu price of a structure must not double-count
@@ -22,13 +16,8 @@ describe("Structure cost while under construction", () => {
   let player: Player;
   let other: Player;
 
-  const builderInfo = new PlayerInfo(
-    "builder",
-    PlayerType.Human,
-    null,
-    "builder_id",
-  );
-  const otherInfo = new PlayerInfo("other", PlayerType.Human, null, "other_id");
+  const builderInfo = new PlayerInfo("builder", "Human", null, "builder_id");
+  const otherInfo = new PlayerInfo("other", "Human", null, "other_id");
 
   beforeEach(async () => {
     game = await setup(

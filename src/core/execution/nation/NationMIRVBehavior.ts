@@ -5,7 +5,6 @@ import {
   Gold,
   Player,
   PlayerID,
-  PlayerType,
   Tick,
   UnitType,
 } from "../../game/Game";
@@ -255,7 +254,7 @@ export class NationMIRVBehavior {
       return (
         p !== this.player &&
         p.isPlayer() &&
-        p.type() !== PlayerType.Bot &&
+        p.type() !== "Bot" &&
         !this.player!.isOnSameTeam(p)
       );
     });

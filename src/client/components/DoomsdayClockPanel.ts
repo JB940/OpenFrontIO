@@ -6,7 +6,7 @@ import {
   doomsdayClockSideRequiredTiles,
   doomsdayClockWaveState,
 } from "../../core/game/DoomsdayClock";
-import { GameMode, PlayerType, Team } from "../../core/game/Game";
+import { GameMode, Team } from "../../core/game/Game";
 import { themeProvider } from "../theme/ThemeProvider";
 import { renderTroops, translateText } from "../Utils";
 import { GameView } from "../view";
@@ -54,10 +54,7 @@ export class DoomsdayClockPanel extends LitElement {
     if (ffa || myTeam === null) return { tiles: me.numTilesOwned(), size: 1 };
     const mates = this.game
       .playerViews()
-      .filter(
-        (p) =>
-          p.team() === myTeam && p.isAlive() && p.type() !== PlayerType.Bot,
-      );
+      .filter((p) => p.team() === myTeam && p.isAlive() && p.type() !== "Bot");
     return {
       tiles: mates.reduce((sum, p) => sum + p.numTilesOwned(), 0),
       size: mates.length,

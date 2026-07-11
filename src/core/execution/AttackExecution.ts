@@ -7,7 +7,6 @@ import {
   MessageType,
   Player,
   PlayerID,
-  PlayerType,
   TerrainType,
   TerraNullius,
 } from "../game/Game";
@@ -94,10 +93,7 @@ export class AttackExecution implements Execution {
 
     if (this.target && this.target.isPlayer()) {
       const targetPlayer = this.target as Player;
-      if (
-        targetPlayer.type() !== PlayerType.Bot &&
-        this._owner.type() !== PlayerType.Bot
-      ) {
+      if (targetPlayer.type() !== "Bot" && this._owner.type() !== "Bot") {
         // Don't let bots embargo since they can't trade anyway.
         targetPlayer.addEmbargo(this._owner, true);
         this.rejectIncomingAllianceRequests(targetPlayer);

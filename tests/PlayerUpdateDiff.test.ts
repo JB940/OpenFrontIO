@@ -1,6 +1,6 @@
 import { AttackExecution } from "../src/core/execution/AttackExecution";
 import { SpawnExecution } from "../src/core/execution/SpawnExecution";
-import { Game, Player, PlayerInfo, PlayerType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import { GameUpdateType, PlayerUpdate } from "../src/core/game/GameUpdates";
 import { GameID } from "../src/core/Schemas";
 import { setup } from "./util/Setup";
@@ -15,16 +15,11 @@ describe("Player update diffing (toUpdate)", () => {
     game = await setup("plains", { infiniteTroops: true });
     const aliceInfo = new PlayerInfo(
       "alice",
-      PlayerType.Human,
+      "Human",
       "alice_client",
       "alice_id",
     );
-    const bobInfo = new PlayerInfo(
-      "bob",
-      PlayerType.Human,
-      "bob_client",
-      "bob_id",
-    );
+    const bobInfo = new PlayerInfo("bob", "Human", "bob_client", "bob_id");
     game.addPlayer(aliceInfo);
     game.addPlayer(bobInfo);
     game.addExecution(
@@ -42,7 +37,7 @@ describe("Player update diffing (toUpdate)", () => {
     // added player whose update has never been built.
     const charlieInfo = new PlayerInfo(
       "charlie",
-      PlayerType.Human,
+      "Human",
       "charlie_client",
       "charlie_id",
     );
@@ -112,12 +107,7 @@ describe("Player update diffing (toUpdate)", () => {
   });
 
   test("first emission carries the stats in the full snapshot, not statsOut", () => {
-    const info = new PlayerInfo(
-      "dora",
-      PlayerType.Human,
-      "dora_client",
-      "dora_id",
-    );
+    const info = new PlayerInfo("dora", "Human", "dora_client", "dora_id");
     game.addPlayer(info);
     const dora = game.player("dora_id");
     const statsOut: number[] = [];
@@ -234,7 +224,7 @@ describe("Player update diffing (toUpdate)", () => {
   test("in-worker mutation of shared empty collections fails loudly", () => {
     const charlieInfo = new PlayerInfo(
       "charlie2",
-      PlayerType.Human,
+      "Human",
       "charlie2_client",
       "charlie2_id",
     );

@@ -1,18 +1,23 @@
+import { z } from "zod";
 import type { TileRef } from "../../../core/game/GameMap";
 
 /** TrainType enum — numeric values matching UnitState.trainType. */
-export enum TrainType {
-  Engine = 0,
-  TailEngine = 1,
-  Carriage = 2,
-}
+export const TrainTypeSchema = z.enum({
+  Engine: 0,
+  TailEngine: 1,
+  Carriage: 2,
+});
+
+export type TrainType = z.infer<typeof TrainTypeSchema>;
 
 /** Numeric player type — matching PlayerStatic.playerType. */
-export enum PlayerTypeEnum {
-  Human = 0,
-  Bot = 1,
-  Nation = 2,
-}
+export const PlayerTypeSchema = z.enum({
+  Human: 0,
+  Bot: 1,
+  Nation: 2,
+});
+
+export type PlayerType = z.infer<typeof PlayerTypeSchema>;
 
 /** Static player data from the header dictionary */
 export interface PlayerStatic {
@@ -21,7 +26,7 @@ export interface PlayerStatic {
   name: string;
   displayName: string;
   clientID: string | null;
-  playerType: PlayerTypeEnum;
+  playerType: PlayerType;
   team: string | null;
   isLobbyCreator: boolean;
   /** Resolved flag image URL, or undefined for no flag. */

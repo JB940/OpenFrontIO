@@ -365,7 +365,7 @@ export function createRandomName(
   playerType: PlayerType,
 ): string | null {
   let randomName: string | null = null;
-  if (playerType === PlayerType.Human) {
+  if (playerType === "Human") {
     const hash = simpleHash(name);
     const prefixIndex = hash % TRIBE_NAME_PREFIXES.length;
     const suffixIndex =
@@ -381,7 +381,7 @@ export function createRandomName(
 // emoji and any illegal chars so it passes UsernameSchema and survives the wire
 // (createRandomName's output is a display string, not a valid username).
 export function anonymousUsername(seed: string): string {
-  const base = createRandomName(seed, PlayerType.Human) ?? "";
+  const base = createRandomName(seed, "Human") ?? "";
   const name = base
     .replace(/[^a-zA-Z0-9_ üÜ.]/g, "")
     .trim()

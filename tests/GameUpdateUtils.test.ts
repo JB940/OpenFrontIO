@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import type { PlayerState } from "../src/client/render/types";
-import { PlayerType } from "../src/core/game/Game";
 import {
   applyStateUpdate,
   diffPlayerUpdate,
@@ -384,8 +383,8 @@ describe("diff + apply round-trip", () => {
   });
 
   it("no-change tick produces null diff so receiver state is untouched", () => {
-    const v0 = makePlayerUpdate({ gold: 100n, playerType: PlayerType.Human });
-    const v1 = makePlayerUpdate({ gold: 100n, playerType: PlayerType.Human });
+    const v0 = makePlayerUpdate({ gold: 100n, playerType: "Human"});
+    const v1 = makePlayerUpdate({ gold: 100n, playerType: "Human" });
     expect(diffPlayerUpdate(v0, v1)).toBeNull();
   });
 });

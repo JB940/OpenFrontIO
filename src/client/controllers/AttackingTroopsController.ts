@@ -9,7 +9,7 @@
  * to what the old CSS transition did.
  */
 import { EventBus } from "../../core/EventBus";
-import { Cell, PlayerType } from "../../core/game/Game";
+import { Cell } from "../../core/game/Game";
 import { UserSettings } from "../../core/game/UserSettings";
 import { Controller } from "../Controller";
 import { AlternateViewEvent } from "../InputHandler";
@@ -120,11 +120,7 @@ export class AttackingTroopsController implements Controller {
     // Incoming: only label attacks coming from another player; skip tribes.
     for (const attack of myPlayer.incomingAttacks()) {
       const attacker = this.game.playerBySmallID(attack.attackerID);
-      if (
-        !attacker ||
-        !attacker.isPlayer() ||
-        attacker.type() === PlayerType.Bot
-      ) {
+      if (!attacker || !attacker.isPlayer() || attacker.type() === "Bot") {
         continue;
       }
       activeIDs.add(attack.id);

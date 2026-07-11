@@ -5,7 +5,6 @@ import {
   GameMode,
   Nation,
   PlayerInfo,
-  PlayerType,
   UnitType,
 } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
@@ -26,13 +25,13 @@ describe("Counter Warship Infestation", () => {
     // Create players: a rich nation and an enemy with many warships
     const nationInfo = new PlayerInfo(
       "defender_nation",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_id",
     );
     const enemyInfo = new PlayerInfo(
       "warship_spammer",
-      PlayerType.Human,
+      "Human",
       null,
       "enemy_id",
     );
@@ -139,7 +138,7 @@ describe("Counter Warship Infestation", () => {
     // Create players with team setup - use clan tags to group players
     const nationInfo = new PlayerInfo(
       "defender_nation",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_id",
       false,
@@ -147,7 +146,7 @@ describe("Counter Warship Infestation", () => {
     );
     const allyInfo = new PlayerInfo(
       "ally_player",
-      PlayerType.Human,
+      "Human",
       null,
       "ally_id",
       false,
@@ -155,7 +154,7 @@ describe("Counter Warship Infestation", () => {
     );
     const enemy1Info = new PlayerInfo(
       "enemy_player_1",
-      PlayerType.Human,
+      "Human",
       null,
       "enemy1_id",
       false,
@@ -163,7 +162,7 @@ describe("Counter Warship Infestation", () => {
     );
     const enemy2Info = new PlayerInfo(
       "enemy_player_2",
-      PlayerType.Human,
+      "Human",
       null,
       "enemy2_id",
       false,

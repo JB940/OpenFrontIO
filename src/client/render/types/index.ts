@@ -2,8 +2,8 @@
 export {
   DEFAULT_NUKE_EXPLOSION_COLOR,
   MAX_NUKE_EXPLOSION_COLORS,
-  PlayerTypeEnum,
-  TrainType,
+  PlayerTypeSchema,
+  TrainTypeSchema,
 } from "./Renderer";
 export type {
   AllianceData,
@@ -22,6 +22,8 @@ export type {
   PlayerStatusData,
   RendererConfig,
   UnitState,
+  PlayerType,
+  TrainType,
 } from "./Renderer";
 
 // Frame data — boundary contract between game integration and features

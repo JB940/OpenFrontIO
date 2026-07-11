@@ -4,7 +4,6 @@ import {
   GameType,
   Player,
   PlayerInfo,
-  PlayerType,
   SpawnArea,
 } from "../game/Game";
 import { TileRef } from "../game/GameMap";
@@ -68,7 +67,7 @@ export class SpawnExecution implements Execution {
 
     if (!player.hasSpawned()) {
       this.mg.addExecution(new PlayerExecution(player));
-      if (player.type() === PlayerType.Bot) {
+      if (player.type() === "Bot") {
         this.mg.addExecution(new TribeExecution(player));
       }
     }
@@ -77,7 +76,7 @@ export class SpawnExecution implements Execution {
 
     if (
       this.mg.config().gameConfig().gameType === GameType.Singleplayer &&
-      this.playerInfo.playerType === PlayerType.Human
+      this.playerInfo.playerType === "Human"
     ) {
       // In singleplayer, spawn ends when player selects
       // a spawn location.

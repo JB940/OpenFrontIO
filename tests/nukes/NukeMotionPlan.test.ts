@@ -4,7 +4,6 @@ import {
   Game,
   Player,
   PlayerInfo,
-  PlayerType,
   Unit,
   UnitType,
 } from "../../src/core/game/Game";
@@ -19,7 +18,7 @@ import { setup } from "../util/Setup";
 describe("Nuke motion plan", () => {
   let game: Game;
   let player: Player;
-  const info = new PlayerInfo("p", PlayerType.Human, null, "p");
+  const info = new PlayerInfo("p", "Human", null, "p");
 
   beforeEach(async () => {
     game = await setup("plains", { infiniteGold: true, instantBuild: true }, [

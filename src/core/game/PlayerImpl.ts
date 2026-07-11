@@ -941,7 +941,7 @@ export class PlayerImpl implements Player {
       return false;
     }
     if (
-      recipient.type() === PlayerType.Human &&
+      recipient.type() === "Human" &&
       this.mg.config().donateGold() === false
     ) {
       return false;
@@ -971,7 +971,7 @@ export class PlayerImpl implements Player {
       return false;
     }
     if (
-      recipient.type() === PlayerType.Human &&
+      recipient.type() === "Human" &&
       this.mg.config().donateTroops() === false
     ) {
       return false;
@@ -1051,7 +1051,7 @@ export class PlayerImpl implements Player {
     // At least one eligible player exists
     for (const p of this.mg.players()) {
       if (p.id() === this.id()) continue;
-      if (p.type() === PlayerType.Bot) continue;
+      if (p.type() === "Bot") continue;
       if (this.isOnSameTeam(p)) continue;
       return true;
     }
@@ -1634,10 +1634,10 @@ export class PlayerImpl implements Player {
   }
 
   public isImmune(): boolean {
-    if (this.type() === PlayerType.Human) {
+    if (this.type() === "Human") {
       return this.mg.isSpawnImmunityActive();
     }
-    if (this.type() === PlayerType.Nation) {
+    if (this.type() === "Nation") {
       return this.mg.isNationSpawnImmunityActive();
     }
     return false;
@@ -1647,7 +1647,7 @@ export class PlayerImpl implements Player {
     player: Player,
     treatAFKFriendly: boolean = false,
   ): boolean {
-    if (this.type() !== PlayerType.Human) {
+    if (this.type() !== "Human") {
       // Only human attackers respect PVP immunity
       return !this.isFriendly(player, treatAFKFriendly);
     }

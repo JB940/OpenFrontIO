@@ -80,7 +80,7 @@ class FakePlayer {
     private game: FakeGame,
     public tiles: number,
     public troopCount: number,
-    private kind: PlayerType = PlayerType.Human,
+    private kind: PlayerType = "Human",
     private alive: boolean = true,
     private teamId: Team | null = null,
   ) {
@@ -286,10 +286,10 @@ describe("DoomsdayClockExecution (logic)", () => {
 
   it("applies to nations like players and excludes map bots", () => {
     const game = new FakeGame(1000, sdConfig(), []);
-    const leader = new FakePlayer(game, 400, 1000, PlayerType.Human);
-    const human = new FakePlayer(game, 100, 1000, PlayerType.Human);
-    const nation = new FakePlayer(game, 50, 1000, PlayerType.Nation);
-    const bot = new FakePlayer(game, 5, 1000, PlayerType.Bot);
+    const leader = new FakePlayer(game, 400, 1000, "Human");
+    const human = new FakePlayer(game, 100, 1000, "Human");
+    const nation = new FakePlayer(game, 50, 1000, "Nation");
+    const bot = new FakePlayer(game, 5, 1000, "Bot");
     game.ps = [leader, human, nation, bot];
     const exec = makeExec(game);
     // Bar 200; leader (400) is crown-exempt; human (100) and nation (50) are
@@ -404,9 +404,7 @@ describe("DoomsdayClockExecution (teams)", () => {
     const players: FakePlayer[] = [];
     for (const t of teams) {
       for (const tiles of t.tiles) {
-        players.push(
-          new FakePlayer(game, tiles, 1000, PlayerType.Human, true, t.team),
-        );
+        players.push(new FakePlayer(game, tiles, 1000, "Human", true, t.team));
       }
     }
     game.ps = players;
@@ -661,10 +659,7 @@ describe("DoomsdayClockExecution (integration)", () => {
     const game = await setup(
       "plains",
       { instantBuild: true, doomsdayClock: { ...SD, enabled } },
-      [
-        playerInfo("big", PlayerType.Human),
-        playerInfo("small", PlayerType.Human),
-      ],
+      [playerInfo("big", "Human"), playerInfo("small", "Human")],
     );
     const big = game.player("big");
     const small = game.player("small");
@@ -716,10 +711,7 @@ describe("DoomsdayClockExecution (default drain, with income)", () => {
         instantBuild: true,
         doomsdayClock: { enabled: true, speed: "veryfast" },
       },
-      [
-        playerInfo("big", PlayerType.Human),
-        playerInfo("small", PlayerType.Human),
-      ],
+      [playerInfo("big", "Human"), playerInfo("small", "Human")],
     );
     const big = game.player("big");
     const small = game.player("small");

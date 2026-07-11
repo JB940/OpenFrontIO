@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, query } from "lit/decorators.js";
 
-import { PlayerType } from "../../../core/game/Game";
 import { GameView, PlayerView } from "../../view";
 
 import quickChatData from "resources/QuickChat.json";
@@ -277,7 +276,7 @@ export class ChatModal extends LitElement {
       console.log("Sent message:", sender);
       this.players = this.g
         .players()
-        .filter((p) => p.isAlive() && p.type() !== PlayerType.Bot);
+        .filter((p) => p.isAlive() && p.type() !== "Bot");
 
       this.recipient = recipient;
       this.sender = sender;
@@ -311,7 +310,7 @@ export class ChatModal extends LitElement {
     if (sender && recipient) {
       this.players = this.g
         .players()
-        .filter((p) => p.isAlive() && p.type() !== PlayerType.Bot);
+        .filter((p) => p.isAlive() && p.type() !== "Bot");
 
       this.recipient = recipient;
       this.sender = sender;

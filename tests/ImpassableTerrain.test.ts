@@ -14,7 +14,6 @@ import {
   GameType,
   Player,
   PlayerInfo,
-  PlayerType,
   TerrainType,
   UnitType,
 } from "../src/core/game/Game";
@@ -110,8 +109,8 @@ describe("Impassable Terrain", () => {
 
   beforeEach(async () => {
     game = await setupImpassableGame([
-      new PlayerInfo("player", PlayerType.Human, "c1", "player_id"),
-      new PlayerInfo("other", PlayerType.Human, "c2", "other_id"),
+      new PlayerInfo("player", "Human", "c1", "player_id"),
+      new PlayerInfo("other", "Human", "c2", "other_id"),
     ]);
     // Override nuke settings for deterministic tests.
     (game.config() as TestConfig).nukeMagnitudes = vi.fn(() => ({

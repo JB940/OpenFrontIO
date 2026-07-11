@@ -1,23 +1,13 @@
 import { AttackExecution } from "../src/core/execution/AttackExecution";
-import { Game, Player, PlayerInfo, PlayerType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import { GOLD_INDEX_WAR, GOLD_INDEX_WORK } from "../src/core/StatsSchemas";
 import { setup } from "./util/Setup";
 
 let game: Game;
 let player1: Player;
 let player2: Player;
-const player1Info = new PlayerInfo(
-  "player1",
-  PlayerType.Human,
-  "player1",
-  "player1",
-);
-const player2Info = new PlayerInfo(
-  "player2",
-  PlayerType.Human,
-  "player2",
-  "player2",
-);
+const player1Info = new PlayerInfo("player1", "Human", "player1", "player1");
+const player2Info = new PlayerInfo("player2", "Human", "player2", "player2");
 
 describe("AttackStats", () => {
   beforeEach(async () => {

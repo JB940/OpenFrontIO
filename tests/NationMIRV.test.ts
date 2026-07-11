@@ -6,7 +6,6 @@ import {
   GameMode,
   Nation,
   PlayerInfo,
-  PlayerType,
   UnitType,
 } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
@@ -22,13 +21,13 @@ describe("Nation MIRV Retaliation", () => {
     // Create two players
     const attackerInfo = new PlayerInfo(
       "attacker",
-      PlayerType.Human,
+      "Human",
       null,
       "attacker_id",
     );
     const nationInfo = new PlayerInfo(
       "defender_nation",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_id",
     );
@@ -149,13 +148,13 @@ describe("Nation MIRV Retaliation", () => {
     // Create two players
     const dominantPlayerInfo = new PlayerInfo(
       "dominant_player",
-      PlayerType.Human,
+      "Human",
       null,
       "dominant_id",
     );
     const nationInfo = new PlayerInfo(
       "defender_nation",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_id",
     );
@@ -314,19 +313,19 @@ describe("Nation MIRV Retaliation", () => {
     // Create three players
     const steamrollerInfo = new PlayerInfo(
       "steamroller",
-      PlayerType.Human,
+      "Human",
       null,
       "steamroller_id",
     );
     const secondPlayerInfo = new PlayerInfo(
       "second_player",
-      PlayerType.Human,
+      "Human",
       null,
       "second_id",
     );
     const nationInfo = new PlayerInfo(
       "defender_nation",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_id",
     );
@@ -471,19 +470,19 @@ describe("Nation MIRV Retaliation", () => {
     // Create three players
     const steamrollerInfo = new PlayerInfo(
       "steamroller",
-      PlayerType.Human,
+      "Human",
       null,
       "steamroller_id",
     );
     const secondPlayerInfo = new PlayerInfo(
       "second_player",
-      PlayerType.Human,
+      "Human",
       null,
       "second_id",
     );
     const nationInfo = new PlayerInfo(
       "defender_nation",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_id",
     );
@@ -591,7 +590,7 @@ describe("Nation MIRV Retaliation", () => {
     // Setup game
     const teamPlayer1Info = new PlayerInfo(
       "team_player_1",
-      PlayerType.Human,
+      "Human",
       null,
       "team1_id",
       false,
@@ -599,7 +598,7 @@ describe("Nation MIRV Retaliation", () => {
     );
     const teamPlayer2Info = new PlayerInfo(
       "team_player_2",
-      PlayerType.Human,
+      "Human",
       null,
       "team2_id",
       false,
@@ -607,7 +606,7 @@ describe("Nation MIRV Retaliation", () => {
     );
     const nationInfo = new PlayerInfo(
       "defender_nation",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_id",
     );

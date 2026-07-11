@@ -1,5 +1,5 @@
 import { Colord, colord, LabaColor } from "colord";
-import { PlayerType, Team } from "../../core/game/Game";
+import { Team } from "../../core/game/Game";
 import { UserSettings } from "../../core/game/UserSettings";
 import { simpleHash } from "../../core/Util";
 import {
@@ -143,10 +143,10 @@ export class SettingsTheme implements Theme {
     if (team !== null) {
       return this.teamColorForPlayer(team, player.id());
     }
-    if (player.type() === PlayerType.Human) {
+    if (player.type() === "Human") {
       return this.humanColorAllocator.assignColor(player.id());
     }
-    if (player.type() === PlayerType.Bot) {
+    if (player.type() === "Bot") {
       return this.botColorAllocator.assignColor(player.id());
     }
     return this.nationColorAllocator.assignColor(player.id());

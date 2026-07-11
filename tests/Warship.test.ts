@@ -1,12 +1,6 @@
 import { MoveWarshipExecution } from "../src/core/execution/MoveWarshipExecution";
 import { WarshipExecution } from "../src/core/execution/WarshipExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-  UnitType,
-} from "../src/core/game/Game";
+import { Game, Player, PlayerInfo, UnitType } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
 import { PathStatus } from "../src/core/pathfinding/types";
 import { setup } from "./util/Setup";
@@ -23,8 +17,8 @@ describe("Warship", () => {
       "half_land_half_ocean",
       { infiniteGold: true, instantBuild: true },
       [
-        new PlayerInfo("boat dude", PlayerType.Human, null, "player_1_id"),
-        new PlayerInfo("boat dude", PlayerType.Human, null, "player_2_id"),
+        new PlayerInfo("boat dude", "Human", null, "player_1_id"),
+        new PlayerInfo("boat dude", "Human", null, "player_2_id"),
       ],
     );
 

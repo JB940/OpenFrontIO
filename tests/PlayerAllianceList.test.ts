@@ -1,6 +1,6 @@
 import { AllianceRequestExecution } from "../src/core/execution/alliance/AllianceRequestExecution";
 import { BreakAllianceExecution } from "../src/core/execution/alliance/BreakAllianceExecution";
-import { Game, Player, PlayerType } from "../src/core/game/Game";
+import { Game, Player } from "../src/core/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 
 /**
@@ -39,9 +39,9 @@ describe("per-player alliance list", () => {
       "plains",
       { infiniteGold: true, instantBuild: true, infiniteTroops: true },
       [
-        playerInfo("player1", PlayerType.Human),
-        playerInfo("player2", PlayerType.Human),
-        playerInfo("player3", PlayerType.Human),
+        playerInfo("player1", "Human"),
+        playerInfo("player2", "Human"),
+        playerInfo("player3", "Human"),
       ],
     );
 

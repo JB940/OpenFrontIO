@@ -6,7 +6,6 @@ import {
   Difficulty,
   Nation,
   PlayerInfo,
-  PlayerType,
   UnitType,
 } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
@@ -24,18 +23,8 @@ describe("NationNukeBehavior - maybeDestroyEnemySam", () => {
       instantBuild: true,
     });
 
-    const nationInfo = new PlayerInfo(
-      "nation",
-      PlayerType.Nation,
-      null,
-      "nation_id",
-    );
-    const humanInfo = new PlayerInfo(
-      "human",
-      PlayerType.Human,
-      null,
-      "human_id",
-    );
+    const nationInfo = new PlayerInfo("nation", "Nation", null, "nation_id");
+    const humanInfo = new PlayerInfo("human", "Human", null, "human_id");
 
     game.addPlayer(nationInfo);
     game.addPlayer(humanInfo);

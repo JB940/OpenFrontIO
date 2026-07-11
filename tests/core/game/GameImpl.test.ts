@@ -8,7 +8,6 @@ import {
   GameType,
   Player,
   PlayerInfo,
-  PlayerType,
 } from "../../../src/core/game/Game";
 import { TileRef } from "../../../src/core/game/GameMap";
 import { GameUpdateType } from "../../../src/core/game/GameUpdates";
@@ -30,14 +29,14 @@ describe("GameImpl", () => {
     });
     const attackerInfo = new PlayerInfo(
       "attacker dude",
-      PlayerType.Human,
+      "Human",
       null,
       "attacker_id",
     );
     game.addPlayer(attackerInfo);
     const defenderInfo = new PlayerInfo(
       "defender dude",
-      PlayerType.Human,
+      "Human",
       null,
       "defender_id",
     );
@@ -152,7 +151,7 @@ describe("GameImpl", () => {
 
     const lateHumanInfo = new PlayerInfo(
       "late human",
-      PlayerType.Human,
+      "Human",
       "late_client_id",
       "late_player_id",
     );

@@ -5,8 +5,11 @@ import { GameMapType } from "../core/game/Game";
 import { fetchGameById } from "./Api";
 import { terrainMapFileLoader } from "./TerrainMapFileLoader";
 import { renderDuration, translateText } from "./Utils";
-import { PlayerInfo, Ranking } from "./components/baseComponents/ranking/GameInfoRanking";
 import type { RankType } from "./components/baseComponents/ranking/GameInfoRanking";
+import {
+  PlayerInfo,
+  Ranking,
+} from "./components/baseComponents/ranking/GameInfoRanking";
 import "./components/baseComponents/ranking/PlayerRow";
 import "./components/baseComponents/ranking/RankingControls";
 import "./components/baseComponents/ranking/RankingHeader";

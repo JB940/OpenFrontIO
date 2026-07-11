@@ -1,6 +1,6 @@
 import { AttackExecution } from "../src/core/execution/AttackExecution";
 import { SpawnExecution } from "../src/core/execution/SpawnExecution";
-import { Game, Player, PlayerInfo, PlayerType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
 import { GameID } from "../src/core/Schemas";
 import { setup } from "./util/Setup";
@@ -149,14 +149,14 @@ describe("Conquer border invariants", () => {
     game = await setup("plains", { infiniteTroops: true }); // 100x100, all land
     const attackerInfo = new PlayerInfo(
       "attacker dude",
-      PlayerType.Human,
+      "Human",
       null,
       "attacker_id",
     );
     game.addPlayer(attackerInfo);
     const defenderInfo = new PlayerInfo(
       "defender dude",
-      PlayerType.Human,
+      "Human",
       null,
       "defender_id",
     );

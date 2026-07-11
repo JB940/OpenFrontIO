@@ -106,7 +106,7 @@ describe("RadialMenuElements ally break", () => {
     });
     const items = rootMenuElement.subMenu!(params);
     expect(findAllyBreak(items)).toBeUndefined();
-    expect(items.find((i) => i.id === "boat")).toBeDefined();
+    expect(items.find((i) => i.id === "Boat")).toBeDefined();
   });
 
   test("break action calls handleBreakAlliance and closes menu", () => {

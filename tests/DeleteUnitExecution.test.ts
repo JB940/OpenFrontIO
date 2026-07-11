@@ -4,7 +4,6 @@ import {
   Game,
   Player,
   PlayerInfo,
-  PlayerType,
   Unit,
   UnitType,
 } from "../src/core/game/Game";
@@ -29,13 +28,13 @@ describe("DeleteUnitExecution Security Tests", () => {
 
     const player1Info = new PlayerInfo(
       "TestPlayer",
-      PlayerType.Human,
+      "Human",
       null,
       "TestPlayer",
     );
     const player2Info = new PlayerInfo(
       "EnemyPlayer",
-      PlayerType.Human,
+      "Human",
       null,
       "EnemyPlayer",
     );

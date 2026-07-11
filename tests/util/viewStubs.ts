@@ -11,12 +11,7 @@ import { Theme } from "../../src/client/theme/ThemeProvider";
 import { GameView } from "../../src/client/view/GameView";
 import { PlayerView } from "../../src/client/view/PlayerView";
 import { Config } from "../../src/core/configuration/Config";
-import {
-  NameViewData,
-  PlayerType,
-  Team,
-  UnitType,
-} from "../../src/core/game/Game";
+import { NameViewData, Team, UnitType } from "../../src/core/game/Game";
 import { GameMapImpl } from "../../src/core/game/GameMap";
 import {
   GameUpdateType,
@@ -120,7 +115,7 @@ export function makePlayerUpdate(
     displayName: "Alice",
     id: "player-a",
     smallID: 1,
-    playerType: PlayerType.Human,
+    playerType: "Human",
     isAlive: true,
     isDisconnected: false,
     tilesOwned: 0,

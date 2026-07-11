@@ -4,7 +4,6 @@ import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
 import {
   PlayerProfile,
-  PlayerType,
   Relation,
   Unit,
   UnitType,
@@ -186,7 +185,7 @@ export class PlayerInfoOverlay extends LitElement implements Controller {
     player: PlayerView,
     myPlayer: PlayerView | null | undefined,
   ): TemplateResult | string {
-    if (!myPlayer || myPlayer === player || player.type() !== PlayerType.Nation)
+    if (!myPlayer || myPlayer === player || player.type() !== "Nation")
       return "";
     const relation =
       this.playerProfile?.relations[myPlayer.smallID()] ?? Relation.Neutral;
@@ -289,13 +288,13 @@ export class PlayerInfoOverlay extends LitElement implements Controller {
     }
     let playerType = "";
     switch (player.type()) {
-      case PlayerType.Bot:
+      case "Bot":
         playerType = translateText("player_type.bot");
         break;
-      case PlayerType.Nation:
+      case "Nation":
         playerType = translateText("player_type.nation");
         break;
-      case PlayerType.Human:
+      case "Human":
         playerType = translateText("player_type.player");
         break;
     }
@@ -354,7 +353,7 @@ export class PlayerInfoOverlay extends LitElement implements Controller {
               : html``}
             <span>${player.displayName()}</span>
             ${this.getRelationSmiley(player, myPlayer)}
-            ${playerTeam !== "" && player.type() !== PlayerType.Bot
+            ${playerTeam !== "" && player.type() !== "Bot"
               ? html`<div class="flex flex-col leading-tight">
                   <span class="text-gray-400 text-xs font-normal"
                     >${playerType}</span

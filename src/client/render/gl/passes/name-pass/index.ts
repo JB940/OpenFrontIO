@@ -24,7 +24,7 @@ import type {
   PlayerStatusData,
   RendererConfig,
 } from "../../../types";
-import { PlayerTypeEnum } from "../../../types";
+import { PlayerTypeSchema } from "../../../types";
 import type { RenderSettings } from "../../RenderSettings";
 import { createFullscreenQuad } from "../../utils/GlUtils";
 
@@ -569,9 +569,9 @@ export class NamePass {
     // Name fill darkens by type: human black, nation a bit gray, bot greyer.
     const ns = this.settings.name;
     let nameShade = 0.0;
-    if (slot.static.playerType === PlayerTypeEnum.Nation) {
+    if (slot.static.playerType === PlayerTypeSchema.enum.Human) {
       nameShade = ns.nameShadeNation;
-    } else if (slot.static.playerType === PlayerTypeEnum.Bot) {
+    } else if (slot.static.playerType === PlayerTypeSchema.enum.Bot) {
       nameShade = ns.nameShadeBot;
     }
     d[off + 12] = slot.nameLen;

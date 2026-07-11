@@ -7,7 +7,6 @@ import {
   GameMode,
   HumansVsNations,
   PlayerInfo,
-  PlayerType,
   Quads,
   Team,
   Trios,
@@ -357,7 +356,7 @@ export class LobbyTeamView extends LitElement {
       (c) =>
         new PlayerInfo(
           c.username,
-          PlayerType.Human,
+          "Human",
           c.clientID,
           c.clientID,
           false,
@@ -421,7 +420,7 @@ export class LobbyTeamView extends LitElement {
     }
     // Keep clan tag visible while anonymizing only the username.
     const anonymizedUsername =
-      createRandomName(client.username, PlayerType.Human) ?? client.username;
+      createRandomName(client.username, "Human") ?? client.username;
     return formatPlayerDisplayName(anonymizedUsername, client.clanTag);
   }
 }

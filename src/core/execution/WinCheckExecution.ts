@@ -5,7 +5,6 @@ import {
   Game,
   GameMode,
   Player,
-  PlayerType,
   RankedType,
   Team,
 } from "../game/Game";
@@ -53,7 +52,7 @@ export class WinCheckExecution implements Execution {
 
     if (this.mg.config().gameConfig().rankedType === RankedType.OneVOne) {
       const humans = sorted.filter(
-        (p) => p.type() === PlayerType.Human && !p.isDisconnected(),
+        (p) => p.type() === "Human" && !p.isDisconnected(),
       );
       if (humans.length === 1) {
         this.mg.setWinner(humans[0], this.mg.stats().stats());

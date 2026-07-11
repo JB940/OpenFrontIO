@@ -64,7 +64,7 @@ function makeNeighbor(
 ): any {
   return {
     isPlayer: () => opts.isPlayer ?? true,
-    type: () => opts.type ?? PlayerType.Human,
+    type: () => opts.type ?? "Human",
     units: vi.fn(() => opts.units ?? []),
   };
 }
@@ -193,7 +193,7 @@ describe("NationStructureBehavior.buildReachableStations", () => {
   it("excludes bot neighbors", () => {
     const unit = makeUnit(30);
     const station = makeStation(unit, null);
-    const bot = makeNeighbor({ type: PlayerType.Bot, units: [unit] });
+    const bot = makeNeighbor({ type: "Bot", units: [unit] });
     const player = makePlayer([], [bot]);
     const behavior = makeBehavior(makeGame([station]), player);
 

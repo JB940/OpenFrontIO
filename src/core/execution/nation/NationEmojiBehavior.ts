@@ -4,7 +4,6 @@ import {
   Game,
   GameMode,
   Player,
-  PlayerType,
   Relation,
   Tick,
 } from "../../game/Game";
@@ -97,7 +96,7 @@ export class NationEmojiBehavior {
     // Find attacks from humans that are very small (less than 10% of our troops)
     for (const attack of incomingAttacks) {
       const attacker = attack.attacker();
-      if (attacker.type() !== PlayerType.Human) continue;
+      if (attacker.type() !== "Human") continue;
 
       if (attack.troops() < ourTroops * 0.1) {
         this.maybeSendEmoji(
@@ -131,7 +130,7 @@ export class NationEmojiBehavior {
       // Only the largest nation sends the congratulation
       const largestNation = this.game
         .players()
-        .filter((p) => p.type() === PlayerType.Nation)
+        .filter((p) => p.type() === "Nation")
         .sort((a, b) => b.numTilesOwned() - a.numTilesOwned())[0];
       if (largestNation !== this.player) return;
 
@@ -157,7 +156,7 @@ export class NationEmojiBehavior {
 
     const humanAllies = this.player
       .allies()
-      .filter((p) => p.type() === PlayerType.Human);
+      .filter((p) => p.type() === "Human");
     if (humanAllies.length === 0) return;
 
     const ally = this.random.randElement(humanAllies);
@@ -172,9 +171,7 @@ export class NationEmojiBehavior {
       .players()
       .filter(
         (p) =>
-          p.type() === PlayerType.Human &&
-          !p.isFriendly(this.player) &&
-          p.isTraitor(),
+          p.type() === "Human" && !p.isFriendly(this.player) && p.isTraitor(),
       );
 
     if (traitors.length === 0) return;
@@ -194,7 +191,7 @@ export class NationEmojiBehavior {
       .players()
       .filter(
         (p) =>
-          p.type() === PlayerType.Human &&
+          p.type() === "Human" &&
           p.numTilesOwned() < threshold &&
           p.numTilesOwned() > 0,
       );
@@ -211,9 +208,7 @@ export class NationEmojiBehavior {
 
     const nearbyHumans = this.player
       .nearby()
-      .filter(
-        (p): p is Player => p.isPlayer() && p.type() === PlayerType.Human,
-      );
+      .filter((p): p is Player => p.isPlayer() && p.type() === "Human");
 
     if (nearbyHumans.length === 0) return;
 
@@ -263,8 +258,8 @@ export class NationEmojiBehavior {
     limitEmojisByTime: boolean = true,
   ): boolean {
     if (otherPlayer === AllPlayers) return true;
-    if (this.player.type() === PlayerType.Bot) return false;
-    if (otherPlayer.type() !== PlayerType.Human) return false;
+    if (this.player.type() === "Bot") return false;
+    if (otherPlayer.type() !== "Human") return false;
 
     if (limitEmojisByTime) {
       const lastSent = this.lastEmojiSent.get(otherPlayer) ?? -300;
@@ -283,7 +278,7 @@ export function respondToEmoji(
   recipient: Player | typeof AllPlayers,
   emojiString: string,
 ): void {
-  if (recipient === AllPlayers || recipient.type() !== PlayerType.Nation) {
+  if (recipient === AllPlayers || recipient.type() !== "Nation") {
     return;
   }
   if (!recipient.canSendEmoji(sender)) return;

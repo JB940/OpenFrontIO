@@ -10,7 +10,6 @@ import {
   Gold,
   Player,
   PlayerInfo,
-  PlayerType,
   TerrainType,
   TerraNullius,
   Tick,
@@ -248,7 +247,7 @@ export class Config {
     return this._gameConfig.goldMultiplier ?? 1;
   }
   startingGold(playerInfo: PlayerInfo): Gold {
-    if (playerInfo.playerType === PlayerType.Bot) {
+    if (playerInfo.playerType === "Bot") {
       return 0n;
     }
     return this.startingGoldFor(playerInfo);
@@ -376,10 +375,7 @@ export class Config {
       case UnitType.MIRV:
         info = {
           cost: (game: Game, player: Player) => {
-            if (
-              player.type() === PlayerType.Human &&
-              this.hasInfiniteGoldFor(player)
-            ) {
+            if (player.type() === "Human" && this.hasInfiniteGoldFor(player)) {
               return 0n;
             }
             return 25_000_000n + game.stats().numMirvsLaunched() * 15_000_000n;
@@ -493,10 +489,7 @@ export class Config {
   }
 
   public conquerGoldAmount(captured: Player): Gold {
-    if (
-      captured.type() === PlayerType.Bot ||
-      captured.type() === PlayerType.Nation
-    ) {
+    if (captured.type() === "Bot" || captured.type() === "Nation") {
       return captured.gold();
     } else {
       return captured.gold() / 2n;
@@ -517,10 +510,7 @@ export class Config {
     ...types: UnitType[]
   ): (g: Game, p: Player) => bigint {
     return (game: Game, player: Player) => {
-      if (
-        player.type() === PlayerType.Human &&
-        this.hasInfiniteGoldFor(player)
-      ) {
+      if (player.type() === "Human" && this.hasInfiniteGoldFor(player)) {
         return 0n;
       }
       const numUnits = types.reduce(
@@ -670,9 +660,8 @@ export class Config {
         mag = 0;
       }
       if (
-        (attacker.type() === PlayerType.Human ||
-          attacker.type() === PlayerType.Nation) &&
-        defender.type() === PlayerType.Bot
+        (attacker.type() === "Human" || attacker.type() === "Nation") &&
+        defender.type() === "Bot"
       ) {
         mag *= 0.7;
       }
@@ -725,8 +714,7 @@ export class Config {
       };
     } else {
       return {
-        attackerTroopLoss:
-          attacker.type() === PlayerType.Bot ? mag / 10 : mag / 5,
+        attackerTroopLoss: attacker.type() === "Bot" ? mag / 10 : mag / 5,
         defenderTroopLoss: 0,
         tilesPerTickUsed: within(
           (2000 * Math.max(10, speed)) / attackTroops,
@@ -775,7 +763,7 @@ export class Config {
   }
 
   attackAmount(attacker: Player, defender: Player | TerraNullius) {
-    if (attacker.type() === PlayerType.Bot) {
+    if (attacker.type() === "Bot") {
       return attacker.troops() / 20;
     } else {
       return attacker.troops() / 5;
@@ -783,10 +771,10 @@ export class Config {
   }
 
   startManpower(playerInfo: PlayerInfo): number {
-    if (playerInfo.playerType === PlayerType.Bot) {
+    if (playerInfo.playerType === "Bot") {
       return 10_000;
     }
-    if (playerInfo.playerType === PlayerType.Nation) {
+    if (playerInfo.playerType === "Nation") {
       switch (this._gameConfig.difficulty) {
         case Difficulty.Easy:
           return 12_500;
@@ -805,7 +793,7 @@ export class Config {
 
   maxTroops(player: Player | PlayerView): number {
     const maxTroops =
-      player.type() === PlayerType.Human && this.hasInfiniteTroopsFor(player)
+      player.type() === "Human" && this.hasInfiniteTroopsFor(player)
         ? 1_000_000_000
         : 2 * (Math.pow(player.numTilesOwned(), 0.6) * 1000 + 50000) +
           player
@@ -815,11 +803,11 @@ export class Config {
             .reduce((a, b) => a + b, 0) *
             this.cityTroopIncrease();
 
-    if (player.type() === PlayerType.Bot) {
+    if (player.type() === "Bot") {
       return maxTroops / 3;
     }
 
-    if (player.type() === PlayerType.Human) {
+    if (player.type() === "Human") {
       return maxTroops;
     }
 
@@ -845,11 +833,11 @@ export class Config {
     const ratio = 1 - player.troops() / max;
     toAdd *= ratio;
 
-    if (player.type() === PlayerType.Bot) {
+    if (player.type() === "Bot") {
       toAdd *= 0.5;
     }
 
-    if (player.type() === PlayerType.Nation) {
+    if (player.type() === "Nation") {
       switch (this._gameConfig.difficulty) {
         case Difficulty.Easy:
           toAdd *= 0.9;
@@ -874,7 +862,7 @@ export class Config {
   goldAdditionRate(player: Player | PlayerView): Gold {
     const multiplier = this.goldMultiplierFor(player);
     let baseRate: bigint;
-    if (player.type() === PlayerType.Bot) {
+    if (player.type() === "Bot") {
       baseRate = 50n;
     } else {
       baseRate = 100n;

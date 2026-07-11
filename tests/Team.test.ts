@@ -1,9 +1,4 @@
-import {
-  ColoredTeams,
-  Game,
-  GameMode,
-  PlayerType,
-} from "../src/core/game/Game";
+import { ColoredTeams, Game, GameMode } from "../src/core/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 
 let game: Game;
@@ -12,8 +7,8 @@ describe("Teams", () => {
   test("bots are on the same team, but can attack each other", async () => {
     game = await setup("plains", { gameMode: GameMode.Team, playerTeams: 2 });
 
-    const bot1 = game.addPlayer(playerInfo("bot1", PlayerType.Bot));
-    const bot2 = game.addPlayer(playerInfo("bot2", PlayerType.Bot));
+    const bot1 = game.addPlayer(playerInfo("bot1", "Bot"));
+    const bot2 = game.addPlayer(playerInfo("bot2", "Bot"));
 
     // Both bots should be on the same team
     expect(bot1.team()).toBe(ColoredTeams.Bot);
@@ -30,10 +25,7 @@ describe("Teams", () => {
         gameMode: GameMode.Team,
         playerTeams: 2,
       },
-      [
-        playerInfo("human1", PlayerType.Human),
-        playerInfo("human2", PlayerType.Human),
-      ],
+      [playerInfo("human1", "Human"), playerInfo("human2", "Human")],
     );
     expect(game.player("human1").isOnSameTeam(game.player("human2"))).toBe(
       false,

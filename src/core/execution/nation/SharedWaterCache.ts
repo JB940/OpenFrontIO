@@ -1,4 +1,4 @@
-import { Game, Player, PlayerType } from "../../game/Game";
+import { Game, Player } from "../../game/Game";
 
 /**
  * Cache for "which water components does each nation share with a
@@ -44,7 +44,7 @@ export class SharedWaterCache {
     const lakePartners = new Map<number, Player[]>();
 
     for (const player of game.players()) {
-      if (player.type() === PlayerType.Bot) continue;
+      if (player.type() === "Bot") continue;
 
       let hasOcean = false;
       const lakes = new Set<number>();

@@ -45,9 +45,9 @@ function _bigint(value: BigIntLike): bigint {
 }
 
 const conquest_by_type: Record<PlayerType, number> = {
-  [PlayerType.Human]: PLAYER_INDEX_HUMAN,
-  [PlayerType.Nation]: PLAYER_INDEX_NATION,
-  [PlayerType.Bot]: PLAYER_INDEX_BOT,
+  ["Human"]: PLAYER_INDEX_HUMAN,
+  ["Nation"]: PLAYER_INDEX_NATION,
+  ["Bot"]: PLAYER_INDEX_BOT,
 };
 
 export class StatsImpl implements Stats {
@@ -293,7 +293,7 @@ export class StatsImpl implements Stats {
   }
 
   recordKill(player: Player, victim: Player, tick: BigIntLike): void {
-    if (victim.type() !== PlayerType.Human) return;
+    if (victim.type() !== "Human") return;
     const victimId = victim.clientID();
     if (victimId === null) return;
     const p = this._makePlayerStats(player);

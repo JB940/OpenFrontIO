@@ -5,7 +5,6 @@ import {
   Game,
   Player,
   PlayerInfo,
-  PlayerType,
   UnitType,
 } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
@@ -36,7 +35,7 @@ describe("MissileSilo", () => {
     game = await setup("plains", { infiniteGold: true, instantBuild: true });
     const attacker_info = new PlayerInfo(
       "attacker_id",
-      PlayerType.Human,
+      "Human",
       null,
       "attacker_id",
     );

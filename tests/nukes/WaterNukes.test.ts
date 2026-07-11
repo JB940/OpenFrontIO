@@ -1,11 +1,5 @@
 import { NukeExecution } from "../../src/core/execution/NukeExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-  UnitType,
-} from "../../src/core/game/Game";
+import { Game, Player, PlayerInfo, UnitType } from "../../src/core/game/Game";
 import { TileRef } from "../../src/core/game/GameMap";
 import { setup } from "../util/Setup";
 import { constructionExecution } from "../util/utils";
@@ -26,7 +20,7 @@ function tickUntilNukeLands(game: Game, maxTicks = 50): void {
 describe("Water Nukes", () => {
   let game: Game;
   let player: Player;
-  const info = new PlayerInfo("p", PlayerType.Human, null, "p");
+  const info = new PlayerInfo("p", "Human", null, "p");
 
   describe("when waterNukes is enabled", () => {
     beforeEach(async () => {

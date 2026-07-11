@@ -1,13 +1,7 @@
 import { AttackExecution } from "../src/core/execution/AttackExecution";
 import { SpawnExecution } from "../src/core/execution/SpawnExecution";
 import { TransportShipExecution } from "../src/core/execution/TransportShipExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  PlayerType,
-  UnitType,
-} from "../src/core/game/Game";
+import { Game, Player, PlayerInfo, UnitType } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
 import { GameUpdateType, UnitUpdate } from "../src/core/game/GameUpdates";
 import { GameID } from "../src/core/Schemas";
@@ -42,14 +36,14 @@ describe("Attack", () => {
     });
     const attackerInfo = new PlayerInfo(
       "attacker dude",
-      PlayerType.Human,
+      "Human",
       null,
       "attacker_id",
     );
     game.addPlayer(attackerInfo);
     const defenderInfo = new PlayerInfo(
       "defender dude",
-      PlayerType.Human,
+      "Human",
       null,
       "defender_id",
     );
@@ -182,20 +176,10 @@ describe("Attack race condition with alliance requests", () => {
       infiniteTroops: true,
     });
 
-    const playerAInfo = new PlayerInfo(
-      "playerA",
-      PlayerType.Human,
-      null,
-      "playerA_id",
-    );
+    const playerAInfo = new PlayerInfo("playerA", "Human", null, "playerA_id");
     playerA = addPlayerToGame(playerAInfo, game, game.ref(0, 10));
 
-    const playerBInfo = new PlayerInfo(
-      "playerB",
-      PlayerType.Human,
-      null,
-      "playerB_id",
-    );
+    const playerBInfo = new PlayerInfo("playerB", "Human", null, "playerB_id");
     playerB = addPlayerToGame(playerBInfo, game, game.ref(0, 11));
     game.executeNextTick();
     game.executeNextTick();
@@ -306,12 +290,7 @@ describe("Attack race condition with alliance requests", () => {
 
   test("Should cancel the proper alliance request among many", async () => {
     // Add a new player to have more alliance requests
-    const playerCInfo = new PlayerInfo(
-      "playerB",
-      PlayerType.Human,
-      null,
-      "playerB_id",
-    );
+    const playerCInfo = new PlayerInfo("playerB", "Human", null, "playerB_id");
     const playerC = addPlayerToGame(playerCInfo, game, game.ref(10, 10));
     game.executeNextTick();
     game.executeNextTick();
@@ -354,21 +333,11 @@ describe("Transport ship alliance rejection", () => {
       infiniteTroops: true,
     });
 
-    const playerAInfo = new PlayerInfo(
-      "playerA",
-      PlayerType.Human,
-      null,
-      "playerA_id",
-    );
+    const playerAInfo = new PlayerInfo("playerA", "Human", null, "playerA_id");
     // close to the water to send boats
     playerA = addPlayerToGame(playerAInfo, game, game.ref(7, 0));
 
-    const playerBInfo = new PlayerInfo(
-      "playerB",
-      PlayerType.Human,
-      null,
-      "playerB_id",
-    );
+    const playerBInfo = new PlayerInfo("playerB", "Human", null, "playerB_id");
     playerB = addPlayerToGame(playerBInfo, game, game.ref(7, 15));
     game.executeNextTick();
     game.executeNextTick();
@@ -409,21 +378,11 @@ describe("Attack immunity", () => {
 
     (game.config() as TestConfig).setSpawnImmunityDuration(immunityPhaseTicks);
 
-    const playerAInfo = new PlayerInfo(
-      "playerA",
-      PlayerType.Human,
-      null,
-      "playerA_id",
-    );
+    const playerAInfo = new PlayerInfo("playerA", "Human", null, "playerA_id");
     // close to the water to send boats
     playerA = addPlayerToGame(playerAInfo, game, game.ref(7, 0));
 
-    const playerBInfo = new PlayerInfo(
-      "playerB",
-      PlayerType.Human,
-      null,
-      "playerB_id",
-    );
+    const playerBInfo = new PlayerInfo("playerB", "Human", null, "playerB_id");
     playerB = addPlayerToGame(playerBInfo, game, game.ref(7, 15));
     game.executeNextTick();
     game.executeNextTick();
@@ -495,7 +454,7 @@ describe("Attack immunity", () => {
       immunityPhaseTicks,
     );
     const nationId = "nation_id";
-    const nation = new PlayerInfo("nation", PlayerType.Nation, null, nationId);
+    const nation = new PlayerInfo("nation", "Nation", null, nationId);
     game.addPlayer(nation);
     // Player A attacks the nation during nation immunity
     const attackExecution = new AttackExecution(null, playerA, nationId, null);
@@ -509,7 +468,7 @@ describe("Attack immunity", () => {
       immunityPhaseTicks,
     );
     const nationId = "nation_id";
-    const nation = new PlayerInfo("nation", PlayerType.Nation, null, nationId);
+    const nation = new PlayerInfo("nation", "Nation", null, nationId);
     game.addPlayer(nation);
     waitForImmunityToEnd();
     // Player A attacks the nation after immunity
@@ -521,7 +480,7 @@ describe("Attack immunity", () => {
 
   test("Should be able to attack bots during immunity phase", async () => {
     const botId = "bot_id";
-    const bot = new PlayerInfo("bot", PlayerType.Bot, null, botId);
+    const bot = new PlayerInfo("bot", "Bot", null, botId);
     game.addPlayer(bot);
     // Player A attacks the bot
     const attackExecution = new AttackExecution(null, playerA, botId, null);
@@ -559,12 +518,7 @@ describe("Attack immunity", () => {
   });
 
   test("Nation can attack human during PVP immunity", async () => {
-    const nationInfo = new PlayerInfo(
-      "nation",
-      PlayerType.Nation,
-      null,
-      "nation_id",
-    );
+    const nationInfo = new PlayerInfo("nation", "Nation", null, "nation_id");
     const nation = addPlayerToGame(nationInfo, game, game.ref(15, 0));
     game.executeNextTick();
     game.executeNextTick();
@@ -576,7 +530,7 @@ describe("Attack immunity", () => {
   });
 
   test("Bot can attack human during PVP immunity", async () => {
-    const botInfo = new PlayerInfo("bot", PlayerType.Bot, null, "bot_id");
+    const botInfo = new PlayerInfo("bot", "Bot", null, "bot_id");
     const bot = addPlayerToGame(botInfo, game, game.ref(15, 0));
     game.executeNextTick();
     game.executeNextTick();
@@ -588,20 +542,10 @@ describe("Attack immunity", () => {
   });
 
   test("Nation can attack nation during PVP immunity", async () => {
-    const nationAInfo = new PlayerInfo(
-      "nationA",
-      PlayerType.Nation,
-      null,
-      "nationA_id",
-    );
+    const nationAInfo = new PlayerInfo("nationA", "Nation", null, "nationA_id");
     const nationA = addPlayerToGame(nationAInfo, game, game.ref(15, 0));
 
-    const nationBInfo = new PlayerInfo(
-      "nationB",
-      PlayerType.Nation,
-      null,
-      "nationB_id",
-    );
+    const nationBInfo = new PlayerInfo("nationB", "Nation", null, "nationB_id");
     addPlayerToGame(nationBInfo, game, game.ref(15, 15));
     game.executeNextTick();
     game.executeNextTick();
@@ -613,12 +557,7 @@ describe("Attack immunity", () => {
   });
 
   test("Nation cannot attack allied human during PVP immunity", async () => {
-    const nationInfo = new PlayerInfo(
-      "nation",
-      PlayerType.Nation,
-      null,
-      "nation_id",
-    );
+    const nationInfo = new PlayerInfo("nation", "Nation", null, "nation_id");
     const nation = addPlayerToGame(nationInfo, game, game.ref(15, 0));
     game.executeNextTick();
     game.executeNextTick();

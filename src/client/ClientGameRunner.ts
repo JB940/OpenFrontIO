@@ -12,12 +12,7 @@ import {
   ServerMessage,
 } from "../core/Schemas";
 import { createPartialGameRecord, findClosestBy, replacer } from "../core/Util";
-import {
-  BuildableUnit,
-  PlayerType,
-  Structures,
-  UnitType,
-} from "../core/game/Game";
+import { BuildableUnit, Structures, UnitType } from "../core/game/Game";
 import { TileRef } from "../core/game/GameMap";
 import { GameMapLoader } from "../core/game/GameMapLoader";
 import {
@@ -1212,7 +1207,7 @@ export class ClientGameRunner {
       const t = (
         this.gameView.playerBySmallID(a.attackerID) as PlayerView
       ).type();
-      return t !== PlayerType.Bot;
+      return t !== "Bot";
     });
 
     if (incomingAttacks.length === 0) return;

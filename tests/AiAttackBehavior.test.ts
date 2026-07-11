@@ -7,7 +7,6 @@ import {
   GameMode,
   Player,
   PlayerInfo,
-  PlayerType,
 } from "../src/core/game/Game";
 import { PseudoRandom } from "../src/core/PseudoRandom";
 import { setup } from "./util/Setup";
@@ -27,18 +26,8 @@ describe("Ai Attack Behavior", () => {
     });
 
     // Add players
-    const botInfo = new PlayerInfo(
-      "bot_test",
-      PlayerType.Bot,
-      null,
-      "bot_test",
-    );
-    const humanInfo = new PlayerInfo(
-      "human_test",
-      PlayerType.Human,
-      null,
-      "human_test",
-    );
+    const botInfo = new PlayerInfo("bot_test", "Bot", null, "bot_test");
+    const humanInfo = new PlayerInfo("human_test", "Human", null, "human_test");
     testGame.addPlayer(botInfo);
     testGame.addPlayer(humanInfo);
 
@@ -120,7 +109,7 @@ describe("Ai Attack Behavior", () => {
     // Create nation
     const nationInfo = new PlayerInfo(
       "nation_test",
-      PlayerType.Nation,
+      "Nation",
       null,
       "nation_test",
     );
@@ -182,22 +171,17 @@ describe("Hard/Impossible troop floor", () => {
 
     const attackerInfo = new PlayerInfo(
       "attacker",
-      PlayerType.Nation,
+      "Nation",
       null,
       "attacker_id",
     );
     const neighborInfo = new PlayerInfo(
       "neighbor",
-      PlayerType.Human,
+      "Human",
       null,
       "neighbor_id",
     );
-    const botInfo = new PlayerInfo(
-      "target_bot",
-      PlayerType.Bot,
-      null,
-      "bot_id",
-    );
+    const botInfo = new PlayerInfo("target_bot", "Bot", null, "bot_id");
     testGame.addPlayer(attackerInfo);
     testGame.addPlayer(neighborInfo);
     testGame.addPlayer(botInfo);
@@ -287,7 +271,7 @@ describe("Hard/Impossible troop floor", () => {
     // Add a strong human target sharing borders
     const targetInfo = new PlayerInfo(
       "strong_target",
-      PlayerType.Human,
+      "Human",
       null,
       "target_id",
     );
@@ -372,7 +356,7 @@ describe("Hard/Impossible troop floor", () => {
     });
 
     // Give bot only half the land so there's unowned land to attack via sendAttack
-    const botInfo = new PlayerInfo("lone_bot", PlayerType.Bot, null, "lone_id");
+    const botInfo = new PlayerInfo("lone_bot", "Bot", null, "lone_id");
     testGame.addPlayer(botInfo);
     const bot = testGame.player("lone_id");
     let assigned = 0;
@@ -419,22 +403,17 @@ describe("Hard/Impossible troop floor", () => {
 
     const attackerInfo = new PlayerInfo(
       "attacker",
-      PlayerType.Nation,
+      "Nation",
       null,
       "attacker_id",
     );
     const neighborInfo = new PlayerInfo(
       "neighbor",
-      PlayerType.Human,
+      "Human",
       null,
       "neighbor_id",
     );
-    const botInfo = new PlayerInfo(
-      "target_bot",
-      PlayerType.Bot,
-      null,
-      "bot_id",
-    );
+    const botInfo = new PlayerInfo("target_bot", "Bot", null, "bot_id");
     testGame.addPlayer(attackerInfo);
     testGame.addPlayer(neighborInfo);
     testGame.addPlayer(botInfo);
@@ -499,13 +478,13 @@ describe("Hard/Impossible troop floor", () => {
 
     const attackerInfo = new PlayerInfo(
       "attacker",
-      PlayerType.Nation,
+      "Nation",
       null,
       "attacker_id",
     );
     const neighborInfo = new PlayerInfo(
       "neighbor",
-      PlayerType.Human,
+      "Human",
       null,
       "neighbor_id",
     );
@@ -518,7 +497,7 @@ describe("Hard/Impossible troop floor", () => {
     // Add a strong human target sharing borders
     const targetInfo = new PlayerInfo(
       "strong_target",
-      PlayerType.Human,
+      "Human",
       null,
       "target_id",
     );

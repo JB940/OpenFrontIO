@@ -2,7 +2,6 @@ import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
-import { PlayerType } from "../../../core/game/Game";
 import { actionButton } from "../../components/ui/ActionButton";
 import { showInGameConfirm } from "../../InGameModal";
 import { SendKickPlayerIntentEvent } from "../../Transport";
@@ -48,7 +47,7 @@ export class PlayerModerationModal extends LitElement {
     return (
       (my.isLobbyCreator() || this.isAdmin) &&
       other !== my &&
-      other.type() === PlayerType.Human &&
+      other.type() === "Human" &&
       !!other.clientID()
     );
   }

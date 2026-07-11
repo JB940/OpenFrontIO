@@ -8,7 +8,7 @@ import {
 import { TileRef } from "../../core/game/GameMap";
 import { UnitUpdate } from "../../core/game/GameUpdates";
 import type { UnitState } from "../render/types";
-import { TrainType as RendererTrainType } from "../render/types";
+import { TrainTypeSchema as RendererTrainType } from "../render/types";
 import { GameView } from "./GameView";
 import { PlayerView } from "./PlayerView";
 
@@ -19,11 +19,11 @@ import { PlayerView } from "./PlayerView";
 function trainTypeToNum(t: TrainType | undefined): number | null {
   switch (t) {
     case TrainType.Engine:
-      return RendererTrainType.Engine;
+      return RendererTrainType.enum.Engine;
     case TrainType.TailEngine:
-      return RendererTrainType.TailEngine;
+      return RendererTrainType.enum.TailEngine;
     case TrainType.Carriage:
-      return RendererTrainType.Carriage;
+      return RendererTrainType.enum.Carriage;
     default:
       return null;
   }
@@ -31,11 +31,11 @@ function trainTypeToNum(t: TrainType | undefined): number | null {
 
 function numToTrainType(n: number | null): TrainType | undefined {
   switch (n) {
-    case RendererTrainType.Engine:
+    case RendererTrainType.enum.Engine:
       return TrainType.Engine;
-    case RendererTrainType.TailEngine:
+    case RendererTrainType.enum.TailEngine:
       return TrainType.TailEngine;
-    case RendererTrainType.Carriage:
+    case RendererTrainType.enum.Carriage:
       return TrainType.Carriage;
     default:
       return undefined;

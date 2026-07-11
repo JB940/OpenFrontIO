@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { Config } from "../configuration/Config";
 import { AbstractGraph } from "../pathfinding/algorithms/AbstractGraph";
 import { PathFinder } from "../pathfinding/types";
@@ -342,11 +343,14 @@ export enum TerrainType {
   Impassable,
 }
 
-export enum PlayerType {
-  Bot = "BOT",
-  Human = "HUMAN",
-  Nation = "NATION",
-}
+/** Numeric player type — matching PlayerStatic.playerType. */
+export const  PlayerTypeSchema = z.enum([
+  "Human",
+  "Bot",
+  "Nation",
+]);
+
+export type PlayerType = z.infer<typeof PlayerTypeSchema>;
 
 export interface Execution {
   isActive(): boolean;

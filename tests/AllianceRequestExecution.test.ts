@@ -1,7 +1,7 @@
 import { AllianceRejectExecution } from "../src/core/execution/alliance/AllianceRejectExecution";
 import { AllianceRequestExecution } from "../src/core/execution/alliance/AllianceRequestExecution";
 import { NukeExecution } from "../src/core/execution/NukeExecution";
-import { Game, Player, PlayerType, UnitType } from "../src/core/game/Game";
+import { Game, Player, UnitType } from "../src/core/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 import { constructionExecution } from "./util/utils";
 
@@ -15,9 +15,9 @@ describe("AllianceRequestExecution", () => {
       "plains",
       { infiniteGold: true, instantBuild: true, infiniteTroops: true },
       [
-        playerInfo("player1", PlayerType.Human),
-        playerInfo("player2", PlayerType.Human),
-        playerInfo("player3", PlayerType.Nation),
+        playerInfo("player1", "Human"),
+        playerInfo("player2", "Human"),
+        playerInfo("player3", "Nation"),
       ],
     );
 

@@ -6,7 +6,6 @@ import {
   Nation,
   Player,
   PlayerID,
-  PlayerType,
   Relation,
   TerrainType,
   UnitType,
@@ -49,7 +48,7 @@ export class NationExecution implements Execution {
 
   constructor(
     private gameID: GameID,
-    private nation: Nation, // Nation contains PlayerInfo with PlayerType.Nation
+    private nation: Nation, // Nation contains PlayerInfo with "Nation"
   ) {
     this.random = new PseudoRandom(
       simpleHash(nation.playerInfo.id) + simpleHash(gameID),
@@ -329,7 +328,7 @@ export class NationExecution implements Execution {
       if (
         teamGame &&
         isHigherDifficulty &&
-        other.type() !== PlayerType.Bot &&
+        other.type() !== "Bot" &&
         !player.isOnSameTeam(other)
       ) {
         if (!player.hasEmbargoAgainst(other)) {

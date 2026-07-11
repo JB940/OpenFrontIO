@@ -6,7 +6,6 @@ import {
   Game,
   Player,
   PlayerInfo,
-  PlayerType,
   UnitType,
 } from "../../../src/core/game/Game";
 import { GameID } from "../../../src/core/Schemas";
@@ -28,25 +27,25 @@ describe("SAM", () => {
     });
     const defender_info = new PlayerInfo(
       "defender_id",
-      PlayerType.Human,
+      "Human",
       null,
       "defender_id",
     );
     const middle_defender_info = new PlayerInfo(
       "middle_defender_id",
-      PlayerType.Human,
+      "Human",
       null,
       "middle_defender_id",
     );
     const far_defender_info = new PlayerInfo(
       "far_defender_id",
-      PlayerType.Human,
+      "Human",
       null,
       "far_defender_id",
     );
     const attacker_info = new PlayerInfo(
       "attacker_id",
-      PlayerType.Human,
+      "Human",
       null,
       "attacker_id",
     );
