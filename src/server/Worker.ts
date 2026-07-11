@@ -8,7 +8,6 @@ import { fileURLToPath } from "url";
 import { WebSocket, WebSocketServer } from "ws";
 import { z } from "zod";
 import { hasActiveSubscription } from "../core/ApiSchemas";
-import { GameEnv } from "../core/configuration/Config";
 import { GameType } from "../core/game/Game";
 import {
   ClientMessageSchema,
@@ -247,7 +246,7 @@ export async function startWorker() {
 
       // Dev has no subscription backend; skip the check so the feature is
       // testable locally (same precedent as Turnstile).
-      if (ServerEnv.env() !== GameEnv.Dev) {
+      if (ServerEnv.env() !== "DEV") {
         const userMe = await getUserMe(token);
         if (userMe.type === "error") {
           log.warn(
@@ -531,7 +530,7 @@ export async function startWorker() {
         // not be re-challenged: their original Turnstile token is single-use
         // and was already redeemed, so re-verifying it would always fail.
         if (
-          ServerEnv.env() !== GameEnv.Dev &&
+          ServerEnv.env() !== "DEV" &&
           !gm.wasAdmitted(clientMsg.gameID, persistentId)
         ) {
           const turnstileResult = await verifyTurnstileToken(

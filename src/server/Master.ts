@@ -5,7 +5,6 @@ import rateLimit from "express-rate-limit";
 import http from "http";
 import path from "path";
 import { fileURLToPath } from "url";
-import { GameEnv } from "../core/configuration/Config";
 import { logger } from "./Logger";
 import { MapPlaylist } from "./MapPlaylist";
 import { MasterLobbyService } from "./MasterLobbyService";
@@ -83,7 +82,7 @@ export async function startMaster() {
   lobbyService = new MasterLobbyService(playlist, log);
 
   const INSTANCE_ID =
-    ServerEnv.env() === GameEnv.Dev
+    ServerEnv.env() === "DEV"
       ? "DEV_ID"
       : crypto.randomBytes(4).toString("hex");
   process.env.INSTANCE_ID = INSTANCE_ID;

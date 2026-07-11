@@ -37,23 +37,23 @@ declare global {
   }
 }
 
-export enum GameEnv {
-  Dev,
-  Preprod,
-  Prod,
-}
+export const GameEnvSchema = z.enum([
+  "DEV",
+  "PREPROD",
+  "PROD",
+]);
+
+export type GameEnv = z.infer<typeof GameEnvSchema>;
 
 export function parseGameEnv(value: string | undefined): GameEnv {
-  switch (value) {
-    case "dev":
-      return GameEnv.Dev;
-    case "staging":
-      return GameEnv.Preprod;
-    case "prod":
-      return GameEnv.Prod;
-    default:
+  let gameEnvString = value?.toUpperCase();
+  //rename staging to preprod
+  if (gameEnvString === "STAGING") gameEnvString = "PREPROD";
+  const gameEnv = GameEnvSchema.safeParse(gameEnvString);
+  if (!gameEnv.success) {
       throw new Error(`unsupported game env: ${value}`);
   }
+  return gameEnv.data;
 }
 
 export interface NukeMagnitude {

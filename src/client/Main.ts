@@ -10,7 +10,6 @@ import {
   GameStartInfo,
   PublicGameInfo,
 } from "../core/Schemas";
-import { GameEnv } from "../core/configuration/Config";
 import { GameType } from "../core/game/Game";
 import { UserSettings } from "../core/game/UserSettings";
 import "./AccountModal";
@@ -1083,7 +1082,7 @@ class Client {
     lobby: JoinLobbyEvent,
   ): Promise<string | null> {
     if (
-      ClientEnv.env() === GameEnv.Dev ||
+      ClientEnv.env() === "DEV" ||
       lobby.gameStartInfo?.config.gameType === GameType.Singleplayer
     ) {
       return null;

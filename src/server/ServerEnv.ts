@@ -33,11 +33,11 @@ export class ServerEnv {
   }
   static gameEnvName(): string {
     switch (ServerEnv.gameEnv) {
-      case GameEnv.Dev:
+      case "DEV":
         return "dev";
-      case GameEnv.Preprod:
+      case "PREPROD":
         return "staging";
-      case GameEnv.Prod:
+      case "PROD":
         return "prod";
     }
   }
@@ -111,7 +111,7 @@ export class ServerEnv {
     return 100;
   }
   static gameCreationRate(): number {
-    return ServerEnv.gameEnv === GameEnv.Dev ? 5 * 1000 : 2 * 60 * 1000;
+    return ServerEnv.gameEnv === "DEV" ? 5 * 1000 : 2 * 60 * 1000;
   }
   static workerIndex(gameID: GameID): number {
     return simpleHash(gameID) % ServerEnv.numWorkers();
@@ -148,7 +148,7 @@ export class ServerEnv {
   }
   static otelEnabled(): boolean {
     return (
-      ServerEnv.gameEnv !== GameEnv.Dev &&
+      ServerEnv.gameEnv !== "DEV" &&
       Boolean(ServerEnv.otelEndpoint()) &&
       Boolean(ServerEnv.otelAuthHeader())
     );

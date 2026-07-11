@@ -1,16 +1,16 @@
 import { ClientEnv } from "src/client/ClientEnv";
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import { GameEnv, parseGameEnv } from "../../../src/core/configuration/Config";
+import { parseGameEnv } from "../../../src/core/configuration/Config";
 
 describe("parseGameEnv", () => {
   test("maps 'dev' to GameEnv.Dev", () => {
-    expect(parseGameEnv("dev")).toBe(GameEnv.Dev);
+    expect(parseGameEnv("dev")).toBe("DEV");
   });
   test("maps 'staging' to GameEnv.Preprod", () => {
-    expect(parseGameEnv("staging")).toBe(GameEnv.Preprod);
+    expect(parseGameEnv("staging")).toBe("PREPROD");
   });
   test("maps 'prod' to GameEnv.Prod", () => {
-    expect(parseGameEnv("prod")).toBe(GameEnv.Prod);
+    expect(parseGameEnv("prod")).toBe("PROD");
   });
   test("throws on undefined", () => {
     expect(() => parseGameEnv(undefined)).toThrow(/unsupported game env/);
@@ -38,7 +38,7 @@ describe("ClientEnv", () => {
     };
     const fetchSpy = vi.spyOn(globalThis, "fetch");
 
-    expect(ClientEnv.env()).toBe(GameEnv.Preprod);
+    expect(ClientEnv.env()).toBe("PREPROD");
     expect(ClientEnv.numWorkers()).toBe(4);
     expect(ClientEnv.turnstileSiteKey()).toBe("test-key");
     expect(ClientEnv.jwtAudience()).toBe("openfront.dev");

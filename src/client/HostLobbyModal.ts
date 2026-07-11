@@ -9,7 +9,6 @@ import {
   translateText,
 } from "../client/Utils";
 import { hasActiveSubscription } from "../core/ApiSchemas";
-import { GameEnv } from "../core/configuration/Config";
 import { EventBus } from "../core/EventBus";
 import { DoomsdayClockSpeed } from "../core/game/DoomsdayClock";
 import {
@@ -656,7 +655,7 @@ export class HostLobbyModal extends BaseModal {
       // Dev skips the subscription gate (matching the server) so the
       // listing flow is testable locally.
       this.canListPublicly =
-        ClientEnv.env() === GameEnv.Dev ||
+        ClientEnv.env() === "DEV" ||
         (userMe !== false && hasActiveSubscription(userMe));
     });
     // The server mints the game id, so we don't know it until createLobby

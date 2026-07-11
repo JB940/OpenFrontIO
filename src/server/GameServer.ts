@@ -4,7 +4,6 @@ import { Logger } from "winston";
 import WebSocket from "ws";
 import { z } from "zod";
 import { isAdminRole } from "../core/ApiSchemas";
-import { GameEnv } from "../core/configuration/Config";
 import { GameType } from "../core/game/Game";
 import {
   ClientID,
@@ -543,7 +542,7 @@ export class GameServer {
       return "rejected";
     }
 
-    if (ServerEnv.env() === GameEnv.Prod) {
+    if (ServerEnv.env() === "PROD") {
       // Prevent multiple clients from using the same account in prod
       const conflicting = this.activeClients.find(
         (c) =>

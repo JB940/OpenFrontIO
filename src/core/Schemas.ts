@@ -271,13 +271,15 @@ export interface ClientInfo {
   clanTag: string | null;
   friends?: ClientID[];
 }
-export enum LogSeverity {
-  Debug = "DEBUG",
-  Info = "INFO",
-  Warn = "WARN",
-  Error = "ERROR",
-  Fatal = "FATAL",
-}
+export const LogSeveritySchema = z.enum([
+  "DEBUG",
+  "INFO",
+  "WARN",
+  "ERROR",
+  "FATAL",
+]);
+
+export type LogSeverity = z.infer<typeof LogSeveritySchema>;
 
 //
 // Utility types
@@ -812,7 +814,7 @@ export const ClientHashSchema = z.object({
 
 export const ClientLogMessageSchema = z.object({
   type: z.literal("log"),
-  severity: z.enum(LogSeverity),
+  severity: LogSeveritySchema,
   log: ID,
 });
 
