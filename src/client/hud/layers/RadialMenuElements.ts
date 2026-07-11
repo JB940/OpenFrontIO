@@ -371,7 +371,7 @@ const infoEmojiElement: MenuElement = {
 };
 
 export const infoMenuElement: MenuElement = {
-  id: "Info",
+  id: slotSchema.enum.Info,
   name: "info",
   disabled: (params: MenuElementParams) =>
     !params.selected || params.game.inSpawnPhase(),
