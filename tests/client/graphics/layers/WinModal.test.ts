@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { RankedType } from "../../../../src/core/game/Game";
 
 vi.mock("../../../../src/client/Utils", () => ({
   translateText: vi.fn((key: string) => {
@@ -62,9 +61,9 @@ describe("WinModal Requeue", () => {
   describe("isRankedGame detection", () => {
     it("should detect ranked 1v1 game", () => {
       const gameConfig = {
-        rankedType: RankedType.OneVOne,
+        rankedType: "1v1",
       };
-      const isRankedGame = gameConfig.rankedType === RankedType.OneVOne;
+      const isRankedGame = gameConfig.rankedType === "1v1";
       expect(isRankedGame).toBe(true);
     });
 
@@ -72,7 +71,7 @@ describe("WinModal Requeue", () => {
       const gameConfig = {
         rankedType: undefined,
       };
-      const isRankedGame = gameConfig.rankedType === RankedType.OneVOne;
+      const isRankedGame = gameConfig.rankedType === "1v1";
       expect(isRankedGame).toBe(false);
     });
   });

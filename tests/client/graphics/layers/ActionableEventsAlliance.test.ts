@@ -22,7 +22,6 @@ vi.mock("lit/directives/unsafe-html.js", () => ({
 }));
 
 import { ActionableEvents } from "../../../../src/client/hud/layers/ActionableEvents";
-import { MessageType } from "../../../../src/core/game/Game";
 
 describe("ActionableEvents - alliance renewal cleanup (allianceID based)", () => {
   function makeRenewal(
@@ -32,7 +31,7 @@ describe("ActionableEvents - alliance renewal cleanup (allianceID based)", () =>
   ) {
     return {
       description,
-      type: MessageType.RENEW_ALLIANCE,
+      type: "RENEW_ALLIANCE",
       allianceID,
       focusID,
       createdAt: 0,
@@ -176,17 +175,17 @@ describe("ActionableEvents - alliance renewal cleanup (allianceID based)", () =>
     (display as any).events = [
       {
         description: "Alliance broken",
-        type: MessageType.ALLIANCE_BROKEN,
+        type: "ALLIANCE_BROKEN",
         createdAt: 0,
       },
       {
         description: "Alliance accepted",
-        type: MessageType.ALLIANCE_ACCEPTED,
+        type: "ALLIANCE_ACCEPTED",
         createdAt: 0,
       },
       {
         description: "Renewal",
-        type: MessageType.RENEW_ALLIANCE,
+        type: "RENEW_ALLIANCE",
         allianceID: 999,
         createdAt: 0,
       },
@@ -197,15 +196,15 @@ describe("ActionableEvents - alliance renewal cleanup (allianceID based)", () =>
     const remaining = (display as any).events;
 
     expect(
-      remaining.some((e: any) => e.type === MessageType.ALLIANCE_BROKEN),
+      remaining.some((e: any) => e.type === "ALLIANCE_BROKEN"),
     ).toBe(true);
 
     expect(
-      remaining.some((e: any) => e.type === MessageType.ALLIANCE_ACCEPTED),
+      remaining.some((e: any) => e.type === "ALLIANCE_ACCEPTED"),
     ).toBe(true);
 
     expect(
-      remaining.some((e: any) => e.type === MessageType.RENEW_ALLIANCE),
+      remaining.some((e: any) => e.type === "RENEW_ALLIANCE"),
     ).toBe(false);
   });
 });

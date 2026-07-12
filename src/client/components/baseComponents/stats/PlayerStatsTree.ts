@@ -5,11 +5,12 @@ import {
   Difficulty,
   GameMode,
   GameType,
-  RankedType,
+  RankedTypeSchema,
   isDifficulty,
   isGameMode,
   isGameType,
 } from "../../../../core/game/Game";
+import type { RankedType } from "../../../../core/game/Game";
 import { PlayerStats } from "../../../../core/StatsSchemas";
 import { renderNumber, translateText } from "../../../Utils";
 import "./PlayerStatsGrid";
@@ -18,10 +19,10 @@ import "./PlayerStatsTable";
 @customElement("player-stats-tree-view")
 export class PlayerStatsTreeView extends LitElement {
   @property({ type: Object }) statsTree?: PlayerStatsTree;
-  @state() selectedType: GameType | "Ranked" = GameType.Public;
-  @state() selectedMode: GameMode = GameMode.FFA;
-  @state() selectedDifficulty: Difficulty = Difficulty.Medium;
-  @state() selectedRankedType: RankedType = RankedType.OneVOne;
+  @state() selectedType: GameType | "Ranked" = "Public";
+  @state() selectedMode: GameMode = "Free For All";
+  @state() selectedDifficulty: Difficulty = "Medium";
+  @state() selectedRankedType: RankedType = "1v1";
   private get typeNode() {
     if (this.selectedType === "Ranked") return undefined;
     return this.statsTree?.[this.selectedType];
@@ -32,7 +33,7 @@ export class PlayerStatsTreeView extends LitElement {
   }
 
   private get shouldMergeDifficulties() {
-    return this.selectedType === GameType.Public;
+    return this.selectedType === "Public";
   }
 
   private get availableTypes(): (GameType | "Ranked")[] {
@@ -58,9 +59,7 @@ export class PlayerStatsTreeView extends LitElement {
 
   private get availableRankedTypes(): RankedType[] {
     if (!this.statsTree?.Ranked) return [];
-    return Object.keys(this.statsTree.Ranked).filter((k): k is RankedType =>
-      Object.values(RankedType).includes(k as RankedType),
-    );
+    return Object.keys(this.statsTree.Ranked).filter((k): k is RankedType => RankedTypeSchema.safeParse(k).success);
   }
 
   private get availableDifficulties(): Difficulty[] {
@@ -69,14 +68,14 @@ export class PlayerStatsTreeView extends LitElement {
   }
 
   private labelForMode(m: GameMode) {
-    return m === GameMode.FFA
+    return m === "Free For All"
       ? translateText("game_mode.ffa")
       : translateText("game_mode.teams");
   }
 
   private labelForRankedType(r: RankedType) {
     switch (r) {
-      case RankedType.OneVOne:
+      case "1v1":
         return translateText("player_stats_tree.ranked_1v1");
     }
   }
@@ -290,9 +289,9 @@ export class PlayerStatsTreeView extends LitElement {
                 >
                   ${t === "Ranked"
                     ? translateText("player_stats_tree.ranked")
-                    : t === GameType.Public
+                    : t === "Public"
                       ? translateText("player_stats_tree.public")
-                      : t === GameType.Private
+                      : t === "Private"
                         ? translateText("player_stats_tree.private")
                         : translateText("player_stats_tree.solo")}
                 </button>

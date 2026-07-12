@@ -1,4 +1,4 @@
-import { Execution, Game, GameType, Player } from "../game/Game";
+import { Execution, Game, Player } from "../game/Game";
 
 export class PauseExecution implements Execution {
   constructor(
@@ -17,7 +17,7 @@ export class PauseExecution implements Execution {
   init(game: Game, ticks: number): void {
     if (
       this.player.isLobbyCreator() ||
-      game.config().gameConfig().gameType === GameType.Singleplayer
+      game.config().gameConfig().gameType === "Singleplayer"
     ) {
       game.setPaused(this.paused);
     }

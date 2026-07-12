@@ -1,12 +1,11 @@
 import { vi, type Mocked } from "vitest";
-import { UnitType } from "../../../src/core/game/Game";
 import { Cluster, TrainStation } from "../../../src/core/game/TrainStation";
 
 const createMockStation = (id: string): Mocked<TrainStation> => {
   return {
     id,
     unit: {
-      type: vi.fn(() => UnitType.City),
+      type: vi.fn(() => "City"),
     } as any,
     setCluster: vi.fn(),
     getCluster: vi.fn(() => null),

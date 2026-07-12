@@ -1,4 +1,5 @@
-import { GameMapSize, GameMapType, TeamGameSpawnAreas } from "./Game";
+import { GameMapType, TeamGameSpawnAreas } from "./Game";
+import type { GameMapSize } from "./Game";
 import { GameMap, GameMapImpl } from "./GameMap";
 import { GameMapLoader } from "./GameMapLoader";
 
@@ -55,19 +56,19 @@ export async function loadTerrainMap(
   const manifest = await mapFiles.manifest();
 
   const gameMap =
-    mapSize === GameMapSize.Normal
+    mapSize === "Normal"
       ? await genTerrainFromBin(manifest.map, await mapFiles.mapBin())
       : await genTerrainFromBin(manifest.map4x, await mapFiles.map4xBin());
 
   const miniMap =
-    mapSize === GameMapSize.Normal
+    mapSize === "Normal"
       ? await genTerrainFromBin(
-          mapSize === GameMapSize.Normal ? manifest.map4x : manifest.map16x,
+          mapSize === "Normal" ? manifest.map4x : manifest.map16x,
           await mapFiles.map4xBin(),
         )
       : await genTerrainFromBin(manifest.map16x, await mapFiles.map16xBin());
 
-  if (mapSize === GameMapSize.Compact) {
+  if (mapSize === "Compact") {
     manifest.nations.forEach((nation) => {
       if (nation.coordinates !== undefined) {
         nation.coordinates = [
@@ -88,7 +89,7 @@ export async function loadTerrainMap(
 
   // Scale spawn areas for compact maps
   let teamGameSpawnAreas = manifest.teamGameSpawnAreas;
-  if (mapSize === GameMapSize.Compact && teamGameSpawnAreas) {
+  if (mapSize === "Compact" && teamGameSpawnAreas) {
     const scaled: TeamGameSpawnAreas = {};
     for (const [key, areas] of Object.entries(teamGameSpawnAreas)) {
       scaled[key] = areas.map((a) => ({

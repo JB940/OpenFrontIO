@@ -1,10 +1,5 @@
 import { PlayerExecution } from "../../../src/core/execution/PlayerExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  UnitType,
-} from "../../../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../../../src/core/game/Game";
 import { setup } from "../../util/Setup";
 import { executeTicks } from "../../util/utils";
 
@@ -33,42 +28,42 @@ describe("PlayerExecution", () => {
   test("DefensePost lv. 1 is destroyed when tile owner changes", () => {
     const tile = game.ref(50, 50);
     player.conquer(tile);
-    const defensePost = player.buildUnit(UnitType.DefensePost, tile, {});
+    const defensePost = player.buildUnit("DefensePost", tile, {});
 
     game.executeNextTick();
-    expect(game.unitCount(UnitType.DefensePost)).toBe(1);
+    expect(game.unitCount("DefensePost")).toBe(1);
     expect(defensePost.level()).toBe(1);
 
     otherPlayer.conquer(tile);
     executeTicks(game, 2);
 
-    expect(game.unitCount(UnitType.DefensePost)).toBe(0);
+    expect(game.unitCount("DefensePost")).toBe(0);
   });
 
   test("DefensePost lv. 2+ is destroyed when tile owner changes", () => {
     const tile = game.ref(50, 50);
     player.conquer(tile);
-    const defensePost = player.buildUnit(UnitType.DefensePost, tile, {});
+    const defensePost = player.buildUnit("DefensePost", tile, {});
     defensePost.increaseLevel();
 
     expect(defensePost.level()).toBe(2);
-    expect(game.unitCount(UnitType.DefensePost)).toBe(2); // unitCount sums levels
-    expect(player.units(UnitType.DefensePost)).toHaveLength(1);
+    expect(game.unitCount("DefensePost")).toBe(2); // unitCount sums levels
+    expect(player.units("DefensePost")).toHaveLength(1);
     expect(defensePost.isActive()).toBe(true);
 
     otherPlayer.conquer(tile);
     executeTicks(game, 2);
 
-    expect(game.unitCount(UnitType.DefensePost)).toBe(0);
+    expect(game.unitCount("DefensePost")).toBe(0);
     expect(defensePost.isActive()).toBe(false);
   });
 
   test("Non-DefensePost structures are transferred (not downgraded) when tile owner changes", () => {
     const tile = game.ref(50, 50);
     player.conquer(tile);
-    const city = player.buildUnit(UnitType.City, tile, {});
+    const city = player.buildUnit("City", tile, {});
 
-    expect(game.unitCount(UnitType.City)).toBe(1);
+    expect(game.unitCount("City")).toBe(1);
     expect(city.level()).toBe(1);
     expect(city.owner()).toBe(player);
     expect(city.isActive()).toBe(true);
@@ -76,7 +71,7 @@ describe("PlayerExecution", () => {
     otherPlayer.conquer(tile);
     executeTicks(game, 2);
 
-    expect(game.unitCount(UnitType.City)).toBe(1);
+    expect(game.unitCount("City")).toBe(1);
     expect(city.level()).toBe(1);
     expect(city.owner()).toBe(otherPlayer);
     expect(city.isActive()).toBe(true);

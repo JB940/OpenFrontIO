@@ -1,15 +1,11 @@
 import {
-  Difficulty,
   Game,
-  GameMode,
-  GameType,
   HumansVsNations,
   Player,
   PlayerID,
-  Relation,
+  RelationSchema,
   Structures,
   TerraNullius,
-  UnitType,
 } from "../../game/Game";
 import { TileRef } from "../../game/GameMap";
 import { canBuildTransportShip } from "../../game/TransportShipUtils";
@@ -112,13 +108,13 @@ export class AiAttackBehavior {
   private attackWithRandomBoat(borderingEnemies: Player[] = []) {
     if (this.player === null) throw new Error("not initialized");
 
-    if (this.game.config().isUnitDisabled(UnitType.TransportShip)) {
+    if (this.game.config().isUnitDisabled("TransportShip")) {
       return;
     }
 
     // Check if we've already sent out the maximum number of transport ships
     if (
-      this.player.unitCount(UnitType.TransportShip) >=
+      this.player.unitCount("TransportShip") >=
       this.game.config().boatMaxNumber()
     ) {
       return;
@@ -316,7 +312,7 @@ export class AiAttackBehavior {
 
     const hated = (): boolean => {
       for (const relation of this.player.allRelationsSorted()) {
-        if (relation.relation !== Relation.Hostile) continue;
+        if (relation.relation !== RelationSchema.enum.Hostile) continue;
         const other = relation.player;
         if (this.player.isFriendly(other)) continue;
         if (this.isFFA() && other.troops() > this.player.troops() * 3) continue;
@@ -360,16 +356,16 @@ export class AiAttackBehavior {
     // Return strategies in order based on difficulty
     // Easy nations get the dumbest order, impossible nations get the smartest order
     switch (difficulty) {
-      case Difficulty.Easy:
+      case "Easy":
         // prettier-ignore
         return [nuked, bots, retaliate, assist, betray, hated, weakest];
-      case Difficulty.Medium:
+      case "Medium":
         // prettier-ignore
         return [bots, nuked, retaliate, assist, betray, hated, afk, traitor, weakest, island, donate];
-      case Difficulty.Hard:
+      case "Hard":
         // prettier-ignore
         return [bots, retaliate, assist, betray, nuked, traitor, afk, hated, veryWeak, victim, weakest, island, donate];
-      case Difficulty.Impossible:
+      case "Impossible":
         // prettier-ignore
         return [retaliate, bots, veryWeak, assist, traitor, afk, betray, victim, nuked, hated, weakest, island, donate];
       default:
@@ -468,14 +464,14 @@ export class AiAttackBehavior {
   private getBotAttackMaxParallelism(): number {
     const { difficulty } = this.game.config().gameConfig();
     switch (difficulty) {
-      case Difficulty.Easy:
+      case "Easy":
         return 1;
-      case Difficulty.Medium:
+      case "Medium":
         return this.random.chance(2) ? 1 : 2;
-      case Difficulty.Hard:
+      case "Hard":
         return 3;
       // On impossible difficulty, attack as much bots as possible in parallel
-      case Difficulty.Impossible: {
+      case "Impossible": {
         return 100;
       }
       default:
@@ -490,7 +486,7 @@ export class AiAttackBehavior {
 
     for (const ally of this.player.allies()) {
       if (ally.targets().length === 0) continue;
-      if (this.player.relation(ally) < Relation.Friendly) {
+      if (this.player.relation(ally) < RelationSchema.enum.Friendly) {
         this.emojiBehavior.sendEmoji(ally, EMOJI_ASSIST_RELATION_TOO_LOW);
         continue;
       }
@@ -550,7 +546,7 @@ export class AiAttackBehavior {
   }
 
   private isBorderingNukedTerritory(): boolean {
-    if (this.game.config().isUnitDisabled(UnitType.MissileSilo)) {
+    if (this.game.config().isUnitDisabled("MissileSilo")) {
       return false;
     }
 
@@ -607,13 +603,13 @@ export class AiAttackBehavior {
   }
 
   private findNearestIslandEnemy(): Player | null {
-    if (this.game.config().isUnitDisabled(UnitType.TransportShip)) {
+    if (this.game.config().isUnitDisabled("TransportShip")) {
       return null;
     }
 
     // Check if we've already sent out the maximum number of transport ships
     if (
-      this.player.unitCount(UnitType.TransportShip) >=
+      this.player.unitCount("TransportShip") >=
       this.game.config().boatMaxNumber()
     ) {
       return null;
@@ -689,7 +685,7 @@ export class AiAttackBehavior {
   // enemies - they can rely on teammates to donate. In FFA, going after
   // someone significantly stronger is usually a losing proposition.
   private isFFA(): boolean {
-    return this.game.config().gameConfig().gameMode === GameMode.FFA;
+    return this.game.config().gameConfig().gameMode === "Free For All";
   }
 
   private getPlayerCenter(player: Player) {
@@ -791,9 +787,9 @@ export class AiAttackBehavior {
   // Scans shore border tiles (every 10th) for unowned land within 5 water tiles
   // in each cardinal direction, then sends a transport ship to the first match.
   private sendBoatAttackToNearbyTerraNullius(): boolean {
-    if (this.game.config().isUnitDisabled(UnitType.TransportShip)) return false;
+    if (this.game.config().isUnitDisabled("TransportShip")) return false;
     if (
-      this.player.unitCount(UnitType.TransportShip) >=
+      this.player.unitCount("TransportShip") >=
       this.game.config().boatMaxNumber()
     )
       return false;
@@ -857,10 +853,10 @@ export class AiAttackBehavior {
 
     // Prevent attacking of humans on lower difficulties
     const { difficulty } = this.game.config().gameConfig();
-    if (difficulty === Difficulty.Easy && this.random.nextInt(0, 4) !== 0) {
+    if (difficulty === "Easy" && this.random.nextInt(0, 4) !== 0) {
       return false;
     }
-    if (difficulty === Difficulty.Medium && this.random.chance(4)) {
+    if (difficulty === "Medium" && this.random.chance(4)) {
       return false;
     }
     return true;
@@ -873,14 +869,14 @@ export class AiAttackBehavior {
    */
   private isAttackTooWeak(troops: number, target: Player): boolean {
     if (this.player.type() === "Bot") return false;
-    if (this.game.config().gameConfig().gameMode === GameMode.Team)
+    if (this.game.config().gameConfig().gameMode === "Team")
       return false;
     // Nations under attack may retaliate freely
     if (this.player.incomingAttacks().length > 0) return false;
     const { difficulty } = this.game.config().gameConfig();
     return (
-      (difficulty === Difficulty.Hard ||
-        difficulty === Difficulty.Impossible) &&
+      (difficulty === "Hard" ||
+        difficulty === "Impossible") &&
       troops < target.troops() * 0.2
     );
   }
@@ -898,16 +894,16 @@ export class AiAttackBehavior {
    */
   private troopSendCap(): number {
     if (this.player.type() === "Bot") return Infinity;
-    if (this.game.config().gameConfig().gameMode === GameMode.Team)
+    if (this.game.config().gameConfig().gameMode === "Team")
       return Infinity;
 
     const { difficulty } = this.game.config().gameConfig();
     let retainFraction: number;
     switch (difficulty) {
-      case Difficulty.Hard:
+      case "Hard":
         retainFraction = 0.75;
         break;
-      case Difficulty.Impossible:
+      case "Impossible":
         retainFraction = 0.9;
         break;
       default:
@@ -1015,7 +1011,7 @@ export class AiAttackBehavior {
   }
 
   private sendBoatAttack(target: Player): boolean {
-    if (this.game.config().isUnitDisabled(UnitType.TransportShip)) {
+    if (this.game.config().isUnitDisabled("TransportShip")) {
       return false;
     }
 
@@ -1048,7 +1044,7 @@ export class AiAttackBehavior {
 
   private calculateBotAttackTroops(target: Player, maxTroops: number): number {
     const { difficulty } = this.game.config().gameConfig();
-    if (difficulty === Difficulty.Easy) {
+    if (difficulty === "Easy") {
       this.botAttackTroopsSent += maxTroops;
       return maxTroops;
     }
@@ -1069,12 +1065,12 @@ export class AiAttackBehavior {
 
   private donateTroops(): boolean {
     // Only donate in team games
-    if (this.game.config().gameConfig().gameMode !== GameMode.Team) {
+    if (this.game.config().gameConfig().gameMode !== "Team") {
       return false;
     }
 
     // Don't donate in public games (To balance HvN)
-    if (this.game.config().gameConfig().gameType === GameType.Public) {
+    if (this.game.config().gameConfig().gameType === "Public") {
       return false;
     }
 
@@ -1091,22 +1087,22 @@ export class AiAttackBehavior {
     // Skip donating based on difficulty
     const { difficulty } = this.game.config().gameConfig();
     switch (difficulty) {
-      case Difficulty.Easy:
+      case "Easy":
         // Easy nations don't donate
         return false;
-      case Difficulty.Medium:
+      case "Medium":
         // Medium nations donate 25% of the time
         if (!this.random.chance(4)) {
           return false;
         }
         break;
-      case Difficulty.Hard:
+      case "Hard":
         // Hard nations donate 50% of the time
         if (!this.random.chance(2)) {
           return false;
         }
         break;
-      case Difficulty.Impossible:
+      case "Impossible":
         // Impossible nations always try to donate
         break;
       default:

@@ -2,7 +2,6 @@ import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
-import { GameType } from "../../../core/game/Game";
 import "../../components/DoomsdayClockPanel";
 import { Controller } from "../../Controller";
 import { crazyGamesSDK } from "../../CrazyGamesSDK";
@@ -65,7 +64,7 @@ export class GameRightSidebar extends LitElement implements Controller {
 
   init() {
     this._isSinglePlayer =
-      this.game?.config()?.gameConfig()?.gameType === GameType.Singleplayer ||
+      this.game?.config()?.gameConfig()?.gameType === "Singleplayer" ||
       this.game.config().isReplay();
     this._isVisible = true;
 
@@ -124,7 +123,7 @@ export class GameRightSidebar extends LitElement implements Controller {
     if (this.game.inSpawnPhase()) {
       // Singleplayer has no spawn timer (SpawnTimerExecution isn't added), so
       // the spawn phase doesn't count down — keep the old static display.
-      if (this.game.config().gameConfig().gameType === GameType.Singleplayer) {
+      if (this.game.config().gameConfig().gameType === "Singleplayer") {
         const maxTimerValue = this.game.config().gameConfig().maxTimerValue;
         this.timer =
           maxTimerValue !== null && maxTimerValue !== undefined

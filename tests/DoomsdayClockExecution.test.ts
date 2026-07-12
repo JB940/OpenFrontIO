@@ -10,9 +10,9 @@ import {
   Game,
   GameMode,
   Player,
-  PlayerType,
   Team,
 } from "../src/core/game/Game";
+import { PlayerType } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
 import { playerInfo, setup } from "./util/Setup";
 
@@ -126,7 +126,7 @@ class FakePlayer {
   clearDoomsdayClock(): void {
     this.markedTick = -1;
   }
-  // The exec calls units(UnitType.Warship); we ignore the filter and hand back
+  // The exec calls units("Warship"); we ignore the filter and hand back
   // this side's warships.
   units(..._types: unknown[]): FakeWarship[] {
     return this.warships;
@@ -135,7 +135,7 @@ class FakePlayer {
 
 class FakeGame {
   now = 0;
-  gameMode: GameMode = GameMode.FFA;
+  gameMode: GameMode = "Free For All";
   constructor(
     public land: number,
     public sd: SDConfig,
@@ -400,7 +400,7 @@ describe("DoomsdayClockExecution (teams)", () => {
   function teamGame(teams: { team: string; tiles: number[] }[]) {
     // base bar 200 @ land 1000; a team's threshold = 200 x its member count.
     const game = new FakeGame(1000, sdConfig(), []);
-    game.gameMode = GameMode.Team;
+    game.gameMode = "Team";
     const players: FakePlayer[] = [];
     for (const t of teams) {
       for (const tiles of t.tiles) {

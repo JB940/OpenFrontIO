@@ -8,7 +8,6 @@ import { fileURLToPath } from "url";
 import { WebSocket, WebSocketServer } from "ws";
 import { z } from "zod";
 import { hasActiveSubscription } from "../core/ApiSchemas";
-import { GameType } from "../core/game/Game";
 import {
   ClientMessageSchema,
   MAX_HOSTED_LOBBIES,
@@ -166,7 +165,7 @@ export async function startWorker() {
     }
     const gc = parsed.data;
     // Public games are scheduled by the master over IPC, never created here.
-    if (gc?.gameType === GameType.Public) {
+    if (gc?.gameType === "Public") {
       return res
         .status(400)
         .json({ error: "Cannot create public games via this endpoint" });
@@ -322,7 +321,7 @@ export async function startWorker() {
       }
       const gameRecord = result.data;
 
-      if (gameRecord.info.config.gameType !== GameType.Singleplayer) {
+      if (gameRecord.info.config.gameType !== "Singleplayer") {
         log.warn(
           `cannot archive singleplayer with game type ${gameRecord.info.config.gameType}`,
           {

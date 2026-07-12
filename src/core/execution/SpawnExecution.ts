@@ -1,7 +1,6 @@
 import {
   Execution,
   Game,
-  GameType,
   Player,
   PlayerInfo,
   SpawnArea,
@@ -75,7 +74,7 @@ export class SpawnExecution implements Execution {
     player.setSpawnTile(spawn.center);
 
     if (
-      this.mg.config().gameConfig().gameType === GameType.Singleplayer &&
+      this.mg.config().gameConfig().gameType === "Singleplayer" &&
       this.playerInfo.playerType === "Human"
     ) {
       // In singleplayer, spawn ends when player selects

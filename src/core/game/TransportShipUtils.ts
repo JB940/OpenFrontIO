@@ -1,5 +1,5 @@
 import { SpatialQuery } from "../pathfinding/spatial/SpatialQuery";
-import { Game, Player, UnitType } from "./Game";
+import { Game, Player } from "./Game";
 import { TileRef } from "./GameMap";
 
 export function canBuildTransportShip(
@@ -8,7 +8,7 @@ export function canBuildTransportShip(
   tile: TileRef,
 ): TileRef | false {
   if (
-    player.unitCount(UnitType.TransportShip) >= game.config().boatMaxNumber()
+    player.unitCount("TransportShip") >= game.config().boatMaxNumber()
   ) {
     return false;
   }

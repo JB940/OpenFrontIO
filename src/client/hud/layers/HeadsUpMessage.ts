@@ -1,6 +1,5 @@
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { GameMode, GameType, RankedType } from "../../../core/game/Game";
 import { GameUpdateType } from "../../../core/game/GameUpdates";
 import { Controller } from "../../Controller";
 import { translateText } from "../../Utils";
@@ -129,7 +128,7 @@ export class HeadsUpMessage extends LitElement implements Controller {
       return translateText("heads_up_message.catching_up");
     }
     if (this.isPaused) {
-      if (this.game.config().gameConfig().gameType === GameType.Singleplayer) {
+      if (this.game.config().gameConfig().gameType === "Singleplayer") {
         return translateText("heads_up_message.singleplayer_game_paused");
       } else {
         return translateText("heads_up_message.multiplayer_game_paused");
@@ -196,9 +195,9 @@ export class HeadsUpMessage extends LitElement implements Controller {
           : null}
         ${this.game?.inSpawnPhase() &&
         !this.game.config().isReplay() &&
-        this.game.config().gameConfig().rankedType !== RankedType.OneVOne &&
-        this.game.config().gameConfig().gameMode === GameMode.FFA &&
-        this.game.config().gameConfig().gameType === GameType.Public &&
+        this.game.config().gameConfig().rankedType !== "1v1" &&
+        this.game.config().gameConfig().gameMode === "Free For All" &&
+        this.game.config().gameConfig().gameType === "Public" &&
         !this.hasClosedCollusionWarning
           ? html`
               <div

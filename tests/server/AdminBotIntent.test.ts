@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { GameType } from "../../src/core/game/Game";
 import { ADMIN_BOT_CLIENT_ID } from "../../src/core/Schemas";
 import { GameServer } from "../../src/server/GameServer";
 
@@ -23,7 +22,7 @@ describe("GameServer.handleIntent (admin bot)", () => {
 
   function makeGame(config: Record<string, unknown> = {}) {
     return new GameServer("test-game", mockLogger, Date.now(), {
-      gameType: GameType.Private,
+      gameType: "Private",
       ...config,
     } as any);
   }
@@ -53,7 +52,7 @@ describe("GameServer.handleIntent (admin bot)", () => {
     });
 
     it("rejects a public game with 403", () => {
-      const game = makeGame({ gameType: GameType.Public });
+      const game = makeGame({ gameType: "Public" });
       expect(
         apply(game, {
           type: "update_game_config",
@@ -67,7 +66,7 @@ describe("GameServer.handleIntent (admin bot)", () => {
       expect(
         apply(game, {
           type: "update_game_config",
-          config: { gameType: GameType.Public },
+          config: { gameType: "Public" },
         } as any).status,
       ).toBe(400);
     });
@@ -122,7 +121,7 @@ describe("GameServer.handleIntent (admin bot)", () => {
     });
 
     it("rejects a public game with 403", () => {
-      const game = makeGame({ gameType: GameType.Public });
+      const game = makeGame({ gameType: "Public" });
       expect(
         apply(game, {
           type: "kick_player",

@@ -1,11 +1,6 @@
 import { Config, NukeMagnitude } from "../../src/core/configuration/Config";
-import {
-  Game,
-  Player,
-  TerraNullius,
-  Tick,
-  UnitType,
-} from "../../src/core/game/Game";
+import { Game, Player, TerraNullius, Tick } from "../../src/core/game/Game";
+import type { UnitType } from "../../src/core/game/Game";
 import { TileRef } from "../../src/core/game/GameMap";
 
 export class TestConfig extends Config {

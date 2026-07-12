@@ -5,8 +5,9 @@ import { Controller } from "../../Controller";
 import { ReplaySpeedChangeEvent } from "../../InputHandler";
 import {
   defaultReplaySpeedMultiplier,
-  ReplaySpeedMultiplier,
+  ReplaySpeedMultiplierSchema,
 } from "../../utilities/ReplaySpeedMultiplier";
+import type { ReplaySpeedMultiplier } from "../../utilities/ReplaySpeedMultiplier";
 import { translateText } from "../../Utils";
 import { GameView } from "../../view";
 
@@ -26,7 +27,7 @@ export class ReplayPanel extends LitElement implements Controller {
   visible: boolean = false;
 
   @state()
-  private _replaySpeedMultiplier: number = defaultReplaySpeedMultiplier;
+  private _replaySpeedMultiplier: ReplaySpeedMultiplier = defaultReplaySpeedMultiplier;
 
   @property({ type: Boolean })
   isSingleplayer = false;
@@ -79,11 +80,11 @@ export class ReplayPanel extends LitElement implements Controller {
             : translateText("replay_panel.game_speed")}
         </label>
         <div class="grid grid-cols-4 gap-2">
-          ${this.renderSpeedButton(ReplaySpeedMultiplier.slow, "×0.5")}
-          ${this.renderSpeedButton(ReplaySpeedMultiplier.normal, "×1")}
-          ${this.renderSpeedButton(ReplaySpeedMultiplier.fast, "×2")}
+          ${this.renderSpeedButton(ReplaySpeedMultiplierSchema.enum.Slow, "×0.5")}
+          ${this.renderSpeedButton(ReplaySpeedMultiplierSchema.enum.Normal, "×1")}
+          ${this.renderSpeedButton(ReplaySpeedMultiplierSchema.enum.Fast, "×2")}
           ${this.renderSpeedButton(
-            ReplaySpeedMultiplier.fastest,
+            ReplaySpeedMultiplierSchema.enum.Fastest,
             translateText("replay_panel.fastest_game_speed"),
           )}
         </div>

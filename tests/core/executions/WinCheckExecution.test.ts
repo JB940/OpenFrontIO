@@ -1,10 +1,5 @@
 import { WinCheckExecution } from "../../../src/core/execution/WinCheckExecution";
-import {
-  ColoredTeams,
-  GameMode,
-  PlayerInfo,
-  RankedType,
-} from "../../../src/core/game/Game";
+import { ColoredTeams, PlayerInfo } from "../../../src/core/game/Game";
 import { playerInfo, setup } from "../../util/Setup";
 
 describe("WinCheckExecution", () => {
@@ -14,7 +9,7 @@ describe("WinCheckExecution", () => {
   beforeEach(async () => {
     mg = await setup("big_plains", {
       infiniteGold: true,
-      gameMode: GameMode.FFA,
+      gameMode: "Free For All",
       maxTimerValue: 5,
       instantBuild: true,
     });
@@ -33,7 +28,7 @@ describe("WinCheckExecution", () => {
     mg.config = vi.fn(() => ({
       gameConfig: vi.fn(() => ({
         maxTimerValue: 5,
-        gameMode: GameMode.Team,
+        gameMode: "Team",
       })),
       percentageTilesOwnedToWin: vi.fn(() => 50),
     }));
@@ -89,7 +84,7 @@ describe("WinCheckExecution - Nation Winners", () => {
     // Setup game
     const game = await setup("big_plains", {
       infiniteGold: true,
-      gameMode: GameMode.FFA,
+      gameMode: "Free For All",
       instantBuild: true,
     });
 
@@ -138,7 +133,7 @@ describe("WinCheckExecution - Nation Winners", () => {
     // Setup game with timer
     const game = await setup("big_plains", {
       infiniteGold: true,
-      gameMode: GameMode.FFA,
+      gameMode: "Free For All",
       instantBuild: true,
       maxTimerValue: 5,
     });
@@ -207,7 +202,7 @@ describe("WinCheckExecution - Nation Winners", () => {
     // Setup game
     const game = await setup("big_plains", {
       infiniteGold: true,
-      gameMode: GameMode.FFA,
+      gameMode: "Free For All",
       instantBuild: true,
     });
 
@@ -272,7 +267,7 @@ describe("WinCheckExecution - Nation Winners", () => {
     // Setup Team mode game
     const game = await setup("big_plains", {
       infiniteGold: true,
-      gameMode: GameMode.Team,
+      gameMode: "Team",
       instantBuild: true,
       playerTeams: 2,
     });
@@ -339,9 +334,9 @@ describe("WinCheckExecution - 1v1 Ranked Mode", () => {
       "big_plains",
       {
         infiniteGold: true,
-        gameMode: GameMode.FFA,
+        gameMode: "Free For All",
         instantBuild: true,
-        rankedType: RankedType.OneVOne,
+        rankedType: "1v1",
       },
       [playerInfo("Player1", "Human"), playerInfo("Player2", "Human")],
     );
@@ -388,9 +383,9 @@ describe("WinCheckExecution - 1v1 Ranked Mode", () => {
       "big_plains",
       {
         infiniteGold: true,
-        gameMode: GameMode.FFA,
+        gameMode: "Free For All",
         instantBuild: true,
-        rankedType: RankedType.OneVOne,
+        rankedType: "1v1",
       },
       [playerInfo("Player1", "Human"), playerInfo("Player2", "Human")],
     );
@@ -438,9 +433,9 @@ describe("WinCheckExecution - 1v1 Ranked Mode", () => {
       "big_plains",
       {
         infiniteGold: true,
-        gameMode: GameMode.FFA,
+        gameMode: "Free For All",
         instantBuild: true,
-        rankedType: RankedType.OneVOne,
+        rankedType: "1v1",
       },
       [playerInfo("Player1", "Human"), playerInfo("Player2", "Human")],
     );
@@ -474,9 +469,9 @@ describe("WinCheckExecution - 1v1 Ranked Mode", () => {
       "big_plains",
       {
         infiniteGold: true,
-        gameMode: GameMode.FFA,
+        gameMode: "Free For All",
         instantBuild: true,
-        rankedType: RankedType.OneVOne,
+        rankedType: "1v1",
       },
       [
         playerInfo("HumanPlayer", "Human"),

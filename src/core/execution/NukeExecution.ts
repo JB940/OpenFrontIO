@@ -1,14 +1,4 @@
-import {
-  Execution,
-  Game,
-  MessageType,
-  Player,
-  Structures,
-  TerraNullius,
-  TrajectoryTile,
-  Unit,
-  UnitType,
-} from "../game/Game";
+import { Execution, Game, Player, Structures, TerraNullius, TrajectoryTile, Unit } from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { UniversalPathFinding } from "../pathfinding/PathFinder";
 import { ParabolaUniversalPathFinder } from "../pathfinding/PathFinder.Parabola";
@@ -43,7 +33,7 @@ export class NukeExecution implements Execution {
     }
     this.pathFinder = UniversalPathFinding.Parabola(mg, {
       increment: this.speed,
-      distanceBasedHeight: this.nukeType !== UnitType.MIRVWarhead,
+      distanceBasedHeight: this.nukeType !== "MIRVWarhead",
       directionUp: this.rocketDirectionUp,
     });
   }
@@ -134,7 +124,7 @@ export class NukeExecution implements Execution {
     if (this.nuke === null) {
       throw new Error("Not initialized");
     }
-    if (this.nuke.type() === UnitType.MIRVWarhead) {
+    if (this.nuke.type() === "MIRVWarhead") {
       // MIRV warheads shouldn't break alliances
       return;
     }
@@ -206,27 +196,27 @@ export class NukeExecution implements Execution {
         trajectory: this.getTrajectory(this.dst),
       });
       this.recordMotionPlan(ticks);
-      if (this.nuke.type() !== UnitType.MIRVWarhead) {
+      if (this.nuke.type() !== "MIRVWarhead") {
         this.maybeBreakAlliances();
       }
       if (this.mg.hasOwner(this.dst)) {
         const target = this.mg.owner(this.dst);
         if (!target.isPlayer()) {
           // Ignore terra nullius
-        } else if (this.nukeType === UnitType.AtomBomb) {
+        } else if (this.nukeType === "AtomBomb") {
           this.mg.displayIncomingUnit(
             this.nuke.id(),
             // TODO TranslateText
             `${this.player.displayName()} - atom bomb inbound`,
-            MessageType.NUKE_INBOUND,
+            "NUKE_INBOUND",
             target.id(),
           );
-        } else if (this.nukeType === UnitType.HydrogenBomb) {
+        } else if (this.nukeType === "HydrogenBomb") {
           this.mg.displayIncomingUnit(
             this.nuke.id(),
             // TODO TranslateText
             `${this.player.displayName()} - hydrogen bomb inbound`,
-            MessageType.HYDROGEN_BOMB_INBOUND,
+            "HYDROGEN_BOMB_INBOUND",
             target.id(),
           );
         }
@@ -237,7 +227,7 @@ export class NukeExecution implements Execution {
 
       // after sending a nuke set the missilesilo on cooldown
       const silo = this.player
-        .units(UnitType.MissileSilo)
+        .units("MissileSilo")
         .find((silo) => silo.tile() === spawn);
       if (silo) {
         silo.launch();
@@ -286,7 +276,7 @@ export class NukeExecution implements Execution {
     }
     const pathFinder = UniversalPathFinding.Parabola(this.mg, {
       increment: this.speed,
-      distanceBasedHeight: this.nukeType !== UnitType.MIRVWarhead,
+      distanceBasedHeight: this.nukeType !== "MIRVWarhead",
       directionUp: this.rocketDirectionUp,
     });
     const path: TileRef[] = [this.src];
@@ -374,7 +364,7 @@ export class NukeExecution implements Execution {
     // Then compute the explosion effect on each player
     for (const [player, numImpactedTiles] of tilesPerPlayers) {
       const tilesBeforeNuke = player.numTilesOwned() + numImpactedTiles;
-      const transportShips = player.units(UnitType.TransportShip);
+      const transportShips = player.units("TransportShip");
       const transportShipTroops = new Map<Unit, number>();
       for (const unit of transportShips) {
         transportShipTroops.set(unit, unit.troops());
@@ -425,11 +415,11 @@ export class NukeExecution implements Execution {
     for (const unit of mg.units()) {
       const type = unit.type();
       if (
-        type === UnitType.AtomBomb ||
-        type === UnitType.HydrogenBomb ||
-        type === UnitType.MIRVWarhead ||
-        type === UnitType.MIRV ||
-        type === UnitType.SAMMissile
+        type === "AtomBomb" ||
+        type === "HydrogenBomb" ||
+        type === "MIRVWarhead" ||
+        type === "MIRV" ||
+        type === "SAMMissile"
       ) {
         continue;
       }
@@ -444,17 +434,17 @@ export class NukeExecution implements Execution {
     this.nuke.delete(false);
 
     if (
-      this.nukeType === UnitType.AtomBomb ||
-      this.nukeType === UnitType.HydrogenBomb
+      this.nukeType === "AtomBomb" ||
+      this.nukeType === "HydrogenBomb"
     ) {
       const messageKey =
-        this.nukeType === UnitType.AtomBomb
+        this.nukeType === "AtomBomb"
           ? "events_display.atom_bomb_detonated"
           : "events_display.hydrogen_bomb_detonated";
       for (const [impactedPlayer] of tilesPerPlayers) {
         mg.displayMessage(
           messageKey,
-          MessageType.NUKE_DETONATED,
+          "NUKE_DETONATED",
           impactedPlayer.id(),
           undefined,
           { name: this.player.displayName() },

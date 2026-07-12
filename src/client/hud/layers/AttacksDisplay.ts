@@ -2,7 +2,6 @@ import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
-import { MessageType, UnitType } from "../../../core/game/Game";
 import {
   AttackUpdate,
   GameUpdateType,
@@ -72,7 +71,7 @@ export class AttacksDisplay extends LitElement implements Controller {
       ] as UnitIncomingUpdate[]) {
         if (
           event.playerID === myPlayer.smallID() &&
-          event.messageType === MessageType.NAVAL_INVASION_INBOUND
+          event.messageType === "NAVAL_INVASION_INBOUND"
         ) {
           this.incomingBoatIDs.add(event.unitID);
         }
@@ -83,7 +82,7 @@ export class AttacksDisplay extends LitElement implements Controller {
     const resolvedIncomingBoats: UnitView[] = [];
     for (const unitID of this.incomingBoatIDs) {
       const unit = this.game.unit(unitID);
-      if (unit && unit.isActive() && unit.type() === UnitType.TransportShip) {
+      if (unit && unit.isActive() && unit.type() === "TransportShip") {
         resolvedIncomingBoats.push(unit);
       } else {
         this.incomingBoatIDs.delete(unitID);
@@ -106,7 +105,7 @@ export class AttacksDisplay extends LitElement implements Controller {
 
     this.outgoingBoats = myPlayer
       .units()
-      .filter((u) => u.type() === UnitType.TransportShip);
+      .filter((u) => u.type() === "TransportShip");
 
     this.requestUpdate();
   }

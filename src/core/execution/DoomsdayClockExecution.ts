@@ -5,10 +5,8 @@ import {
 import {
   Execution,
   Game,
-  GameMode,
   Player,
   Team,
-  UnitType,
 } from "../game/Game";
 
 /**
@@ -60,7 +58,7 @@ export class DoomsdayClockExecution implements Execution {
     const contenders = mg.players().filter((p) => p.type() !== "Bot");
 
     // The bar applies per side: each player in FFA, each whole team otherwise.
-    const ffa = mg.config().gameConfig().gameMode === GameMode.FFA;
+    const ffa = mg.config().gameConfig().gameMode === "Free For All";
     const sides = this.sides(contenders, ffa);
 
     // A winner is already inevitable (one side left): idle. Before the first
@@ -117,7 +115,7 @@ export class DoomsdayClockExecution implements Execution {
             // environmental, never a credited kill (see UnitImpl.delete). Healing
             // is suppressed for flagged owners in WarshipExecution.healWarship so
             // the decay actually lands.
-            for (const ws of m.units(UnitType.Warship)) {
+            for (const ws of m.units("Warship")) {
               ws.modifyHealth(
                 -doomsdayClockDrain(
                   ws.maxHealth(),

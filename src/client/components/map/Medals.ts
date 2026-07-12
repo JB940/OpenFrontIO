@@ -8,18 +8,19 @@ export const MEDAL_MASK = `url('data:image/svg+xml;utf8,${encodeURIComponent(med
 
 // Difficulty medals, easiest to hardest — the canonical display order.
 export const MEDAL_ORDER: readonly Difficulty[] = [
-  Difficulty.Easy,
-  Difficulty.Medium,
-  Difficulty.Hard,
-  Difficulty.Impossible,
+  "Easy",
+  "Medium",
+  "Hard",
+  "Impossible",
 ];
 
 export const MEDAL_COLORS: Record<Difficulty, string> = {
-  [Difficulty.Easy]: "var(--medal-easy)",
-  [Difficulty.Medium]: "var(--medal-medium)",
-  [Difficulty.Hard]: "var(--medal-hard)",
-  [Difficulty.Impossible]: "var(--medal-impossible)",
+  "Easy": "var(--medal-easy)",
+  "Medium": "var(--medal-medium)",
+  "Hard": "var(--medal-hard)",
+  "Impossible": "var(--medal-impossible)",
 };
+
 
 /**
  * A single colored medal glyph. Pass `earned=false` to dim it so it reads as

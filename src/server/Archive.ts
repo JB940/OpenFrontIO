@@ -1,5 +1,4 @@
 import z from "zod";
-import { GameType } from "../core/game/Game";
 import {
   GameID,
   GameRecord,
@@ -18,7 +17,7 @@ export async function archive(
   trustedCosmeticFlagUrls: Set<string> = new Set(),
 ) {
   try {
-    if (gameRecord.info.config.gameType === GameType.Singleplayer) {
+    if (gameRecord.info.config.gameType === "Singleplayer") {
       stripUntrustedFlagUrls(gameRecord, trustedCosmeticFlagUrls);
     }
 

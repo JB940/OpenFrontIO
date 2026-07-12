@@ -1,12 +1,4 @@
-import {
-  AllianceRequest,
-  Execution,
-  Game,
-  MessageType,
-  Player,
-  PlayerID,
-  UnitType,
-} from "../../game/Game";
+import { AllianceRequest, Execution, Game, MessageType, Player, PlayerID } from "../../game/Game";
 import { wouldNukeBreakAlliance } from "../Util";
 
 export class AllianceRequestExecution implements Execution {
@@ -93,8 +85,8 @@ export class AllianceRequestExecution implements Execution {
 
     for (const launcher of players) {
       for (const unit of launcher.units(
-        UnitType.AtomBomb,
-        UnitType.HydrogenBomb,
+        "AtomBomb",
+        "HydrogenBomb",
       )) {
         if (!unit.isActive() || unit.reachedTarget()) continue;
 
@@ -124,7 +116,7 @@ export class AllianceRequestExecution implements Execution {
 
       this.mg.displayMessage(
         "events_display.alliance_nukes_destroyed_outgoing",
-        MessageType.ALLIANCE_ACCEPTED,
+        "ALLIANCE_ACCEPTED",
         launcher.id(),
         undefined,
         { name: other.displayName(), count },
@@ -132,7 +124,7 @@ export class AllianceRequestExecution implements Execution {
 
       this.mg.displayMessage(
         "events_display.alliance_nukes_destroyed_incoming",
-        MessageType.ALLIANCE_ACCEPTED,
+        "ALLIANCE_ACCEPTED",
         other.id(),
         undefined,
         { name: launcher.displayName(), count },

@@ -1,13 +1,5 @@
 import { renderTroops } from "../../client/Utils";
-import {
-  Execution,
-  Game,
-  MessageType,
-  Player,
-  TerraNullius,
-  Unit,
-  UnitType,
-} from "../game/Game";
+import { Execution, Game, Player, TerraNullius, Unit } from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { MotionPlanRecord } from "../game/MotionPlans";
 import { targetTransportTile } from "../game/TransportShipUtils";
@@ -66,12 +58,12 @@ export class TransportShipExecution implements Execution {
     this.pathFinder = new WaterPathFinder(mg, stagger);
 
     if (
-      this.attacker.unitCount(UnitType.TransportShip) >=
+      this.attacker.unitCount("TransportShip") >=
       mg.config().boatMaxNumber()
     ) {
       mg.displayMessage(
         "events_display.no_boats_available",
-        MessageType.ATTACK_FAILED,
+        "ATTACK_FAILED",
         this.attacker.id(),
         undefined,
         { max: mg.config().boatMaxNumber() },
@@ -112,7 +104,7 @@ export class TransportShipExecution implements Execution {
       return;
     }
 
-    const src = this.attacker.canBuild(UnitType.TransportShip, this.dst);
+    const src = this.attacker.canBuild("TransportShip", this.dst);
 
     if (src === false) {
       console.warn(
@@ -124,7 +116,7 @@ export class TransportShipExecution implements Execution {
 
     this.src = src;
 
-    this.boat = this.attacker.buildUnit(UnitType.TransportShip, this.src, {
+    this.boat = this.attacker.buildUnit("TransportShip", this.src, {
       troops: this.troops,
       targetTile: this.dst,
     });
@@ -151,7 +143,7 @@ export class TransportShipExecution implements Execution {
         this.boat.id(),
         // TODO TranslateText
         `Naval invasion incoming from ${this.attacker.displayName()} (${renderTroops(this.boat.troops())})`,
-        MessageType.NAVAL_INVASION_INBOUND,
+        "NAVAL_INVASION_INBOUND",
         this.target.id(),
       );
     }
@@ -246,7 +238,7 @@ export class TransportShipExecution implements Execution {
           if (deaths) {
             this.mg.displayMessage(
               "events_display.attack_cancelled_retreat",
-              MessageType.ATTACK_CANCELLED,
+              "ATTACK_CANCELLED",
               this.attacker.id(),
               undefined,
               { troops: renderTroops(deaths) },

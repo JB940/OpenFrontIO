@@ -12,7 +12,8 @@ import {
   ServerMessage,
 } from "../core/Schemas";
 import { createPartialGameRecord, findClosestBy, replacer } from "../core/Util";
-import { BuildableUnit, Structures, UnitType } from "../core/game/Game";
+import { BuildableUnit, Structures } from "../core/game/Game";
+import type { UnitType } from "../core/game/Game";
 import { TileRef } from "../core/game/GameMap";
 import { GameMapLoader } from "../core/game/GameMapLoader";
 import {
@@ -1020,7 +1021,7 @@ export class ClientGameRunner {
       if (myPlayer === null) return;
       this.myPlayer = myPlayer;
     }
-    this.myPlayer.actions(tile, [UnitType.TransportShip]).then((actions) => {
+    this.myPlayer.actions(tile, ["TransportShip"]).then((actions) => {
       if (actions.canAttack) {
         this.eventBus.emit(
           new SendAttackIntentEvent(
@@ -1154,7 +1155,7 @@ export class ClientGameRunner {
     }
 
     this.myPlayer
-      .buildables(tile, [UnitType.TransportShip])
+      .buildables(tile, ["TransportShip"])
       .then((buildables) => {
         if (this.canBoatAttack(buildables) !== false) {
           this.sendBoatAttackIntent(tile);
@@ -1298,7 +1299,7 @@ export class ClientGameRunner {
   }
 
   private canBoatAttack(buildables: BuildableUnit[]): false | TileRef {
-    const bu = buildables.find((bu) => bu.type === UnitType.TransportShip);
+    const bu = buildables.find((bu) => bu.type === "TransportShip");
     return bu?.canBuild ?? false;
   }
 

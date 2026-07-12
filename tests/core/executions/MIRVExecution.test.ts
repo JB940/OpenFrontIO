@@ -1,11 +1,5 @@
 import { MirvExecution } from "../../../src/core/execution/MIRVExecution";
-import {
-  Game,
-  MessageType,
-  Player,
-  PlayerInfo,
-  UnitType,
-} from "../../../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../../../src/core/game/Game";
 import { setup } from "../../util/Setup";
 import { executeTicks } from "../../util/utils";
 
@@ -36,7 +30,7 @@ describe("MIRVExecution", () => {
         }
       }
     }
-    player.buildUnit(UnitType.MissileSilo, game.ref(10, 10), {});
+    player.buildUnit("MissileSilo", game.ref(10, 10), {});
 
     // Give other player territory closer to player
     for (let x = 25; x < 75; x++) {
@@ -58,7 +52,7 @@ describe("MIRVExecution", () => {
     executeTicks(game, 2);
 
     // Verify MIRV unit was created
-    expect(player.units(UnitType.MIRV)).toHaveLength(1);
+    expect(player.units("MIRV")).toHaveLength(1);
 
     // Verify execution is still active (MIRV is flying)
     expect(mirvExec.isActive()).toBe(true);
@@ -98,21 +92,21 @@ describe("MIRVExecution", () => {
 
     executeTicks(game, 2);
 
-    expect(player.units(UnitType.MIRV)).toHaveLength(1);
+    expect(player.units("MIRV")).toHaveLength(1);
     expect(mirvExec.isActive()).toBe(true);
 
     while (mirvExec.isActive()) {
       game.executeNextTick();
     }
 
-    expect(player.units(UnitType.MIRV)).toHaveLength(0);
+    expect(player.units("MIRV")).toHaveLength(0);
     expect(mirvExec.isActive()).toBe(false);
 
     // Wait one tick for NukeExecution
     executeTicks(game, 1);
 
     // Exact number of warheads may vary due to randomness, but should be more than 0
-    expect(player.units(UnitType.MIRVWarhead).length).toBeGreaterThan(0);
+    expect(player.units("MIRVWarhead").length).toBeGreaterThan(0);
   });
 
   test("MIRV warheads should only target tiles owned by target player", async () => {
@@ -142,7 +136,7 @@ describe("MIRVExecution", () => {
     game.addExecution(mirvExec);
 
     executeTicks(game, 2);
-    expect(player.units(UnitType.MIRV)).toHaveLength(1);
+    expect(player.units("MIRV")).toHaveLength(1);
 
     while (mirvExec.isActive()) {
       game.executeNextTick();
@@ -150,7 +144,7 @@ describe("MIRVExecution", () => {
 
     executeTicks(game, 1);
 
-    const warheads = player.units(UnitType.MIRVWarhead);
+    const warheads = player.units("MIRVWarhead");
     expect(warheads.length).toBeGreaterThan(0);
 
     // Check all warhead targets are owned by otherPlayer
@@ -179,7 +173,7 @@ describe("MIRVExecution", () => {
     game.addExecution(mirvExec);
 
     executeTicks(game, 2);
-    expect(player.units(UnitType.MIRV)).toHaveLength(1);
+    expect(player.units("MIRV")).toHaveLength(1);
 
     while (mirvExec.isActive()) {
       game.executeNextTick();
@@ -187,7 +181,7 @@ describe("MIRVExecution", () => {
 
     executeTicks(game, 1);
 
-    const warheads = player.units(UnitType.MIRVWarhead);
+    const warheads = player.units("MIRVWarhead");
     expect(warheads.length).toBeGreaterThan(0);
 
     const targets = warheads.map((w) => w.targetTile());
@@ -214,13 +208,13 @@ describe("MIRVExecution", () => {
     expect(displaySpy).toHaveBeenCalled();
     const callArgs = displaySpy.mock.calls[0];
     expect(callArgs[1]).toContain("MIRV INBOUND");
-    expect(callArgs[2]).toBe(MessageType.MIRV_INBOUND);
+    expect(callArgs[2]).toBe("MIRV_INBOUND");
     expect(callArgs[3]).toBe(otherPlayer.id());
   });
 
   test("MIRV should not launch if player cannot build it", async () => {
     // Remove player's missile silo
-    const silos = player.units(UnitType.MissileSilo);
+    const silos = player.units("MissileSilo");
     for (const silo of silos) {
       silo.delete(false);
     }
@@ -232,7 +226,7 @@ describe("MIRVExecution", () => {
     executeTicks(game, 2);
 
     // MIRV should not be launched
-    expect(player.units(UnitType.MIRV)).toHaveLength(0);
+    expect(player.units("MIRV")).toHaveLength(0);
     expect(mirvExec.isActive()).toBe(false);
   });
 
@@ -261,7 +255,7 @@ describe("MIRVExecution", () => {
     executeTicks(game, 2);
 
     // MIRV should NOT launch against terra nullius
-    expect(player.units(UnitType.MIRV)).toHaveLength(0);
+    expect(player.units("MIRV")).toHaveLength(0);
     expect(mirvExec.isActive()).toBe(false);
 
     // Should not break any alliance or mark as traitor (since no player owns it)
@@ -276,7 +270,7 @@ describe("MIRVExecution", () => {
     executeTicks(game, 2);
 
     // Expect MIRV to launch successfully without marking player as traitor
-    expect(player.units(UnitType.MIRV)).toHaveLength(1);
+    expect(player.units("MIRV")).toHaveLength(1);
     expect(player.isTraitor()).toBe(false);
   });
 });

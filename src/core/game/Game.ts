@@ -17,13 +17,6 @@ import { Stats } from "./Stats";
 import { ReadonlyTileSet } from "./TileSet";
 import { UnitPredicate } from "./UnitGrid";
 
-function isEnumValue<T extends Record<string, string | number>>(
-  enumObj: T,
-  value: unknown,
-): value is T[keyof T] {
-  return Object.values(enumObj).includes(value as T[keyof T]);
-}
-
 export type PlayerID = string;
 export type Tick = number;
 export type Gold = bigint;
@@ -61,14 +54,17 @@ export interface MapPos {
   y: number;
 }
 
-export enum Difficulty {
-  Easy = "Easy",
-  Medium = "Medium",
-  Hard = "Hard",
-  Impossible = "Impossible",
-}
+export const DifficultySchema = z.enum([
+  "Easy",
+  "Medium",
+  "Hard",
+  "Impossible",
+]);
+
+export type Difficulty = z.infer<typeof DifficultySchema>;
+
 export const isDifficulty = (value: unknown): value is Difficulty =>
-  isEnumValue(Difficulty, value);
+  DifficultySchema.safeParse(value).success;
 
 export type Team = string;
 
@@ -111,30 +107,39 @@ export {
   type MapInfo,
 } from "./Maps.gen";
 
-export enum GameType {
-  Singleplayer = "Singleplayer",
-  Public = "Public",
-  Private = "Private",
-}
+export const GameTypeSchema = z.enum([
+  "Singleplayer",
+  "Public",
+  "Private",
+]);
+export type GameType = z.infer<typeof GameTypeSchema>;
+
 export const isGameType = (value: unknown): value is GameType =>
-  isEnumValue(GameType, value);
+  GameTypeSchema.safeParse(value).success;
 
-export enum GameMode {
-  FFA = "Free For All",
-  Team = "Team",
-}
 
-export enum RankedType {
-  OneVOne = "1v1",
-}
+export const GameModeSchema = z.enum([
+  "Free For All",
+  "Team",
+]);
+
+export type GameMode = z.infer<typeof GameModeSchema>;
+
+export const RankedTypeSchema = z.enum({
+  "OneVOne": "1v1",
+})
+
+export type RankedType = z.infer<typeof RankedTypeSchema>;
 
 export const isGameMode = (value: unknown): value is GameMode =>
-  isEnumValue(GameMode, value);
+  GameModeSchema.safeParse(value).success;
 
-export enum GameMapSize {
-  Compact = "Compact",
-  Normal = "Normal",
-}
+export const GameMapSizeSchema = z.enum([
+  "Compact",
+  "Normal",
+]);
+
+export type GameMapSize = z.infer<typeof GameMapSizeSchema>;
 
 export interface PublicGameModifiers {
   isCompact?: boolean;
@@ -168,52 +173,56 @@ function unitTypeGroup<T extends readonly UnitType[]>(types: T) {
   };
 }
 
-export enum UnitType {
-  TransportShip = "Transport",
-  Warship = "Warship",
-  Shell = "Shell",
-  SAMMissile = "SAMMissile",
-  Port = "Port",
-  AtomBomb = "Atom Bomb",
-  HydrogenBomb = "Hydrogen Bomb",
-  TradeShip = "Trade Ship",
-  MissileSilo = "Missile Silo",
-  DefensePost = "Defense Post",
-  SAMLauncher = "SAM Launcher",
-  City = "City",
-  MIRV = "MIRV",
-  MIRVWarhead = "MIRV Warhead",
-  Train = "Train",
-  Factory = "Factory",
-}
+export const UnitTypeSchema = z.enum([
+  "TransportShip",
+  "Warship",
+  "Shell",
+  "SAMMissile",
+  "Port",
+  "AtomBomb",
+  "HydrogenBomb",
+  "TradeShip",
+  "MissileSilo",
+  "DefensePost",
+  "SAMLauncher",
+  "City",
+  "MIRV",
+  "MIRVWarhead",
+  "Train",
+  "Factory",
+]);
 
-export enum TrainType {
-  Engine = "Engine",
-  TailEngine = "TailEngine",
-  Carriage = "Carriage",
-}
+export type UnitType = z.infer<typeof UnitTypeSchema>;
+
+export const TrainTypeSchema = z.enum([
+  "Engine",
+  "TailEngine",
+  "Carriage",
+]);
+
+export type TrainType = z.infer<typeof TrainTypeSchema>;
 
 export const Nukes = unitTypeGroup([
-  UnitType.AtomBomb,
-  UnitType.HydrogenBomb,
-  UnitType.MIRVWarhead,
-  UnitType.MIRV,
+  "AtomBomb",
+  "HydrogenBomb",
+  "MIRVWarhead",
+  "MIRV",
 ] as const);
 
 export const BuildableAttacks = unitTypeGroup([
-  UnitType.AtomBomb,
-  UnitType.HydrogenBomb,
-  UnitType.MIRV,
-  UnitType.Warship,
+  "AtomBomb",
+  "HydrogenBomb",
+  "MIRV",
+  "Warship",
 ] as const);
 
 export const Structures = unitTypeGroup([
-  UnitType.City,
-  UnitType.DefensePost,
-  UnitType.SAMLauncher,
-  UnitType.MissileSilo,
-  UnitType.Port,
-  UnitType.Factory,
+  "City",
+  "DefensePost",
+  "SAMLauncher",
+  "MissileSilo",
+  "Port",
+  "Factory",
 ] as const);
 
 export const BuildMenus = unitTypeGroup([
@@ -223,7 +232,7 @@ export const BuildMenus = unitTypeGroup([
 
 export const PlayerBuildable = unitTypeGroup([
   ...BuildMenus.types,
-  UnitType.TransportShip,
+  "TransportShip",
 ] as const);
 
 export type PlayerBuildableUnitType = (typeof PlayerBuildable.types)[number];
@@ -237,57 +246,57 @@ export type TrajectoryTile = {
   targetable: boolean;
 };
 export interface UnitParamsMap {
-  [UnitType.TransportShip]: {
+  "TransportShip": {
     troops?: number;
     targetTile?: TileRef;
   };
 
-  [UnitType.Warship]: {
+  "Warship": {
     patrolTile: TileRef;
   };
 
-  [UnitType.Shell]: Record<string, never>;
+  "Shell": Record<string, never>;
 
-  [UnitType.SAMMissile]: Record<string, never>;
+  "SAMMissile": Record<string, never>;
 
-  [UnitType.Port]: Record<string, never>;
+  "Port": Record<string, never>;
 
-  [UnitType.AtomBomb]: {
+  "AtomBomb": {
     targetTile?: number;
     trajectory: TrajectoryTile[];
   };
 
-  [UnitType.HydrogenBomb]: {
+  "HydrogenBomb": {
     targetTile?: number;
     trajectory: TrajectoryTile[];
   };
 
-  [UnitType.TradeShip]: {
+  "TradeShip": {
     targetUnit: Unit;
     lastSetSafeFromPirates?: number;
   };
 
-  [UnitType.Train]: {
+  "Train": {
     trainType: TrainType;
     targetUnit?: Unit;
     loaded?: boolean;
   };
 
-  [UnitType.Factory]: Record<string, never>;
+  "Factory": Record<string, never>;
 
-  [UnitType.MissileSilo]: Record<string, never>;
+  "MissileSilo": Record<string, never>;
 
-  [UnitType.DefensePost]: Record<string, never>;
+  "DefensePost": Record<string, never>;
 
-  [UnitType.SAMLauncher]: Record<string, never>;
+  "SAMLauncher": Record<string, never>;
 
-  [UnitType.City]: Record<string, never>;
+  "City": Record<string, never>;
 
-  [UnitType.MIRV]: {
+  "MIRV": {
     targetTile?: number;
   };
 
-  [UnitType.MIRVWarhead]: {
+  "MIRVWarhead": {
     targetTile?: number;
   };
 }
@@ -297,12 +306,14 @@ export type UnitParams<T extends UnitType> = UnitParamsMap[T];
 
 export type AllUnitParams = UnitParamsMap[keyof UnitParamsMap];
 
-export enum Relation {
-  Hostile = 0,
-  Distrustful = 1,
-  Neutral = 2,
-  Friendly = 3,
-}
+export const RelationSchema = z.enum({
+  "Hostile": 0,
+  "Distrustful": 1,
+  "Neutral": 2,
+  "Friendly": 3,
+});
+
+export type Relation = z.infer<typeof RelationSchema>;
 
 export class Nation {
   constructor(
@@ -335,13 +346,15 @@ export class Cell {
   }
 }
 
-export enum TerrainType {
-  Plains,
-  Highland,
-  Mountain,
-  Ocean,
-  Impassable,
-}
+export const TerrainTypeSchema = z.enum([
+  "Plains",
+  "Highland",
+  "Mountain",
+  "Ocean",
+  "Impassable",
+]);
+
+export type TerrainType = z.infer<typeof TerrainTypeSchema>;
 
 /** Numeric player type — matching PlayerStatic.playerType. */
 export const  PlayerTypeSchema = z.enum([
@@ -910,64 +923,69 @@ export interface EmojiMessage {
   createdAt: Tick;
 }
 
-export enum MessageType {
-  ATTACK_FAILED,
-  ATTACK_CANCELLED,
-  ATTACK_REQUEST,
-  CONQUERED_PLAYER,
-  MIRV_INBOUND,
-  NUKE_INBOUND,
-  NUKE_DETONATED,
-  HYDROGEN_BOMB_INBOUND,
-  NAVAL_INVASION_INBOUND,
-  SAM_MISS,
-  SAM_HIT,
-  CAPTURED_ENEMY_UNIT,
-  UNIT_DESTROYED,
-  ALLIANCE_ACCEPTED,
-  ALLIANCE_REJECTED,
-  ALLIANCE_REQUEST,
-  ALLIANCE_BROKEN,
-  ALLIANCE_EXPIRED,
-  DONATION_SENT,
-  DONATION_RECEIVED,
-  CHAT,
-  RENEW_ALLIANCE,
-}
+export const MessageTypeSchema = z.enum([
+  "ATTACK_FAILED",
+  "ATTACK_CANCELLED",
+  "ATTACK_REQUEST",
+  "CONQUERED_PLAYER",
+  "MIRV_INBOUND",
+  "NUKE_INBOUND",
+  "NUKE_DETONATED",
+  "HYDROGEN_BOMB_INBOUND",
+  "NAVAL_INVASION_INBOUND",
+  "SAM_MISS",
+  "SAM_HIT",
+  "CAPTURED_ENEMY_UNIT",
+  "UNIT_DESTROYED",
+  "ALLIANCE_ACCEPTED",
+  "ALLIANCE_REJECTED",
+  "ALLIANCE_REQUEST",
+  "ALLIANCE_BROKEN",
+  "ALLIANCE_EXPIRED",
+  "DONATION_SENT",
+  "DONATION_RECEIVED",
+  "CHAT",
+  "RENEW_ALLIANCE",
+]);
+
+export type MessageType = z.infer<typeof MessageTypeSchema>;
 
 // Message categories used for filtering events in the EventsDisplay
-export enum MessageCategory {
-  ATTACK = "ATTACK",
-  NUKE = "NUKE",
-  ALLIANCE = "ALLIANCE",
-  TRADE = "TRADE",
-  CHAT = "CHAT",
-}
+export const MessageCategorySchema = z.enum([
+  "ATTACK",
+  "NUKE",
+  "ALLIANCE",
+  "TRADE",
+  "CHAT",
+]);
+
+export type MessageCategory = z.infer<typeof MessageCategorySchema>;
+
 
 // Ensures that all message types are included in a category
 export const MESSAGE_TYPE_CATEGORIES: Record<MessageType, MessageCategory> = {
-  [MessageType.ATTACK_FAILED]: MessageCategory.ATTACK,
-  [MessageType.ATTACK_CANCELLED]: MessageCategory.ATTACK,
-  [MessageType.ATTACK_REQUEST]: MessageCategory.ATTACK,
-  [MessageType.CONQUERED_PLAYER]: MessageCategory.ATTACK,
-  [MessageType.MIRV_INBOUND]: MessageCategory.NUKE,
-  [MessageType.NUKE_INBOUND]: MessageCategory.NUKE,
-  [MessageType.NUKE_DETONATED]: MessageCategory.NUKE,
-  [MessageType.HYDROGEN_BOMB_INBOUND]: MessageCategory.NUKE,
-  [MessageType.NAVAL_INVASION_INBOUND]: MessageCategory.ATTACK,
-  [MessageType.SAM_MISS]: MessageCategory.ATTACK,
-  [MessageType.SAM_HIT]: MessageCategory.ATTACK,
-  [MessageType.CAPTURED_ENEMY_UNIT]: MessageCategory.ATTACK,
-  [MessageType.UNIT_DESTROYED]: MessageCategory.ATTACK,
-  [MessageType.ALLIANCE_ACCEPTED]: MessageCategory.ALLIANCE,
-  [MessageType.ALLIANCE_REJECTED]: MessageCategory.ALLIANCE,
-  [MessageType.ALLIANCE_REQUEST]: MessageCategory.ALLIANCE,
-  [MessageType.ALLIANCE_BROKEN]: MessageCategory.ALLIANCE,
-  [MessageType.ALLIANCE_EXPIRED]: MessageCategory.ALLIANCE,
-  [MessageType.RENEW_ALLIANCE]: MessageCategory.ALLIANCE,
-  [MessageType.DONATION_SENT]: MessageCategory.TRADE,
-  [MessageType.DONATION_RECEIVED]: MessageCategory.TRADE,
-  [MessageType.CHAT]: MessageCategory.CHAT,
+  "ATTACK_FAILED": "ATTACK",
+  "ATTACK_CANCELLED": "ATTACK",
+  "ATTACK_REQUEST": "ATTACK",
+  "CONQUERED_PLAYER": "ATTACK",
+  "MIRV_INBOUND": "NUKE",
+  "NUKE_INBOUND": "NUKE",
+  "NUKE_DETONATED": "NUKE",
+  "HYDROGEN_BOMB_INBOUND": "NUKE",
+  "NAVAL_INVASION_INBOUND": "ATTACK",
+  "SAM_MISS": "ATTACK",
+  "SAM_HIT": "ATTACK",
+  "CAPTURED_ENEMY_UNIT": "ATTACK",
+  "UNIT_DESTROYED": "ATTACK",
+  "ALLIANCE_ACCEPTED": "ALLIANCE",
+  "ALLIANCE_REJECTED": "ALLIANCE",
+  "ALLIANCE_REQUEST": "ALLIANCE",
+  "ALLIANCE_BROKEN": "ALLIANCE",
+  "ALLIANCE_EXPIRED": "ALLIANCE",
+  "RENEW_ALLIANCE": "ALLIANCE",
+  "DONATION_SENT": "TRADE",
+  "DONATION_RECEIVED": "TRADE",
+  "CHAT": "CHAT",
 } as const;
 
 /**

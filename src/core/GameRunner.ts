@@ -9,7 +9,6 @@ import {
   AllPlayers,
   BuildableUnit,
   Game,
-  GameType,
   GameUpdates,
   NameViewData,
   Player,
@@ -19,7 +18,6 @@ import {
   PlayerID,
   PlayerInfo,
   PlayerProfile,
-  UnitType,
 } from "./game/Game";
 import { createGame } from "./game/GameImpl";
 import { TileRef } from "./game/GameMap";
@@ -97,7 +95,7 @@ export class GameRunner {
   ) {}
 
   init() {
-    if (this.game.config().gameConfig().gameType !== GameType.Singleplayer) {
+    if (this.game.config().gameConfig().gameType !== "Singleplayer") {
       this.game.addExecution(new SpawnTimerExecution());
     }
     if (this.game.config().spawnNations()) {
@@ -115,7 +113,7 @@ export class GameRunner {
     if (this.game.config().doomsdayClockConfig().enabled) {
       this.game.addExecution(new DoomsdayClockExecution());
     }
-    if (!this.game.config().isUnitDisabled(UnitType.Factory)) {
+    if (!this.game.config().isUnitDisabled("Factory")) {
       this.game.addExecution(
         new RecomputeRailClusterExecution(this.game.railNetwork()),
       );

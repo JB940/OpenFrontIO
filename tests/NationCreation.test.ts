@@ -1,9 +1,5 @@
 import {
-  Difficulty,
-  GameMapSize,
   GameMapType,
-  GameMode,
-  GameType,
   Nation,
 } from "../src/core/game/Game";
 import { createNationsForGame } from "../src/core/game/NationCreation";
@@ -33,10 +29,10 @@ function makeAdditionalNations(names: string[]): AdditionalNation[] {
 function makeGameStart(targetNations: number): GameStartInfo {
   const config: GameConfig = {
     gameMap: GameMapType.World,
-    gameMapSize: GameMapSize.Normal,
-    gameMode: GameMode.FFA,
-    gameType: GameType.Singleplayer,
-    difficulty: Difficulty.Medium,
+    gameMapSize: "Normal",
+    gameMode: "Free For All",
+    gameType: "Singleplayer",
+    difficulty: "Medium",
     nations: targetNations,
     donateGold: false,
     donateTroops: false,

@@ -3,9 +3,7 @@ import {
   ColoredTeams,
   Execution,
   Game,
-  GameMode,
   Player,
-  RankedType,
   Team,
 } from "../game/Game";
 
@@ -34,7 +32,7 @@ export class WinCheckExecution implements Execution {
     }
     if (this.mg === null) throw new Error("Not initialized");
 
-    if (this.mg.config().gameConfig().gameMode === GameMode.FFA) {
+    if (this.mg.config().gameConfig().gameMode === "Free For All") {
       this.checkWinnerFFA();
     } else {
       this.checkWinnerTeam();
@@ -50,7 +48,7 @@ export class WinCheckExecution implements Execution {
       return;
     }
 
-    if (this.mg.config().gameConfig().rankedType === RankedType.OneVOne) {
+    if (this.mg.config().gameConfig().rankedType === "1v1") {
       const humans = sorted.filter(
         (p) => p.type() === "Human" && !p.isDisconnected(),
       );

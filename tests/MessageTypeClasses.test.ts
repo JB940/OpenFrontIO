@@ -1,6 +1,7 @@
 import { vi, type MockInstance } from "vitest";
 import { getMessageTypeClasses, severityColors } from "../src/client/Utils";
-import { MessageType } from "../src/core/game/Game";
+import { MessageTypeSchema } from "../src/core/game/Game";
+import type { MessageType } from "../src/core/game/Game";
 
 describe("getMessageTypeClasses", () => {
   // Spy on console.warn to track when the default case is hit
@@ -15,7 +16,7 @@ describe("getMessageTypeClasses", () => {
   });
 
   it("should return a valid CSS class for every MessageType", () => {
-    const messageTypes = Object.values(MessageType).filter(
+    const messageTypes = Object.values(MessageTypeSchema).filter(
       (value): value is MessageType => typeof value === "number",
     );
 
@@ -30,7 +31,7 @@ describe("getMessageTypeClasses", () => {
   });
 
   it("should not trigger console.warn for any MessageType", () => {
-    const messageTypes = Object.values(MessageType).filter(
+    const messageTypes = Object.values(MessageTypeSchema).filter(
       (value): value is MessageType => typeof value === "number",
     );
 
@@ -43,8 +44,8 @@ describe("getMessageTypeClasses", () => {
   });
 
   it("should return white color and warn for unknown message types", () => {
-    // Cast to MessageType to test the default case
-    const unknownType = 999 as MessageType;
+    // Cast to any to test the default case
+    const unknownType = 999 as any;
 
     const result = getMessageTypeClasses(unknownType);
 

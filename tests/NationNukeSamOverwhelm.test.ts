@@ -3,10 +3,8 @@ import { NationExecution } from "../src/core/execution/NationExecution";
 import { SAMLauncherExecution } from "../src/core/execution/SAMLauncherExecution";
 import {
   Cell,
-  Difficulty,
   Nation,
   PlayerInfo,
-  UnitType,
 } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 import { executeTicks } from "./util/utils";
@@ -18,7 +16,7 @@ describe("NationNukeBehavior - maybeDestroyEnemySam", () => {
     // trajectory is interceptable, keeping bestValue ≤ 0 and triggering
     // maybeDestroyEnemySam.
     const game = await setup("big_plains", {
-      difficulty: Difficulty.Impossible,
+      difficulty: "Impossible",
       infiniteGold: true,
       instantBuild: true,
     });
@@ -49,7 +47,7 @@ describe("NationNukeBehavior - maybeDestroyEnemySam", () => {
     // Level-1 SAM at center of human territory (samRange = 20 in TestConfig,
     // covering the entire 60-90 block and intercepting all trajectories).
     const samTile = game.ref(75, 75);
-    const sam = human.buildUnit(UnitType.SAMLauncher, samTile, {});
+    const sam = human.buildUnit("SAMLauncher", samTile, {});
     game.addExecution(new SAMLauncherExecution(human, null, sam));
 
     // 3 level-1 missile silos (1 slot each). Overwhelming a level-1 SAM
@@ -59,7 +57,7 @@ describe("NationNukeBehavior - maybeDestroyEnemySam", () => {
       [25, 25],
       [30, 30],
     ] as const) {
-      const silo = nation.buildUnit(UnitType.MissileSilo, game.ref(x, y), {});
+      const silo = nation.buildUnit("MissileSilo", game.ref(x, y), {});
       game.addExecution(new MissileSiloExecution(silo));
     }
 
@@ -68,9 +66,9 @@ describe("NationNukeBehavior - maybeDestroyEnemySam", () => {
     nation.addTroops(100_000);
     human.addTroops(100_000);
 
-    expect(nation.units(UnitType.MissileSilo)).toHaveLength(3);
-    expect(human.units(UnitType.SAMLauncher)).toHaveLength(1);
-    expect(nation.units(UnitType.AtomBomb)).toHaveLength(0);
+    expect(nation.units("MissileSilo")).toHaveLength(3);
+    expect(human.units("SAMLauncher")).toHaveLength(1);
+    expect(nation.units("AtomBomb")).toHaveLength(0);
 
     // Try multiple game IDs to account for random attack-tick alignment
     // (attackRate ∈ [30,50] on Impossible). 150 inner ticks guarantees ≥2
@@ -92,7 +90,7 @@ describe("NationNukeBehavior - maybeDestroyEnemySam", () => {
         // but they don't complete their flight before we detect them.
         if (tick % 10 === 0) game.executeNextTick();
 
-        if (nation.units(UnitType.AtomBomb).length > 0) {
+        if (nation.units("AtomBomb").length > 0) {
           salvoLaunched = true;
           break;
         }
@@ -102,7 +100,7 @@ describe("NationNukeBehavior - maybeDestroyEnemySam", () => {
     expect(salvoLaunched).toBe(true);
 
     // At least 2 atom bombs to overwhelm the level-1 SAM
-    const atomBombs = nation.units(UnitType.AtomBomb);
+    const atomBombs = nation.units("AtomBomb");
     expect(atomBombs.length).toBeGreaterThanOrEqual(2);
 
     // All bombs should target the SAM tile

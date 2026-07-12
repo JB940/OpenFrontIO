@@ -4,7 +4,6 @@ import { AiAttackBehavior } from "../src/core/execution/utils/AiAttackBehavior";
 import {
   Difficulty,
   Game,
-  GameMode,
   Player,
   PlayerInfo,
 } from "../src/core/game/Game";
@@ -226,7 +225,7 @@ describe("Hard/Impossible troop floor", () => {
 
   it("Hard: caps attack troops so nation retains 75% of strongest neighbor's troops", async () => {
     const { testGame, attacker, neighbor, behavior } =
-      await setupTroopFloorTest(Difficulty.Hard);
+      await setupTroopFloorTest("Hard");
 
     attacker.addTroops(100_000);
     neighbor.addTroops(90_000);
@@ -248,7 +247,7 @@ describe("Hard/Impossible troop floor", () => {
 
   it("Hard: prevents attack when nation troops < 75% of strongest neighbor", async () => {
     const { testGame, attacker, neighbor, bot, behavior } =
-      await setupTroopFloorTest(Difficulty.Hard);
+      await setupTroopFloorTest("Hard");
 
     // Attacker has fewer troops than 75% of neighbor
     attacker.addTroops(3_000);
@@ -266,7 +265,7 @@ describe("Hard/Impossible troop floor", () => {
 
   it("Hard: skips attack when capped troops are < 20% of target's troops", async () => {
     const { testGame, attacker, neighbor, behavior } =
-      await setupTroopFloorTest(Difficulty.Hard);
+      await setupTroopFloorTest("Hard");
 
     // Add a strong human target sharing borders
     const targetInfo = new PlayerInfo(
@@ -302,7 +301,7 @@ describe("Hard/Impossible troop floor", () => {
 
   it("Impossible: caps attack troops so nation retains 90% of strongest neighbor's troops", async () => {
     const { testGame, attacker, neighbor, behavior } =
-      await setupTroopFloorTest(Difficulty.Impossible);
+      await setupTroopFloorTest("Impossible");
 
     attacker.addTroops(100_000);
     neighbor.addTroops(90_000);
@@ -324,7 +323,7 @@ describe("Hard/Impossible troop floor", () => {
 
   it("Easy: no troop floor — sends based on reserve only", async () => {
     const { testGame, attacker, neighbor, bot, behavior } =
-      await setupTroopFloorTest(Difficulty.Easy);
+      await setupTroopFloorTest("Easy");
 
     attacker.addTroops(100_000);
     neighbor.addTroops(90_000);
@@ -352,7 +351,7 @@ describe("Hard/Impossible troop floor", () => {
     const testGame = await setup("big_plains", {
       infiniteGold: true,
       instantBuild: true,
-      difficulty: Difficulty.Hard,
+      difficulty: "Hard",
     });
 
     // Give bot only half the land so there's unowned land to attack via sendAttack
@@ -396,8 +395,8 @@ describe("Hard/Impossible troop floor", () => {
   it("Team: troopSendCap returns Infinity — no cap in team games", async () => {
     // Same setup as Hard cap test but with GameMode.Team
     const testGame = await setup("big_plains", {
-      difficulty: Difficulty.Hard,
-      gameMode: GameMode.Team,
+      difficulty: "Hard",
+      gameMode: "Team",
       playerTeams: 2,
     });
 
@@ -471,8 +470,8 @@ describe("Hard/Impossible troop floor", () => {
     // Same setup as the FFA "skips attack when capped troops are < 20%" test
     // but with GameMode.Team. In FFA Hard, the attack would be blocked.
     const testGame = await setup("big_plains", {
-      difficulty: Difficulty.Hard,
-      gameMode: GameMode.Team,
+      difficulty: "Hard",
+      gameMode: "Team",
       playerTeams: 2,
     });
 
@@ -550,7 +549,7 @@ describe("Hard/Impossible troop floor", () => {
 
   it("Hard: nation under attack bypasses troopSendCap and isAttackTooWeak", async () => {
     const { testGame, attacker, neighbor, behavior } =
-      await setupTroopFloorTest(Difficulty.Hard);
+      await setupTroopFloorTest("Hard");
 
     // Neighbor has far more troops, so the normal cap would be 0
     attacker.addTroops(100_000);

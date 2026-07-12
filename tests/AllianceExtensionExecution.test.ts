@@ -1,6 +1,6 @@
 import { AllianceExtensionExecution } from "../src/core/execution/alliance/AllianceExtensionExecution";
 import { AllianceRequestExecution } from "../src/core/execution/alliance/AllianceRequestExecution";
-import { Game, MessageType, Player } from "../src/core/game/Game";
+import { Game, Player } from "../src/core/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 
 let game: Game;
@@ -130,7 +130,7 @@ describe("AllianceExtensionExecution", () => {
     // Verify message was sent to player2
     expect(displayMessageSpy).toHaveBeenCalledWith(
       "events_display.wants_to_renew_alliance",
-      MessageType.RENEW_ALLIANCE,
+      "RENEW_ALLIANCE",
       player2.id(),
       undefined,
       { name: player1.displayName() },

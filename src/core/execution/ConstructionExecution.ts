@@ -1,4 +1,5 @@
-import { Execution, Game, Player, Tick, Unit, UnitType } from "../game/Game";
+import { Execution, Game, Player, Tick, Unit } from "../game/Game";
+import type { UnitType } from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { CityExecution } from "./CityExecution";
 import { DefensePostExecution } from "./DefensePostExecution";
@@ -102,8 +103,8 @@ export class ConstructionExecution implements Execution {
     }
     const player = this.player;
     switch (this.constructionType) {
-      case UnitType.AtomBomb:
-      case UnitType.HydrogenBomb:
+      case "AtomBomb":
+      case "HydrogenBomb":
         this.mg.addExecution(
           new NukeExecution(
             this.constructionType,
@@ -116,32 +117,32 @@ export class ConstructionExecution implements Execution {
           ),
         );
         break;
-      case UnitType.MIRV:
+      case "MIRV":
         this.mg.addExecution(new MirvExecution(player, this.tile));
         break;
-      case UnitType.Warship:
+      case "Warship":
         this.mg.addExecution(
           new WarshipExecution({ owner: player, patrolTile: this.tile }),
         );
         break;
-      case UnitType.Port:
+      case "Port":
         this.mg.addExecution(new PortExecution(this.structure!));
         break;
-      case UnitType.MissileSilo:
+      case "MissileSilo":
         this.mg.addExecution(new MissileSiloExecution(this.structure!));
         break;
-      case UnitType.DefensePost:
+      case "DefensePost":
         this.mg.addExecution(new DefensePostExecution(this.structure!));
         break;
-      case UnitType.SAMLauncher:
+      case "SAMLauncher":
         this.mg.addExecution(
           new SAMLauncherExecution(player, null, this.structure!),
         );
         break;
-      case UnitType.City:
+      case "City":
         this.mg.addExecution(new CityExecution(this.structure!));
         break;
-      case UnitType.Factory:
+      case "Factory":
         this.mg.addExecution(new FactoryExecution(this.structure!));
         break;
       default:
@@ -154,12 +155,12 @@ export class ConstructionExecution implements Execution {
 
   private isStructure(type: UnitType): boolean {
     switch (type) {
-      case UnitType.Port:
-      case UnitType.MissileSilo:
-      case UnitType.DefensePost:
-      case UnitType.SAMLauncher:
-      case UnitType.City:
-      case UnitType.Factory:
+      case "Port":
+      case "MissileSilo":
+      case "DefensePost":
+      case "SAMLauncher":
+      case "City":
+      case "Factory":
         return true;
       default:
         return false;

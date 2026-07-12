@@ -16,7 +16,6 @@ vi.mock("../../src/core/Schemas", async () => {
   };
 });
 
-import { GameType } from "../../src/core/game/Game";
 import { Client } from "../../src/server/Client";
 import { GameServer } from "../../src/server/GameServer";
 
@@ -80,7 +79,7 @@ describe("GameServer - kick_player authorization", () => {
       "test-game",
       mockLogger,
       Date.now(),
-      { gameType: GameType.Private } as any,
+      { gameType: "Private" } as any,
       creatorPersistentID,
     );
   }

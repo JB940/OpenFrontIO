@@ -1,5 +1,4 @@
 import { EventBus } from "../../core/EventBus";
-import { UnitType } from "../../core/game/Game";
 import { GameUpdateType } from "../../core/game/GameUpdates";
 import { Controller } from "../Controller";
 import { PlaySoundEffectEvent, SoundEffect } from "../sound/Sounds";
@@ -35,11 +34,11 @@ export class SoundEffectController implements Controller {
       this.onCreated(unit);
     }
     switch (unit.type()) {
-      case UnitType.AtomBomb:
-      case UnitType.MIRVWarhead:
+      case "AtomBomb":
+      case "MIRVWarhead":
         this.onNukeDetonation(unit, "atom-hit");
         break;
-      case UnitType.HydrogenBomb:
+      case "HydrogenBomb":
         this.onNukeDetonation(unit, "hydrogen-hit");
         break;
     }
@@ -48,28 +47,28 @@ export class SoundEffectController implements Controller {
   private onCreated(unit: UnitView): void {
     const myPlayer = this.game.myPlayer();
     switch (unit.type()) {
-      case UnitType.AtomBomb:
+      case "AtomBomb":
         this.emit("atom-launch");
         break;
-      case UnitType.HydrogenBomb:
+      case "HydrogenBomb":
         this.emit("hydrogen-launch");
         break;
-      case UnitType.MIRV:
+      case "MIRV":
         this.emit("mirv-launch");
         break;
-      case UnitType.Warship:
+      case "Warship":
         if (unit.owner() === myPlayer) this.emit("build-warship");
         break;
-      case UnitType.City:
+      case "City":
         if (unit.owner() === myPlayer) this.emit("build-city");
         break;
-      case UnitType.Port:
+      case "Port":
         if (unit.owner() === myPlayer) this.emit("build-port");
         break;
-      case UnitType.DefensePost:
+      case "DefensePost":
         if (unit.owner() === myPlayer) this.emit("build-defense-post");
         break;
-      case UnitType.SAMLauncher:
+      case "SAMLauncher":
         if (unit.owner() === myPlayer) this.emit("sam-built");
         break;
     }

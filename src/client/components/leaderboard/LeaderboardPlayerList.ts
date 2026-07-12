@@ -1,7 +1,6 @@
 import { html, LitElement, nothing } from "lit";
 import { customElement, query, state } from "lit/decorators.js";
 import { PlayerLeaderboardEntry } from "../../../core/ApiSchemas";
-import { RankedType } from "../../../core/game/Game";
 import { fetchPlayerLeaderboard, getUserMe } from "../../Api";
 import { translateText } from "../../Utils";
 
@@ -68,9 +67,8 @@ export class LeaderboardPlayerList extends LitElement {
         return;
       }
 
-      const nextPlayers: PlayerLeaderboardEntry[] = result[
-        RankedType.OneVOne
-      ].map((entry) => ({
+      const nextPlayers: PlayerLeaderboardEntry[] = result["1v1"]
+      .map((entry) => ({
         rank: entry.rank,
         playerId: entry.public_id,
         username: entry.username,

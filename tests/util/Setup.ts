@@ -1,15 +1,11 @@
 import fs from "fs";
 import path from "path";
 import {
-  Difficulty,
   Game,
-  GameMapSize,
   GameMapType,
-  GameMode,
-  GameType,
   PlayerInfo,
-  PlayerType,
 } from "../../src/core/game/Game";
+import { PlayerType } from "../../src/core/game/Game";
 import { createGame } from "../../src/core/game/GameImpl";
 import {
   genTerrainFromBin,
@@ -55,10 +51,10 @@ export async function setup(
 
   const gameConfig: GameConfig = {
     gameMap: GameMapType.Asia,
-    gameMapSize: GameMapSize.Normal,
-    gameMode: GameMode.FFA,
-    gameType: GameType.Singleplayer,
-    difficulty: Difficulty.Medium,
+    gameMapSize: "Normal",
+    gameMode: "Free For All",
+    gameType: "Singleplayer",
+    difficulty: "Medium",
     nations: "default",
     donateGold: false,
     donateTroops: false,

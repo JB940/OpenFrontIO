@@ -3,13 +3,7 @@ import { customElement, state } from "lit/decorators.js";
 import { translateText } from "../../../client/Utils";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
-import {
-  BuildableUnit,
-  BuildMenus,
-  Gold,
-  PlayerBuildableUnitType,
-  UnitType,
-} from "../../../core/game/Game";
+import { BuildableUnit, BuildMenus, Gold, PlayerBuildableUnitType } from "../../../core/game/Game";
 import { TileRef } from "../../../core/game/GameMap";
 import { Controller } from "../../Controller";
 import {
@@ -49,70 +43,70 @@ export interface BuildItemDisplay {
 export const buildTable: BuildItemDisplay[][] = [
   [
     {
-      unitType: UnitType.AtomBomb,
+      unitType: "AtomBomb",
       icon: atomBombIcon,
       description: "build_menu.desc.atom_bomb",
       key: "unit_type.atom_bomb",
       countable: false,
     },
     {
-      unitType: UnitType.MIRV,
+      unitType: "MIRV",
       icon: mirvIcon,
       description: "build_menu.desc.mirv",
       key: "unit_type.mirv",
       countable: false,
     },
     {
-      unitType: UnitType.HydrogenBomb,
+      unitType: "HydrogenBomb",
       icon: hydrogenBombIcon,
       description: "build_menu.desc.hydrogen_bomb",
       key: "unit_type.hydrogen_bomb",
       countable: false,
     },
     {
-      unitType: UnitType.Warship,
+      unitType: "Warship",
       icon: warshipIcon,
       description: "build_menu.desc.warship",
       key: "unit_type.warship",
       countable: true,
     },
     {
-      unitType: UnitType.Port,
+      unitType: "Port",
       icon: portIcon,
       description: "build_menu.desc.port",
       key: "unit_type.port",
       countable: true,
     },
     {
-      unitType: UnitType.MissileSilo,
+      unitType: "MissileSilo",
       icon: missileSiloIcon,
       description: "build_menu.desc.missile_silo",
       key: "unit_type.missile_silo",
       countable: true,
     },
     {
-      unitType: UnitType.SAMLauncher,
+      unitType: "SAMLauncher",
       icon: samlauncherIcon,
       description: "build_menu.desc.sam_launcher",
       key: "unit_type.sam_launcher",
       countable: true,
     },
     {
-      unitType: UnitType.DefensePost,
+      unitType: "DefensePost",
       icon: shieldIcon,
       description: "build_menu.desc.defense_post",
       key: "unit_type.defense_post",
       countable: true,
     },
     {
-      unitType: UnitType.City,
+      unitType: "City",
       icon: cityIcon,
       description: "build_menu.desc.city",
       key: "unit_type.city",
       countable: true,
     },
     {
-      unitType: UnitType.Factory,
+      unitType: "Factory",
       icon: factoryIcon,
       description: "build_menu.desc.factory",
       key: "unit_type.factory",
@@ -392,8 +386,8 @@ export class BuildMenu extends LitElement implements Controller {
       );
     } else if (buildableUnit.canBuild) {
       const rocketDirectionUp =
-        buildableUnit.type === UnitType.AtomBomb ||
-        buildableUnit.type === UnitType.HydrogenBomb
+        buildableUnit.type === "AtomBomb" ||
+        buildableUnit.type === "HydrogenBomb"
           ? this.uiState.rocketDirectionUp
           : undefined;
       this.eventBus.emit(

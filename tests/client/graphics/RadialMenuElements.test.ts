@@ -8,8 +8,8 @@ import {
   slotSchema,
 } from "../../../src/client/hud/layers/RadialMenuElements";
 import { GameView, PlayerView } from "../../../src/client/view";
-import { UnitType } from "../../../src/core/game/Game";
 import { TileRef } from "../../../src/core/game/GameMap";
+import { UnitTypeSchema } from "../../../src/core/game/Game";
 
 vi.mock("../../../src/client/Utils", () => ({
   translateText: vi.fn((key: string) => key),
@@ -17,48 +17,45 @@ vi.mock("../../../src/client/Utils", () => ({
 }));
 
 vi.mock("../../../src/client/hud/layers/BuildMenu", async () => {
-  const { UnitType } = await vi.importActual<
-    typeof import("../../../src/core/game/Game")
-  >("../../../src/core/game/Game");
   return {
     flattenedBuildTable: [
       {
-        unitType: UnitType.City,
+        unitType: "City",
         key: "unit_type.city",
         description: "unit_type.city_desc",
         icon: "city-icon",
         countable: true,
       },
       {
-        unitType: UnitType.Factory,
+        unitType: "Factory",
         key: "unit_type.factory",
         description: "unit_type.factory_desc",
         icon: "factory-icon",
         countable: true,
       },
       {
-        unitType: UnitType.AtomBomb,
+        unitType: "AtomBomb",
         key: "unit_type.atom_bomb",
         description: "unit_type.atom_bomb_desc",
         icon: "atom-bomb-icon",
         countable: false,
       },
       {
-        unitType: UnitType.Warship,
+        unitType: "Warship",
         key: "unit_type.warship",
         description: "unit_type.warship_desc",
         icon: "warship-icon",
         countable: true,
       },
       {
-        unitType: UnitType.HydrogenBomb,
+        unitType: "HydrogenBomb",
         key: "unit_type.hydrogen_bomb",
         description: "unit_type.hydrogen_bomb_desc",
         icon: "hydrogen-bomb-icon",
         countable: false,
       },
       {
-        unitType: UnitType.MIRV,
+        unitType: "MIRV",
         key: "unit_type.mirv",
         description: "unit_type.mirv_desc",
         icon: "mirv-icon",
@@ -119,13 +116,13 @@ describe("RadialMenuElements", () => {
 
     mockPlayerActions = {
       buildableUnits: [
-        { type: UnitType.City, canBuild: true },
-        { type: UnitType.Factory, canBuild: true },
-        { type: UnitType.AtomBomb, canBuild: true },
-        { type: UnitType.Warship, canBuild: true },
-        { type: UnitType.HydrogenBomb, canBuild: true },
-        { type: UnitType.MIRV, canBuild: true },
-        { type: UnitType.TransportShip, canBuild: true },
+        { type: "City", canBuild: true },
+        { type: "Factory", canBuild: true },
+        { type: "AtomBomb", canBuild: true },
+        { type: "Warship", canBuild: true },
+        { type: "HydrogenBomb", canBuild: true },
+        { type: "MIRV", canBuild: true },
+        { type: "TransportShip", canBuild: true },
       ],
       canAttack: true,
       interaction: {
@@ -185,14 +182,14 @@ describe("RadialMenuElements", () => {
       expect(subMenu.length).toBeGreaterThan(0);
 
       const attackUnitTypes = [
-        UnitType.AtomBomb,
-        UnitType.MIRV,
-        UnitType.HydrogenBomb,
-        UnitType.Warship,
+        "AtomBomb",
+        "MIRV",
+        "HydrogenBomb",
+        "Warship",
       ];
       const returnedUnitTypes = subMenu.map((item) => {
         const unitTypeStr = item.id.replace("attack_", "");
-        return Object.values(UnitType).find(
+        return Object.values(UnitTypeSchema).find(
           (type) => type.toString() === unitTypeStr,
         );
       });
@@ -211,10 +208,10 @@ describe("RadialMenuElements", () => {
 
       const subMenu = attackMenuElement.subMenu!(mockParams);
 
-      const constructionUnitTypes = [UnitType.City, UnitType.Factory];
+      const constructionUnitTypes = ["City", "Factory"];
       const returnedUnitTypes = subMenu.map((item) => {
         const unitTypeStr = item.id.replace("attack_", "");
-        return Object.values(UnitType).find(
+        return Object.values(UnitTypeSchema).find(
           (type) => type.toString() === unitTypeStr,
         );
       });
@@ -254,10 +251,10 @@ describe("RadialMenuElements", () => {
       expect(subMenu).toBeDefined();
       expect(subMenu.length).toBeGreaterThan(0);
 
-      const constructionUnitTypes = [UnitType.City, UnitType.Factory];
+      const constructionUnitTypes = ["City", "Factory"];
       const returnedUnitTypes = subMenu.map((item) => {
         const unitTypeStr = item.id.replace("build_", "");
-        return Object.values(UnitType).find(
+        return Object.values(UnitTypeSchema).find(
           (type) => type.toString() === unitTypeStr,
         );
       });
@@ -271,14 +268,14 @@ describe("RadialMenuElements", () => {
       const subMenu = buildMenuElement.subMenu!(mockParams);
 
       const attackUnitTypes = [
-        UnitType.AtomBomb,
-        UnitType.MIRV,
-        UnitType.HydrogenBomb,
-        UnitType.Warship,
+        "AtomBomb",
+        "MIRV",
+        "HydrogenBomb",
+        "Warship",
       ];
       const returnedUnitTypes = subMenu.map((item) => {
         const unitTypeStr = item.id.replace("build_", "");
-        return Object.values(UnitType).find(
+        return Object.values(UnitTypeSchema).find(
           (type) => type.toString() === unitTypeStr,
         );
       });

@@ -162,7 +162,7 @@ export async function buildPreview(
       countActivePlayers(players) || (lobby?.clients?.length ?? 0);
   }
   const map = lobby?.gameConfig?.gameMap ?? config.gameMap;
-  let mode = lobby?.gameConfig?.gameMode ?? config.gameMode ?? GameMode.FFA;
+  let mode = lobby?.gameConfig?.gameMode ?? config.gameMode ?? "Free For All";
   const playerTeams = lobby?.gameConfig?.playerTeams ?? config.playerTeams;
   const numericTeamCount =
     typeof playerTeams === "number" && playerTeams > 0

@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from "vitest";
-import { GameType } from "../../src/core/game/Game";
 import { registerAdminBotRoutes } from "../../src/server/AdminBotRoutes";
 
 function mockRes() {
@@ -38,7 +37,7 @@ describe("admin bot create_game gameType guard", () => {
   it("rejects a Singleplayer game with 400", () => {
     const handler = captureCreateHandler();
     const res = mockRes();
-    handler({ body: { gameType: GameType.Singleplayer } }, res);
+    handler({ body: { gameType: "Singleplayer" } }, res);
     expect(res.statusCode).toBe(400);
     expect(res.body.error).toMatch(/private games/);
   });
@@ -46,7 +45,7 @@ describe("admin bot create_game gameType guard", () => {
   it("rejects a Public game with 400", () => {
     const handler = captureCreateHandler();
     const res = mockRes();
-    handler({ body: { gameType: GameType.Public } }, res);
+    handler({ body: { gameType: "Public" } }, res);
     expect(res.statusCode).toBe(400);
     expect(res.body.error).toMatch(/private games/);
   });

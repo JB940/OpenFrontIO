@@ -1,6 +1,7 @@
 import { TrainExecution } from "../execution/TrainExecution";
 import { PseudoRandom } from "../PseudoRandom";
-import { Game, Player, Unit, UnitType } from "./Game";
+import { Game, Player, Unit } from "./Game";
+import type { UnitType } from "./Game";
 import { TileRef } from "./GameMap";
 import { GameUpdateType } from "./GameUpdates";
 import { Railroad } from "./Railroad";
@@ -49,9 +50,9 @@ export function createTrainStopHandlers(
   random: PseudoRandom,
 ): Partial<Record<UnitType, TrainStopHandler>> {
   return {
-    [UnitType.City]: new TradeStationStopHandler(),
-    [UnitType.Port]: new TradeStationStopHandler(),
-    [UnitType.Factory]: new FactoryStopHandler(),
+    ["City"]: new TradeStationStopHandler(),
+    ["Port"]: new TradeStationStopHandler(),
+    ["Factory"]: new FactoryStopHandler(),
   };
 }
 
@@ -164,7 +165,7 @@ export class Cluster {
 
   private isTradeStation(station: TrainStation): boolean {
     const type = station.unit.type();
-    return type === UnitType.City || type === UnitType.Port;
+    return type === "City" || type === "Port";
   }
 
   has(station: TrainStation) {

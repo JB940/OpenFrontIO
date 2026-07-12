@@ -21,10 +21,6 @@ import {
   PublicGameInfo,
 } from "../core/Schemas";
 import {
-  Difficulty,
-  GameMapSize,
-  GameMode,
-  GameType,
   HumansVsNations,
 } from "../core/game/Game";
 import { getApiBase } from "./Api";
@@ -69,7 +65,7 @@ export class JoinLobbyModal extends BaseModal {
   });
 
   private isPrivateLobby(): boolean {
-    return this.gameConfig?.gameType === GameType.Private;
+    return this.gameConfig?.gameType === "Private";
   }
 
   private readonly handleLobbyInfo = (event: LobbyInfoEvent) => {
@@ -155,13 +151,13 @@ export class JoinLobbyModal extends BaseModal {
                   ? html`
                       <lobby-player-view
                         class="mt-6"
-                        .gameMode=${this.gameConfig?.gameMode ?? GameMode.FFA}
+                        .gameMode=${this.gameConfig?.gameMode ?? "Free For All"}
                         .clients=${this.players}
                         .lobbyCreatorClientID=${hostClientID}
                         .currentClientID=${this.currentClientID}
                         .teamCount=${this.gameConfig?.playerTeams ?? 2}
                         .isPublicGame=${this.gameConfig?.gameType ===
-                        GameType.Public}
+                        "Public"}
                         .nationCount=${nationsConfigToSlider(
                           this.gameConfig?.nations ?? "default",
                           this.nationCount,
@@ -500,7 +496,7 @@ export class JoinLobbyModal extends BaseModal {
   // --- Game config rendering ---
 
   private modeSubtitle(c: GameConfig): string {
-    if (c.gameMode !== GameMode.Team) {
+    if (c.gameMode !== "Team") {
       return translateText("game_mode.ffa");
     }
     if (c.playerTeams === HumansVsNations) {
@@ -526,7 +522,7 @@ export class JoinLobbyModal extends BaseModal {
     const thumbnailUrl = assetUrl(
       `maps/${encodeURIComponent(normalizedMap)}/thumbnail.webp`,
     );
-    const isTeam = c.gameMode === GameMode.Team;
+    const isTeam = c.gameMode === "Team";
     const modeSubtitle = this.modeSubtitle(c);
 
     const pm = c.publicGameModifiers;
@@ -540,7 +536,7 @@ export class JoinLobbyModal extends BaseModal {
       );
     if (
       pm?.isHardNations ||
-      (c.gameType === GameType.Private && c.difficulty !== Difficulty.Easy)
+      (c.gameType === "Private" && c.difficulty !== "Easy")
     )
       cards.push(
         html`<lobby-config-item
@@ -659,7 +655,7 @@ export class JoinLobbyModal extends BaseModal {
         ></lobby-config-item>`,
       );
     const isCompact =
-      c.gameMapSize === GameMapSize.Compact || c.publicGameModifiers?.isCompact;
+      c.gameMapSize === "Compact" || c.publicGameModifiers?.isCompact;
     if (isCompact)
       cards.push(
         html`<lobby-config-item
@@ -689,7 +685,7 @@ export class JoinLobbyModal extends BaseModal {
           ></lobby-config-item>`,
         );
     }
-    if (c.nations === "disabled" && !(c.gameType === GameType.Public && isTeam))
+    if (c.nations === "disabled" && !(c.gameType === "Public" && isTeam))
       cards.push(
         html`<lobby-config-item
           .label=${translateText("host_modal.nations")}

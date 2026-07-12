@@ -18,10 +18,8 @@ import {
   EmojiMessage,
   Execution,
   Game,
-  GameMode,
   GameUpdates,
   HumansVsNations,
-  MessageType,
   MutableAlliance,
   Nation,
   Player,
@@ -31,13 +29,12 @@ import {
   SpawnArea,
   Team,
   TeamGameSpawnAreas,
-  TerrainType,
   TerraNullius,
   Trios,
   Unit,
   UnitInfo,
-  UnitType,
 } from "./Game";
+import { UnitType, TerrainType, MessageType } from "./Game";
 import { GameMap, TileRef } from "./GameMap";
 import { GameUpdate, GameUpdateType } from "./GameUpdates";
 import { MotionPlanRecord, packMotionPlans } from "./MotionPlans";
@@ -139,7 +136,7 @@ export class GameImpl implements Game {
     );
     this._sharedWaterCache = new SharedWaterCache(this);
 
-    if (_config.gameConfig().gameMode === GameMode.Team) {
+    if (_config.gameConfig().gameMode === "Team") {
       this.populateTeams();
     }
     this.addPlayers();
@@ -192,7 +189,7 @@ export class GameImpl implements Game {
   }
 
   private addPlayers() {
-    if (this.config().gameConfig().gameMode === GameMode.FFA) {
+    if (this.config().gameConfig().gameMode === "Free For All") {
       this._humans.forEach((p) => this.addPlayer(p));
       this._nations.forEach((n) => this.addPlayer(n.playerInfo));
       return;
@@ -661,7 +658,7 @@ export class GameImpl implements Game {
   }
 
   private maybeAssignTeam(player: PlayerInfo): Team | null {
-    if (this._config.gameConfig().gameMode !== GameMode.Team) {
+    if (this._config.gameConfig().gameMode !== "Team") {
       return null;
     }
     if (player.playerType === "Bot") {
@@ -929,7 +926,7 @@ export class GameImpl implements Game {
   }
 
   teams(): Team[] {
-    if (this._config.gameConfig().gameMode !== GameMode.Team) {
+    if (this._config.gameConfig().gameMode !== "Team") {
       return [];
     }
     return [this.botTeam, ...this.playerTeams];
@@ -1253,8 +1250,8 @@ export class GameImpl implements Game {
         .units()
         .filter(
           (u) =>
-            u.type() === UnitType.Warship ||
-            u.type() === UnitType.TransportShip,
+            u.type() === "Warship" ||
+            u.type() === "TransportShip",
         );
 
       for (const ship of ships) {
@@ -1275,7 +1272,7 @@ export class GameImpl implements Game {
     if (skipGoldTransfer) {
       this.displayMessage(
         "events_display.conquered_no_gold",
-        MessageType.CONQUERED_PLAYER,
+        "CONQUERED_PLAYER",
         conqueror.id(),
         undefined,
         {
@@ -1285,7 +1282,7 @@ export class GameImpl implements Game {
     } else {
       this.displayMessage(
         "events_display.received_gold_from_conquest",
-        MessageType.CONQUERED_PLAYER,
+        "CONQUERED_PLAYER",
         conqueror.id(),
         gold,
         {

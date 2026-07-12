@@ -7,12 +7,7 @@
 
 import { describe, expect, it } from "vitest";
 import { UnitView } from "../../../src/client/view/UnitView";
-import {
-  TrainType,
-  TransportShipState,
-  UnitType,
-  WarshipState,
-} from "../../../src/core/game/Game";
+import { TransportShipState, WarshipState } from "../../../src/core/game/Game";
 import { makeGameView, makeUnitUpdate, stubConfig } from "../../util/viewStubs";
 
 describe("UnitView accessors", () => {
@@ -22,7 +17,7 @@ describe("UnitView accessors", () => {
       game,
       makeUnitUpdate({
         id: 42,
-        unitType: UnitType.City,
+        unitType: "City",
         ownerID: 7,
         pos: 100,
         lastPos: 99,
@@ -37,7 +32,7 @@ describe("UnitView accessors", () => {
     );
 
     expect(u.id()).toBe(42);
-    expect(u.type()).toBe(UnitType.City);
+    expect(u.type()).toBe("City");
     expect(u.troops()).toBe(250);
     expect(u.level()).toBe(3);
     expect(u.hasTrainStation()).toBe(true);
@@ -128,9 +123,9 @@ describe("UnitView accessors", () => {
     const game = makeGameView();
     const u = new UnitView(
       game,
-      makeUnitUpdate({ trainType: TrainType.Engine, loaded: true }),
+      makeUnitUpdate({ trainType: "Engine", loaded: true }),
     );
-    expect(u.trainType()).toBe(TrainType.Engine);
+    expect(u.trainType()).toBe("Engine");
     expect(u.isLoaded()).toBe(true);
   });
 
@@ -219,7 +214,7 @@ describe("UnitView accessors", () => {
       const u = new UnitView(
         game,
         makeUnitUpdate({
-          unitType: UnitType.SAMLauncher,
+          unitType: "SAMLauncher",
           level: 2,
           missileTimerQueue: [0, 0], // both reloading, started at tick 0
         }),
@@ -243,7 +238,7 @@ describe("UnitView accessors", () => {
       const u = new UnitView(
         game,
         makeUnitUpdate({
-          unitType: UnitType.SAMLauncher,
+          unitType: "SAMLauncher",
           level: 2,
           missileTimerQueue: [0, 0],
         }),

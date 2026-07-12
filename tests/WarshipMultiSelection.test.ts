@@ -1,6 +1,6 @@
 import { MoveWarshipExecution } from "../src/core/execution/MoveWarshipExecution";
 import { WarshipExecution } from "../src/core/execution/WarshipExecution";
-import { Game, Player, PlayerInfo, UnitType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 import { executeTicks } from "./util/utils";
 
@@ -24,13 +24,13 @@ describe("Warship multi-selection (MoveWarshipExecution)", () => {
   });
 
   test("moving multiple warships via array MoveWarshipExecution updates all patrol tiles", () => {
-    const w1 = player1.buildUnit(UnitType.Warship, game.ref(coastX + 1, 10), {
+    const w1 = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
       patrolTile: game.ref(coastX + 1, 10),
     });
-    const w2 = player1.buildUnit(UnitType.Warship, game.ref(coastX + 2, 10), {
+    const w2 = player1.buildUnit("Warship", game.ref(coastX + 2, 10), {
       patrolTile: game.ref(coastX + 2, 10),
     });
-    const w3 = player1.buildUnit(UnitType.Warship, game.ref(coastX + 3, 10), {
+    const w3 = player1.buildUnit("Warship", game.ref(coastX + 3, 10), {
       patrolTile: game.ref(coastX + 3, 10),
     });
 
@@ -56,10 +56,10 @@ describe("Warship multi-selection (MoveWarshipExecution)", () => {
   });
 
   test("moving multiple warships to different targets works independently", () => {
-    const w1 = player1.buildUnit(UnitType.Warship, game.ref(coastX + 1, 10), {
+    const w1 = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
       patrolTile: game.ref(coastX + 1, 10),
     });
-    const w2 = player1.buildUnit(UnitType.Warship, game.ref(coastX + 2, 10), {
+    const w2 = player1.buildUnit("Warship", game.ref(coastX + 2, 10), {
       patrolTile: game.ref(coastX + 2, 10),
     });
 
@@ -80,7 +80,7 @@ describe("Warship multi-selection (MoveWarshipExecution)", () => {
 
   test("enemy cannot move player's warships via MoveWarshipExecution", () => {
     const originalTile = game.ref(coastX + 1, 10);
-    const w1 = player1.buildUnit(UnitType.Warship, originalTile, {
+    const w1 = player1.buildUnit("Warship", originalTile, {
       patrolTile: originalTile,
     });
     game.addExecution(new WarshipExecution(w1));
@@ -94,7 +94,7 @@ describe("Warship multi-selection (MoveWarshipExecution)", () => {
   });
 
   test("MoveWarshipExecution on destroyed warship does not throw", () => {
-    const w1 = player1.buildUnit(UnitType.Warship, game.ref(coastX + 1, 10), {
+    const w1 = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
       patrolTile: game.ref(coastX + 1, 10),
     });
     w1.delete();
@@ -112,10 +112,10 @@ describe("Warship multi-selection (MoveWarshipExecution)", () => {
     const p1tile = game.ref(coastX + 1, 10);
     const p2tile = game.ref(coastX + 2, 10);
 
-    const w1 = player1.buildUnit(UnitType.Warship, p1tile, {
+    const w1 = player1.buildUnit("Warship", p1tile, {
       patrolTile: p1tile,
     });
-    const w2 = player2.buildUnit(UnitType.Warship, p2tile, {
+    const w2 = player2.buildUnit("Warship", p2tile, {
       patrolTile: p2tile,
     });
 

@@ -4,7 +4,6 @@ import { Logger } from "winston";
 import WebSocket from "ws";
 import { z } from "zod";
 import { isAdminRole } from "../core/ApiSchemas";
-import { GameType } from "../core/game/Game";
 import {
   ClientID,
   ClientMessageSchema,
@@ -383,7 +382,7 @@ export class GameServer {
         if (this.hasStarted()) {
           return { status: 409, error: "game already started" };
         }
-        if (stamped.config.gameType === GameType.Public) {
+        if (stamped.config.gameType === "Public") {
           return { status: 400, error: "cannot change a game to public" };
         }
         // Host cheats give the host an asymmetric advantage over players
@@ -530,7 +529,7 @@ export class GameServer {
     });
 
     if (
-      this.gameConfig.gameType === GameType.Public &&
+      this.gameConfig.gameType === "Public" &&
       this.activeClients.filter(
         (c) => c.ip === client.ip && c.clientID !== client.clientID,
       ).length >= 3
@@ -1186,7 +1185,7 @@ export class GameServer {
   }
 
   public isPublic(): boolean {
-    return this.gameConfig.gameType === GameType.Public;
+    return this.gameConfig.gameType === "Public";
   }
 
   public isListed(): boolean {

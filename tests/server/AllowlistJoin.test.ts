@@ -16,7 +16,6 @@ vi.mock("../../src/core/Schemas", async () => {
   };
 });
 
-import { GameType } from "../../src/core/game/Game";
 import { Client } from "../../src/server/Client";
 import { GameServer } from "../../src/server/GameServer";
 
@@ -72,7 +71,7 @@ describe("GameServer - allowlist (allowedPublicIds)", () => {
 
   function makeGame(allowedPublicIds?: string[]) {
     return new GameServer("test-game", mockLogger, Date.now(), {
-      gameType: GameType.Private,
+      gameType: "Private",
       ...(allowedPublicIds ? { allowedPublicIds } : {}),
     } as any);
   }

@@ -8,18 +8,18 @@ import {
 } from "./CosmeticSchemas";
 import type { GameEvent } from "./EventBus";
 import {
-  AllPlayers,
-  Difficulty,
-  Duos,
-  GameMapSize,
+  DifficultySchema,
+  GameMapSizeSchema,
   GameMapType,
-  GameMode,
-  GameType,
+  GameModeSchema,
+  GameTypeSchema,
+  RankedTypeSchema,
+  UnitTypeSchema,
+  AllPlayers,
+  Duos,
   HumansVsNations,
   Quads,
-  RankedType,
   Trios,
-  UnitType,
 } from "./game/Game";
 import { PlayerStatsSchema } from "./StatsSchemas";
 import { flattenedEmojiTable } from "./Util";
@@ -306,13 +306,13 @@ export const DoomsdayClockConfigSchema = z.object({
 
 export const GameConfigSchema = z.object({
   gameMap: z.enum(GameMapType),
-  difficulty: z.enum(Difficulty),
+  difficulty: DifficultySchema,
   donateGold: z.boolean(), // Configures donations to humans only
   donateTroops: z.boolean(), // Configures donations to humans only
-  gameType: z.enum(GameType),
-  gameMode: z.enum(GameMode),
-  rankedType: z.enum(RankedType).optional(), // Only set for ranked games.
-  gameMapSize: z.enum(GameMapSize),
+  gameType: GameTypeSchema,
+  gameMode: GameModeSchema,
+  rankedType: RankedTypeSchema.optional(), // Only set for ranked games.
+  gameMapSize: GameMapSizeSchema,
   doomsdayClock: DoomsdayClockConfigSchema.optional(),
   publicGameModifiers: z
     .object({
@@ -363,7 +363,7 @@ export const GameConfigSchema = z.object({
   customAllianceDuration: z.number().int().min(0).max(15).nullable().optional(), // In minutes; 0 disables alliances
   startDelay: z.number().int().min(0).max(600).nullable().optional(), // In seconds
   spawnImmunityDuration: z.number().int().min(0).nullable().optional(), // In ticks
-  disabledUnits: z.enum(UnitType).array().optional(),
+  disabledUnits: UnitTypeSchema.array().optional(),
   playerTeams: TeamCountConfigSchema.optional(),
   goldMultiplier: z.number().min(0.1).max(1000).nullable().optional(),
   startingGold: z.number().int().min(0).max(1000000000).nullable().optional(),
@@ -502,14 +502,14 @@ export const DonateTroopIntentSchema = z.object({
 
 export const BuildUnitIntentSchema = z.object({
   type: z.literal("build_unit"),
-  unit: z.enum(UnitType),
+  unit: UnitTypeSchema,
   tile: z.number(),
   rocketDirectionUp: z.boolean().optional(),
 });
 
 export const UpgradeStructureIntentSchema = z.object({
   type: z.literal("upgrade_structure"),
-  unit: z.enum(UnitType),
+  unit: UnitTypeSchema,
   unitId: z.number(),
 });
 
@@ -724,7 +724,7 @@ export const ServerPingMessageSchema = z.object({
 export const ServerPrestartMessageSchema = z.object({
   type: z.literal("prestart"),
   gameMap: z.enum(GameMapType),
-  gameMapSize: z.enum(GameMapSize),
+  gameMapSize: GameMapSizeSchema,
 });
 
 export const ServerStartGameMessageSchema = z.object({

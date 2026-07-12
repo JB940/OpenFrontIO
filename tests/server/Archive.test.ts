@@ -77,7 +77,7 @@ describe("archive() singleplayer flag sanitization", () => {
 
   it("preserves same-origin country flag paths", async () => {
     await archive(
-      buildRecord(GameType.Singleplayer, "/flags/us.svg"),
+      buildRecord("Singleplayer", "/flags/us.svg"),
       new Set(),
     );
     expect(archivedBody(fetchMock).info.players[0].cosmetics.flag).toBe(
@@ -87,7 +87,7 @@ describe("archive() singleplayer flag sanitization", () => {
 
   it("preserves manifest-resolved asset paths", async () => {
     await archive(
-      buildRecord(GameType.Singleplayer, "/_assets/flags/us-abc123.svg"),
+      buildRecord("Singleplayer", "/_assets/flags/us-abc123.svg"),
       new Set(),
     );
     expect(archivedBody(fetchMock).info.players[0].cosmetics.flag).toBe(
@@ -98,7 +98,7 @@ describe("archive() singleplayer flag sanitization", () => {
   it("preserves cosmetic flag URLs that are in the trusted set", async () => {
     const trustedUrl = "https://example.com/cool.png";
     await archive(
-      buildRecord(GameType.Singleplayer, trustedUrl),
+      buildRecord("Singleplayer", trustedUrl),
       new Set([trustedUrl]),
     );
     expect(archivedBody(fetchMock).info.players[0].cosmetics.flag).toBe(
@@ -109,7 +109,7 @@ describe("archive() singleplayer flag sanitization", () => {
   it("drops attacker-controlled URLs not in the trusted set", async () => {
     await archive(
       buildRecord(
-        GameType.Singleplayer,
+        "Singleplayer",
         "https://attacker.example/payload.png",
       ),
       new Set(["https://example.com/cool.png"]),
@@ -121,7 +121,7 @@ describe("archive() singleplayer flag sanitization", () => {
 
   it("drops http URLs regardless of case", async () => {
     await archive(
-      buildRecord(GameType.Singleplayer, "HTTP://attacker.example/x.png"),
+      buildRecord("Singleplayer", "HTTP://attacker.example/x.png"),
       new Set(),
     );
     expect(
@@ -130,13 +130,13 @@ describe("archive() singleplayer flag sanitization", () => {
   });
 
   it("preserves untouched player when no flag is set", async () => {
-    await archive(buildRecord(GameType.Singleplayer, undefined), new Set());
+    await archive(buildRecord("Singleplayer", undefined), new Set());
     expect(archivedBody(fetchMock).info.players[0].cosmetics).toBeUndefined();
   });
 
   it("drops absolute URLs even when the trusted set is omitted", async () => {
     await archive(
-      buildRecord(GameType.Singleplayer, "https://example.com/cool.png"),
+      buildRecord("Singleplayer", "https://example.com/cool.png"),
     );
     expect(
       archivedBody(fetchMock).info.players[0].cosmetics?.flag,
@@ -158,7 +158,7 @@ describe("archive() multiplayer paths skip sanitization", () => {
 
   it("does not modify cosmetics for public games", async () => {
     const attackerUrl = "https://attacker.example/payload.png";
-    await archive(buildRecord(GameType.Public, attackerUrl));
+    await archive(buildRecord("Public", attackerUrl));
     expect(archivedBody(fetchMock).info.players[0].cosmetics.flag).toBe(
       attackerUrl,
     );
@@ -166,7 +166,7 @@ describe("archive() multiplayer paths skip sanitization", () => {
 
   it("does not modify cosmetics for private games", async () => {
     const attackerUrl = "https://attacker.example/payload.png";
-    await archive(buildRecord(GameType.Private, attackerUrl));
+    await archive(buildRecord("Private", attackerUrl));
     expect(archivedBody(fetchMock).info.players[0].cosmetics.flag).toBe(
       attackerUrl,
     );

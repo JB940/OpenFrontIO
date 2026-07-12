@@ -1,5 +1,5 @@
 import { EventBus, GameEvent } from "../core/EventBus";
-import { PlayerBuildableUnitType, UnitType } from "../core/game/Game";
+import { PlayerBuildableUnitType } from "../core/game/Game";
 import { UserSettings } from "../core/game/UserSettings";
 import { Platform } from "./Platform";
 import { UIState } from "./UIState";
@@ -1018,16 +1018,16 @@ export class InputHandler {
       key: string;
       type: PlayerBuildableUnitType;
     }> = [
-      { key: "buildCity", type: UnitType.City },
-      { key: "buildFactory", type: UnitType.Factory },
-      { key: "buildPort", type: UnitType.Port },
-      { key: "buildDefensePost", type: UnitType.DefensePost },
-      { key: "buildMissileSilo", type: UnitType.MissileSilo },
-      { key: "buildSamLauncher", type: UnitType.SAMLauncher },
-      { key: "buildAtomBomb", type: UnitType.AtomBomb },
-      { key: "buildHydrogenBomb", type: UnitType.HydrogenBomb },
-      { key: "buildWarship", type: UnitType.Warship },
-      { key: "buildMIRV", type: UnitType.MIRV },
+      { key: "buildCity", type: "City" },
+      { key: "buildFactory", type: "Factory" },
+      { key: "buildPort", type: "Port" },
+      { key: "buildDefensePost", type: "DefensePost" },
+      { key: "buildMissileSilo", type: "MissileSilo" },
+      { key: "buildSamLauncher", type: "SAMLauncher" },
+      { key: "buildAtomBomb", type: "AtomBomb" },
+      { key: "buildHydrogenBomb", type: "HydrogenBomb" },
+      { key: "buildWarship", type: "Warship" },
+      { key: "buildMIRV", type: "MIRV" },
     ];
     for (const { key, type } of buildKeybinds) {
       if (this.keybindMatchesEvent({ code, shiftKey }, this.keybinds[key]))

@@ -1,12 +1,5 @@
-import {
-  Execution,
-  Game,
-  isUnit,
-  OwnerComp,
-  Unit,
-  UnitParams,
-  UnitType,
-} from "../game/Game";
+import { Execution, Game, isUnit, OwnerComp, Unit, UnitParams } from "../game/Game";
+import type { UnitType } from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { WaterPathFinder } from "../pathfinding/PathFinder";
 import { PathStatus } from "../pathfinding/types";
@@ -27,7 +20,7 @@ export class WarshipExecution implements Execution {
   private lastEmittedCombat = false;
 
   constructor(
-    private input: (UnitParams<UnitType.Warship> & OwnerComp) | Unit,
+    private input: (UnitParams<"Warship"> & OwnerComp) | Unit,
   ) {}
 
   init(mg: Game, ticks: number): void {
@@ -38,7 +31,7 @@ export class WarshipExecution implements Execution {
       this.warship = this.input;
     } else {
       const spawn = this.input.owner.canBuild(
-        UnitType.Warship,
+        "Warship",
         this.input.patrolTile,
       );
       if (spawn === false) {
@@ -48,7 +41,7 @@ export class WarshipExecution implements Execution {
         return;
       }
       this.warship = this.input.owner.buildUnit(
-        UnitType.Warship,
+        "Warship",
         spawn,
         this.input,
       );
@@ -98,21 +91,21 @@ export class WarshipExecution implements Execution {
     this.warship.setTargetUnit(this.findTargetUnit());
 
     // Priority 1: Shoot transport ship if in range
-    if (this.warship.targetUnit()?.type() === UnitType.TransportShip) {
+    if (this.warship.targetUnit()?.type() === "TransportShip") {
       this.shootTarget();
       this.patrol();
       return;
     }
 
     // Priority 2: Fight enemy warship if in range
-    if (this.warship.targetUnit()?.type() === UnitType.Warship) {
+    if (this.warship.targetUnit()?.type() === "Warship") {
       this.shootTarget();
       this.patrol();
       return;
     }
 
     // Priority 3: Hunt trade ship only if not healing and no enemy warship
-    if (this.warship.targetUnit()?.type() === UnitType.TradeShip) {
+    if (this.warship.targetUnit()?.type() === "TradeShip") {
       this.huntDownTradeShip();
       return;
     }
@@ -133,7 +126,7 @@ export class WarshipExecution implements Execution {
     const warshipTile = this.warship.tile();
 
     let isNearPort = false;
-    for (const port of owner.units(UnitType.Port)) {
+    for (const port of owner.units("Port")) {
       const distSquared = this.mg.euclideanDistSquared(
         warshipTile,
         port.tile(),
@@ -183,12 +176,12 @@ export class WarshipExecution implements Execution {
     if (healthBeforeHealing >= retreatThreshold) {
       return false;
     }
-    const ports = this.warship.owner().units(UnitType.Port);
+    const ports = this.warship.owner().units("Port");
     return ports.length > 0;
   }
 
   private findNearestPort(): TileRef | undefined {
-    const ports = this.warship.owner().units(UnitType.Port);
+    const ports = this.warship.owner().units("Port");
     if (ports.length === 0) {
       return undefined;
     }
@@ -215,12 +208,12 @@ export class WarshipExecution implements Execution {
   }
 
   private findRetreatAggroTarget(): Unit | undefined {
-    return this.findBestTarget([UnitType.TransportShip, UnitType.Warship]);
+    return this.findBestTarget(["TransportShip", "Warship"]);
   }
 
   private findTargetUnit(): Unit | undefined {
     return this.findBestTarget(
-      [UnitType.TransportShip, UnitType.Warship, UnitType.TradeShip],
+      ["TransportShip", "Warship", "TradeShip"],
       true,
     );
   }
@@ -263,7 +256,7 @@ export class WarshipExecution implements Execution {
         unit.owner() === owner ||
         !owner.canAttackPlayer(unit.owner(), true) ||
         this.alreadySentShell.has(unit) ||
-        (unit.type() === UnitType.Warship &&
+        (unit.type() === "Warship" &&
           unit.warshipState().state === "docked")
       ) {
         continue;
@@ -271,13 +264,13 @@ export class WarshipExecution implements Execution {
 
       const type = unit.type();
 
-      if (includeTradeShips && type === UnitType.TradeShip) {
+      if (includeTradeShips && type === "TradeShip") {
         if (warshipComponent === undefined) {
           warshipComponent = mg.getWaterComponent(this.warship.tile());
           hasReachablePort =
             warshipComponent !== null &&
             owner
-              .units(UnitType.Port)
+              .units("Port")
               .some(
                 (port) =>
                   port.isActive() &&
@@ -305,7 +298,7 @@ export class WarshipExecution implements Execution {
       }
 
       const typePriority =
-        type === UnitType.TransportShip ? 0 : type === UnitType.Warship ? 1 : 2;
+        type === "TransportShip" ? 0 : type === "Warship" ? 1 : 2;
 
       if (
         bestUnit === undefined ||
@@ -397,7 +390,7 @@ export class WarshipExecution implements Execution {
       // Check if the port has capacity available (excluding this warship from capacity check)
       const port = this.warship
         .owner()
-        .units(UnitType.Port)
+        .units("Port")
         .find((p) => p.tile() === retreatPortTile);
       if (port && !this.isPortFullOfHealing(port, this.warship)) {
         // Port has capacity - dock here
@@ -444,7 +437,7 @@ export class WarshipExecution implements Execution {
   }
 
   private refreshRetreatPortTile(): boolean {
-    const ports = this.warship.owner().units(UnitType.Port);
+    const ports = this.warship.owner().units("Port");
     if (ports.length === 0) {
       return false;
     }
@@ -499,7 +492,7 @@ export class WarshipExecution implements Execution {
     const owner = this.warship.owner();
 
     return this.mg
-      .nearbyUnits(port.tile(), dockingRadius, [UnitType.Warship])
+      .nearbyUnits(port.tile(), dockingRadius, ["Warship"])
       .filter(({ unit: ship }) => {
         if (excludeShip && ship === excludeShip) return false;
         if (ship.owner() !== owner) return false;
@@ -547,14 +540,14 @@ export class WarshipExecution implements Execution {
 
     return this.warship
       .owner()
-      .units(UnitType.Port)
+      .units("Port")
       .find((port) => port.tile() === retreatPort);
   }
 
   private nearestAvailablePortTile(
     excludeShip?: Unit,
   ): { tile: TileRef; distSquared: number } | undefined {
-    const ports = this.warship.owner().units(UnitType.Port);
+    const ports = this.warship.owner().units("Port");
     const warshipTile = this.warship.tile();
     const warshipComponent = this.mg.getWaterComponent(warshipTile);
     if (warshipComponent === null) {
@@ -620,7 +613,7 @@ export class WarshipExecution implements Execution {
     this.warship.updateWarshipState({ isInCombat: true });
     const shellAttackRate = this.mg.config().warshipShellAttackRate();
     if (this.mg.ticks() - this.lastShellAttack > shellAttackRate) {
-      if (this.warship.targetUnit()?.type() !== UnitType.TransportShip) {
+      if (this.warship.targetUnit()?.type() !== "TransportShip") {
         // Warships don't need to reload when attacking transport ships.
         this.lastShellAttack = this.mg.ticks();
       }

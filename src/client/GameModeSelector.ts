@@ -4,7 +4,6 @@ import { ClientEnv } from "src/client/ClientEnv";
 import {
   Duos,
   GameMapType,
-  GameMode,
   HumansVsNations,
   Quads,
   Trios,
@@ -436,11 +435,11 @@ export class GameModeSelector extends LitElement {
 
   private getLobbyTitle(lobby: PublicGameInfo): string {
     const config = lobby.gameConfig!;
-    if (config.gameMode === GameMode.FFA) {
+    if (config.gameMode === "Free For All") {
       return translateText("game_mode.ffa");
     }
 
-    if (config?.gameMode === GameMode.Team) {
+    if (config?.gameMode === "Team") {
       const totalPlayers = config.maxPlayers ?? lobby.numClients ?? undefined;
       const formatTeamsOf = (
         teamCount: number | undefined,

@@ -1,19 +1,15 @@
 import { SAM_CONSTRUCTION_TICKS } from "../core/configuration/Config";
 import {
-  maps as allMaps,
-  Difficulty,
-  Duos,
-  GameMapSize,
-  GameMapType,
-  GameMode,
-  GameType,
-  HumansVsNations,
-  PublicGameModifiers,
-  Quads,
-  RankedType,
-  Trios,
-  UnitType,
+   maps as allMaps,
+   Duos,
+   GameMapType,
+   GameMode,
+   HumansVsNations,
+   PublicGameModifiers,
+   Quads,
+   Trios,
 } from "../core/game/Game";
+import type { UnitType } from "../core/game/Game";
 import { PseudoRandom } from "../core/PseudoRandom";
 import {
   GameConfig,
@@ -137,41 +133,41 @@ export class MapPlaylist {
       return this.getSpecialConfig();
     }
 
-    const mode = type === "ffa" ? GameMode.FFA : GameMode.Team;
+    const mode = type === "ffa" ? "Free For All" : "Team";
     const map = this.getNextMap(type);
 
     const playerTeams =
-      mode === GameMode.Team ? this.getTeamCount(map) : undefined;
+      mode === "Team" ? this.getTeamCount(map) : undefined;
 
     let isCompact: boolean | undefined =
       this.playlists[type].length % 3 === 0 || undefined;
     if (
       isCompact &&
-      mode === GameMode.Team &&
+      mode === "Team" &&
       !(await this.supportsCompactMapForTeams(map, playerTeams!))
     ) {
       isCompact = undefined;
     }
 
     return {
-      donateGold: mode === GameMode.Team,
-      donateTroops: mode === GameMode.Team,
+      donateGold: mode === "Team",
+      donateTroops: mode === "Team",
       gameMap: map,
       maxPlayers: await this.lobbyMaxPlayers(map, mode, playerTeams, isCompact),
-      gameType: GameType.Public,
-      gameMapSize: isCompact ? GameMapSize.Compact : GameMapSize.Normal,
+      gameType: "Public",
+      gameMapSize: isCompact ? "Compact" : "Normal",
       publicGameModifiers: {
         isCompact,
       },
       difficulty:
-        playerTeams === HumansVsNations ? Difficulty.Hard : Difficulty.Medium,
+        playerTeams === HumansVsNations ? "Hard" : "Medium",
       infiniteGold: false,
       infiniteTroops: false,
       maxTimerValue: undefined,
       instantBuild: false,
       randomSpawn: false,
       nations:
-        mode === GameMode.Team && playerTeams !== HumansVsNations
+        mode === "Team" && playerTeams !== HumansVsNations
           ? "disabled"
           : "default",
       gameMode: mode,
@@ -179,21 +175,21 @@ export class MapPlaylist {
       bots: isCompact ? 100 : 400,
       spawnImmunityDuration: this.getSpawnImmunityDuration(playerTeams),
       disabledUnits: [],
-      disableClanTags: mode === GameMode.FFA ? true : undefined,
+      disableClanTags: mode === "Free For All" ? true : undefined,
     } satisfies GameConfig;
   }
 
   private async getSpecialConfig(): Promise<GameConfig> {
-    const mode = Math.random() < 0.5 ? GameMode.FFA : GameMode.Team;
+    const mode = Math.random() < 0.5 ? "Free For All" : "Team";
     const map = this.getNextMap("special");
     const playerTeams =
-      mode === GameMode.Team ? this.getTeamCount(map) : undefined;
+      mode === "Team" ? this.getTeamCount(map) : undefined;
 
     const excludedModifiers: ModifierKey[] = [];
 
     // Check if compact map would leave every team with at least 2 players
     const supportsCompact =
-      mode !== GameMode.Team ||
+      mode !== "Team" ||
       (await this.supportsCompactMapForTeams(map, playerTeams!));
     if (!supportsCompact) {
       excludedModifiers.push("isCompact");
@@ -209,18 +205,18 @@ export class MapPlaylist {
     }
 
     // No gold multi on FourIslands team games - Too high chance of 3h long stalemates
-    if (map === GameMapType.FourIslands && mode === GameMode.Team) {
+    if (map === GameMapType.FourIslands && mode === "Team") {
       excludedModifiers.push("goldMultiplier");
     }
 
     // Hard nations modifier only applies when nations are present (not HvN, which is always hard)
-    if (mode === GameMode.Team) {
+    if (mode === "Team") {
       excludedModifiers.push("isHardNations");
     }
 
     // On special team maps nukes-disabled makes cross-water attacks
     // nearly impossible (extreme warship spam).
-    if (mode === GameMode.Team && SPECIAL_TEAM_MAPS.has(map)) {
+    if (mode === "Team" && SPECIAL_TEAM_MAPS.has(map)) {
       excludedModifiers.push("isNukesDisabled");
     }
 
@@ -314,7 +310,7 @@ export class MapPlaylist {
     );
 
     const nations: GameConfig["nations"] =
-      (mode === GameMode.Team && playerTeams !== HumansVsNations) ||
+      (mode === "Team" && playerTeams !== HumansVsNations) ||
       // Nations don't have PVP immunity, so 25M starting gold wouldn't work well with them
       (startingGold !== undefined && startingGold >= 25_000_000)
         ? "disabled"
@@ -324,27 +320,27 @@ export class MapPlaylist {
     const disabledUnits: UnitType[] = [];
     if (isNukesDisabled) {
       disabledUnits.push(
-        UnitType.MissileSilo,
-        UnitType.AtomBomb,
-        UnitType.HydrogenBomb,
-        UnitType.MIRV,
-        UnitType.SAMLauncher,
+        "MissileSilo",
+        "AtomBomb",
+        "HydrogenBomb",
+        "MIRV",
+        "SAMLauncher",
       );
     }
     if (isSAMsDisabled) {
-      disabledUnits.push(UnitType.SAMLauncher);
+      disabledUnits.push("SAMLauncher");
     }
 
     // 4min peace = 240s = 2400 ticks
     const peaceTimeDuration = isPeaceTime ? 240 * 10 : undefined;
 
     return {
-      donateGold: mode === GameMode.Team,
-      donateTroops: mode === GameMode.Team,
+      donateGold: mode === "Team",
+      donateTroops: mode === "Team",
       gameMap: map,
       maxPlayers,
-      gameType: GameType.Public,
-      gameMapSize: isCompact ? GameMapSize.Compact : GameMapSize.Normal,
+      gameType: "Public",
+      gameMapSize: isCompact ? "Compact" : "Normal",
       publicGameModifiers: {
         isCompact,
         isRandomSpawn,
@@ -363,8 +359,8 @@ export class MapPlaylist {
       disableAlliances: isAlliancesDisabled ? true : undefined,
       difficulty:
         isHardNations || playerTeams === HumansVsNations
-          ? Difficulty.Hard
-          : Difficulty.Medium,
+          ? "Hard"
+          : "Medium",
       infiniteGold: false,
       infiniteTroops: false,
       maxTimerValue: undefined,
@@ -379,7 +375,7 @@ export class MapPlaylist {
         this.getSpawnImmunityDuration(playerTeams, startingGold),
       disabledUnits,
       waterNukes: isWaterNukes ? true : undefined,
-      disableClanTags: mode === GameMode.FFA ? true : undefined,
+      disableClanTags: mode === "Free For All" ? true : undefined,
     } satisfies GameConfig;
   }
 
@@ -397,17 +393,17 @@ export class MapPlaylist {
       donateTroops: false,
       gameMap: maps[Math.floor(Math.random() * maps.length)],
       maxPlayers: 2,
-      gameType: GameType.Public,
-      gameMapSize: isCompact ? GameMapSize.Compact : GameMapSize.Normal,
-      difficulty: Difficulty.Medium, // Doesn't matter, nations are disabled
-      rankedType: RankedType.OneVOne,
+      gameType: "Public",
+      gameMapSize: isCompact ? "Compact" : "Normal",
+      difficulty: "Medium", // Doesn't matter, nations are disabled
+      rankedType: "1v1",
       infiniteGold: false,
       infiniteTroops: false,
       maxTimerValue: isCompact ? 10 : 15,
       instantBuild: false,
       randomSpawn: false,
       nations: "disabled",
-      gameMode: GameMode.FFA,
+      gameMode: "Free For All",
       bots: isCompact ? 100 : 400,
       spawnImmunityDuration: 30 * 10,
       disabledUnits: [],
@@ -663,7 +659,7 @@ export class MapPlaylist {
     const [l, m, s] = this.calculateMapPlayerCounts(landTiles);
     const r = Math.random();
     const base = r < 0.3 ? l : r < 0.6 ? m : s;
-    let p = Math.min(mode === GameMode.Team ? Math.ceil(base * 1.5) : base, l);
+    let p = Math.min(mode === "Team" ? Math.ceil(base * 1.5) : base, l);
     // Apply compact map 75% player reduction
     if (isCompactMap) {
       p = Math.max(3, Math.floor(p * 0.25));

@@ -1,11 +1,5 @@
 import { ShellExecution } from "../src/core/execution/ShellExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  Unit,
-  UnitType,
-} from "../src/core/game/Game";
+import { Game, Player, PlayerInfo, Unit } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 
 const coastX = 7;
@@ -28,7 +22,7 @@ describe("Warship veterancy", () => {
   });
 
   function buildWarship(player: Player, x: number, y: number): Unit {
-    return player.buildUnit(UnitType.Warship, game.ref(x, y), {
+    return player.buildUnit("Warship", game.ref(x, y), {
       patrolTile: game.ref(x, y),
     });
   }
@@ -37,7 +31,7 @@ describe("Warship veterancy", () => {
     const ship = buildWarship(attacker, coastX, 10);
     expect(ship.veterancy()).toBe(0);
 
-    ship.recordKill(UnitType.Warship);
+    ship.recordKill("Warship");
 
     expect(ship.veterancy()).toBe(1);
   });
@@ -47,7 +41,7 @@ describe("Warship veterancy", () => {
     const max = game.config().warshipMaxVeterancy();
 
     for (let i = 0; i < max + 3; i++) {
-      ship.recordKill(UnitType.Warship);
+      ship.recordKill("Warship");
     }
 
     expect(ship.veterancy()).toBe(max);
@@ -58,11 +52,11 @@ describe("Warship veterancy", () => {
     const threshold = game.config().warshipVeterancyTransportKills();
 
     for (let i = 0; i < threshold - 1; i++) {
-      ship.recordKill(UnitType.TransportShip);
+      ship.recordKill("TransportShip");
     }
     expect(ship.veterancy()).toBe(0);
 
-    ship.recordKill(UnitType.TransportShip);
+    ship.recordKill("TransportShip");
     expect(ship.veterancy()).toBe(1);
   });
 
@@ -83,7 +77,7 @@ describe("Warship veterancy", () => {
     const ship = buildWarship(attacker, coastX, 10);
     // Defaults: 10 transports OR 25 captures = 1 level, so a transport is worth
     // 1/10 of a level and a capture 1/25. Mixed progress combines.
-    for (let i = 0; i < 5; i++) ship.recordKill(UnitType.TransportShip);
+    for (let i = 0; i < 5; i++) ship.recordKill("TransportShip");
     for (let i = 0; i < 12; i++) ship.recordTradeCapture();
     expect(ship.veterancy()).toBe(0); // 5/10 + 12/25 = 0.98 < 1
 
@@ -97,17 +91,17 @@ describe("Warship veterancy", () => {
 
     // Build up 9/10 of a level from transports (no level yet).
     for (let i = 0; i < threshold - 1; i++) {
-      ship.recordKill(UnitType.TransportShip);
+      ship.recordKill("TransportShip");
     }
     expect(ship.veterancy()).toBe(0);
 
     // A warship kill grants a level AND wipes the partial progress.
-    ship.recordKill(UnitType.Warship);
+    ship.recordKill("Warship");
     expect(ship.veterancy()).toBe(1);
 
     // Had progress carried, this transport would have completed level 2.
     // Since it reset, we're still at level 1.
-    ship.recordKill(UnitType.TransportShip);
+    ship.recordKill("TransportShip");
     expect(ship.veterancy()).toBe(1);
   });
 
@@ -126,7 +120,7 @@ describe("Warship veterancy", () => {
 
   test("veterancy raises max health but does not instantly heal", () => {
     const ship = buildWarship(attacker, coastX, 10);
-    const base = game.config().unitInfo(UnitType.Warship).maxHealth!;
+    const base = game.config().unitInfo("Warship").maxHealth!;
     const bonusPercent = game.config().warshipVeterancyHealthBonus();
 
     // Drop below full so a (removed) instant heal would be observable.
@@ -134,7 +128,7 @@ describe("Warship veterancy", () => {
     expect(ship.maxHealth()).toBe(base);
     expect(ship.health()).toBe(base - 100);
 
-    ship.recordKill(UnitType.Warship); // veterancy 1
+    ship.recordKill("Warship"); // veterancy 1
 
     // The cap rises, but current health is unchanged — the ship heals toward
     // the new max normally, it does not jump on level-up.
@@ -146,12 +140,12 @@ describe("Warship veterancy", () => {
 
   test("non-warships never gain veterancy", () => {
     const transport = defender.buildUnit(
-      UnitType.TransportShip,
+      "TransportShip",
       game.ref(coastX, 10),
       {},
     );
 
-    transport.recordKill(UnitType.Warship);
+    transport.recordKill("Warship");
     transport.recordTradeCapture();
 
     expect(transport.veterancy()).toBe(0);
@@ -165,7 +159,7 @@ describe("Warship veterancy", () => {
     const baseShooter = buildWarship(attacker, coastX, 10);
     const vetShooter = buildWarship(attacker, coastX + 1, 10);
     for (let i = 0; i < maxVet; i++) {
-      vetShooter.recordKill(UnitType.Warship);
+      vetShooter.recordKill("Warship");
     }
     expect(vetShooter.veterancy()).toBe(maxVet);
 

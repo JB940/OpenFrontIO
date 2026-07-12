@@ -1,11 +1,11 @@
-import { ColoredTeams, Game, GameMode } from "../src/core/game/Game";
+import { ColoredTeams, Game } from "../src/core/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 
 let game: Game;
 
 describe("Teams", () => {
   test("bots are on the same team, but can attack each other", async () => {
-    game = await setup("plains", { gameMode: GameMode.Team, playerTeams: 2 });
+    game = await setup("plains", { gameMode: "Team", playerTeams: 2 });
 
     const bot1 = game.addPlayer(playerInfo("bot1", "Bot"));
     const bot2 = game.addPlayer(playerInfo("bot2", "Bot"));
@@ -22,7 +22,7 @@ describe("Teams", () => {
     game = await setup(
       "plains",
       {
-        gameMode: GameMode.Team,
+        gameMode: "Team",
         playerTeams: 2,
       },
       [playerInfo("human1", "Human"), playerInfo("human2", "Human")],

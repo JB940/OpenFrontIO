@@ -2,13 +2,8 @@ import { AttackExecution } from "../src/core/execution/AttackExecution";
 import { NationAllianceBehavior } from "../src/core/execution/nation/NationAllianceBehavior";
 import { NationEmojiBehavior } from "../src/core/execution/nation/NationEmojiBehavior";
 import { AiAttackBehavior } from "../src/core/execution/utils/AiAttackBehavior";
-import {
-  Difficulty,
-  Game,
-  Player,
-  PlayerInfo,
-  UnitType,
-} from "../src/core/game/Game";
+import { Difficulty, Game, Player, PlayerInfo } from "../src/core/game/Game";
+import type { UnitType } from "../src/core/game/Game";
 import { PseudoRandom } from "../src/core/PseudoRandom";
 import { setup } from "./util/Setup";
 import { executeTicks } from "./util/utils";
@@ -80,7 +75,7 @@ interface BehaviorEnv {
  *  - With `withEnemy`: the nation's ONLY non-nuked border is the enemy.
  */
 async function setupBehavior(
-  difficulty: Difficulty = Difficulty.Impossible,
+  difficulty: Difficulty = "Impossible",
   opts: {
     withEnemy?: boolean;
     withNuke?: boolean;
@@ -191,7 +186,7 @@ describe("AiAttackBehavior - nuked territory early-out", () => {
 
   describe("regression: early gate no longer fires on nuked-only borders", () => {
     test("nearby() excludes directly-adjacent nuked TerraNullius", async () => {
-      const { game, nation } = await setupBehavior(Difficulty.Impossible, {
+      const { game, nation } = await setupBehavior("Impossible", {
         withEnemy: false,
       });
 
@@ -221,7 +216,7 @@ describe("AiAttackBehavior - nuked territory early-out", () => {
       // The nation has far more troops than the enemy so `retaliate`'s
       // attack is not rejected as "too weak".
       const { game, nation, enemy, attackBehavior } = await setupBehavior(
-        Difficulty.Impossible,
+        "Impossible",
         { withEnemy: true, nationTroops: 5_000_000, enemyTroops: 50_000 },
       );
 
@@ -249,7 +244,7 @@ describe("AiAttackBehavior - nuked territory early-out", () => {
       // strategy, which dispatches a land attack on TerraNullius — the
       // intended behaviour from commit 58ec8b280.
       const { game, nation, attackBehavior } = await setupBehavior(
-        Difficulty.Impossible,
+        "Impossible",
         { withEnemy: false },
       );
 
@@ -270,7 +265,7 @@ describe("AiAttackBehavior - nuked territory early-out", () => {
   describe("intended: nations still capture nuked territory when idle", () => {
     test("`nuked` strategy captures tiles when the nation has nothing better to do", async () => {
       const { game, nation, attackBehavior } = await setupBehavior(
-        Difficulty.Impossible,
+        "Impossible",
         { withEnemy: false },
       );
 
@@ -295,7 +290,7 @@ describe("AiAttackBehavior - nuked territory early-out", () => {
 
     test("Easy difficulty: `nuked` strategy still fires when idle", async () => {
       const { game, nation, attackBehavior } = await setupBehavior(
-        Difficulty.Easy,
+        "Easy",
         { withEnemy: false },
       );
 
@@ -318,10 +313,10 @@ describe("AiAttackBehavior - nuked territory early-out", () => {
       // disabled, so even with nuked TN on the border the `nuked` strategy
       // does NOT fire and no attack is created.
       const { game, nation, attackBehavior } = await setupBehavior(
-        Difficulty.Impossible,
+        "Impossible",
         {
           withEnemy: false,
-          disabledUnits: [UnitType.MissileSilo],
+          disabledUnits: ["MissileSilo"],
         },
       );
 

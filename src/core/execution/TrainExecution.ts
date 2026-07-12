@@ -1,11 +1,4 @@
-import {
-  Execution,
-  Game,
-  Player,
-  TrainType,
-  Unit,
-  UnitType,
-} from "../game/Game";
+import { Execution, Game, Player, Unit } from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { MotionPlanRecord } from "../game/MotionPlans";
 import { RailNetwork } from "../game/RailNetwork";
@@ -62,7 +55,7 @@ export class TrainExecution implements Execution {
       return;
     }
 
-    const spawn = this.player.canBuild(UnitType.Train, this.stations[0].tile());
+    const spawn = this.player.canBuild("Train", this.stations[0].tile());
     if (spawn === false) {
       console.warn(`cannot build train`);
       this.active = false;
@@ -142,21 +135,21 @@ export class TrainExecution implements Execution {
   }
 
   private createTrainUnits(tile: TileRef): Unit {
-    const train = this.player.buildUnit(UnitType.Train, tile, {
+    const train = this.player.buildUnit("Train", tile, {
       targetUnit: this.destination.unit,
-      trainType: TrainType.Engine,
+      trainType: "Engine",
     });
     // Tail is also an engine, just for cosmetics
     this.cars.push(
-      this.player.buildUnit(UnitType.Train, tile, {
+      this.player.buildUnit("Train", tile, {
         targetUnit: this.destination.unit,
-        trainType: TrainType.TailEngine,
+        trainType: "TailEngine",
       }),
     );
     for (let i = 0; i < this.numCars; i++) {
       this.cars.push(
-        this.player.buildUnit(UnitType.Train, tile, {
-          trainType: TrainType.Carriage,
+        this.player.buildUnit("Train", tile, {
+          trainType: "Carriage",
           loaded: this.hasCargo,
         }),
       );
@@ -267,7 +260,7 @@ export class TrainExecution implements Execution {
     }
     this.stations[1].onTrainStop(this);
     const stationType = this.stations[1].unit.type();
-    if (stationType === UnitType.City || stationType === UnitType.Port) {
+    if (stationType === "City" || stationType === "Port") {
       this._tradeStopsVisited++;
     }
     return;

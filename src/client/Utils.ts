@@ -1,15 +1,14 @@
 import IntlMessageFormat from "intl-messageformat";
 import {
   Duos,
-  GameMode,
   HumansVsNations,
   maps,
-  MessageType,
   PublicGameModifiers,
   Quads,
   Team,
   Trios,
 } from "../core/game/Game";
+import type { MessageType } from "../core/game/Game";
 import { GameConfig } from "../core/Schemas";
 import type { LangSelector } from "./LangSelector";
 import { Platform } from "./Platform";
@@ -34,7 +33,7 @@ export function getMapName(mapName: string | undefined): string | null {
 export function getGameModeLabel(gameConfig: GameConfig): string {
   const { gameMode, playerTeams, maxPlayers } = gameConfig;
 
-  if (gameMode !== GameMode.Team) {
+  if (gameMode !== "Team") {
     return translateText("game_mode.ffa");
   }
 
@@ -517,32 +516,32 @@ export const severityColors: Record<string, string> = {
  */
 export function getMessageTypeClasses(type: MessageType): string {
   switch (type) {
-    case MessageType.SAM_HIT:
-    case MessageType.CAPTURED_ENEMY_UNIT:
-    case MessageType.CONQUERED_PLAYER:
-    case MessageType.ALLIANCE_ACCEPTED:
+    case "SAM_HIT":
+    case "CAPTURED_ENEMY_UNIT":
+    case "CONQUERED_PLAYER":
+    case "ALLIANCE_ACCEPTED":
       return severityColors["success"];
-    case MessageType.ATTACK_FAILED:
-    case MessageType.ALLIANCE_REJECTED:
-    case MessageType.ALLIANCE_BROKEN:
-    case MessageType.UNIT_DESTROYED:
-    case MessageType.NUKE_DETONATED:
+    case "ATTACK_FAILED":
+    case "ALLIANCE_REJECTED":
+    case "ALLIANCE_BROKEN":
+    case "UNIT_DESTROYED":
+    case "NUKE_DETONATED":
       return severityColors["fail"];
-    case MessageType.ATTACK_CANCELLED:
-    case MessageType.ATTACK_REQUEST:
-    case MessageType.DONATION_SENT:
-    case MessageType.DONATION_RECEIVED:
+    case "ATTACK_CANCELLED":
+    case "ATTACK_REQUEST":
+    case "DONATION_SENT":
+    case "DONATION_RECEIVED":
       return severityColors["blue"];
-    case MessageType.MIRV_INBOUND:
-    case MessageType.NUKE_INBOUND:
-    case MessageType.HYDROGEN_BOMB_INBOUND:
-    case MessageType.SAM_MISS:
-    case MessageType.ALLIANCE_EXPIRED:
-    case MessageType.NAVAL_INVASION_INBOUND:
-    case MessageType.RENEW_ALLIANCE:
+    case "MIRV_INBOUND":
+    case "NUKE_INBOUND":
+    case "HYDROGEN_BOMB_INBOUND":
+    case "SAM_MISS":
+    case "ALLIANCE_EXPIRED":
+    case "NAVAL_INVASION_INBOUND":
+    case "RENEW_ALLIANCE":
       return severityColors["warn"];
-    case MessageType.CHAT:
-    case MessageType.ALLIANCE_REQUEST:
+    case "CHAT":
+    case "ALLIANCE_REQUEST":
       return severityColors["info"];
     default:
       console.warn(`Message type ${type} has no explicit color`);

@@ -1,13 +1,10 @@
 import { renderTroops } from "../../client/Utils";
 import {
   Attack,
-  Difficulty,
   Execution,
   Game,
-  MessageType,
   Player,
   PlayerID,
-  TerrainType,
   TerraNullius,
 } from "../game/Game";
 import { GameMap, TileRef } from "../game/GameMap";
@@ -158,16 +155,16 @@ export class AttackExecution implements Execution {
       const difficulty = this.mg.config().gameConfig().difficulty;
       let relationChange: number;
       switch (difficulty) {
-        case Difficulty.Easy:
+        case "Easy":
           relationChange = -60;
           break;
-        case Difficulty.Medium:
+        case "Medium":
           relationChange = -70;
           break;
-        case Difficulty.Hard:
+        case "Hard":
           relationChange = -80;
           break;
-        case Difficulty.Impossible:
+        case "Impossible":
           relationChange = -100;
           break;
         default:
@@ -198,7 +195,7 @@ export class AttackExecution implements Execution {
     if (deaths) {
       this.mg.displayMessage(
         "events_display.attack_cancelled_retreat",
-        MessageType.ATTACK_CANCELLED,
+        "ATTACK_CANCELLED",
         this._owner.id(),
         undefined,
         { troops: renderTroops(deaths) },
@@ -356,13 +353,13 @@ export class AttackExecution implements Execution {
 
       let mag: number;
       switch (this.map.terrainType(neighbor)) {
-        case TerrainType.Plains:
+        case "Plains":
           mag = 1;
           break;
-        case TerrainType.Highland:
+        case "Highland":
           mag = 1.5;
           break;
-        case TerrainType.Mountain:
+        case "Mountain":
           mag = 2;
           break;
         default:

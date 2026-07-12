@@ -1,12 +1,5 @@
 import { renderNumber } from "../../client/Utils";
-import {
-  Execution,
-  Game,
-  MessageType,
-  Player,
-  Unit,
-  UnitType,
-} from "../game/Game";
+import { Execution, Game, Player, Unit } from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { WaterPathFinder } from "../pathfinding/PathFinder";
 import { PathStatus } from "../pathfinding/types";
@@ -44,7 +37,7 @@ export class TradeShipExecution implements Execution {
 
     if (this.tradeShip === undefined) {
       const spawn = this.origOwner.canBuild(
-        UnitType.TradeShip,
+        "TradeShip",
         this.srcPort.tile(),
       );
       if (spawn === false) {
@@ -52,7 +45,7 @@ export class TradeShipExecution implements Execution {
         this.active = false;
         return;
       }
-      this.tradeShip = this.origOwner.buildUnit(UnitType.TradeShip, spawn, {
+      this.tradeShip = this.origOwner.buildUnit("TradeShip", spawn, {
         targetUnit: this._dstPort,
         lastSetSafeFromPirates: ticks,
       });
@@ -71,7 +64,7 @@ export class TradeShipExecution implements Execution {
       this.wasCaptured = true;
       this.mg.displayMessage(
         "events_display.trade_ship_captured",
-        MessageType.UNIT_DESTROYED,
+        "UNIT_DESTROYED",
         this.origOwner.id(),
         undefined,
         { name: tradeShipOwner.displayName() },
@@ -104,7 +97,7 @@ export class TradeShipExecution implements Execution {
     ) {
       const myComponent = this.mg.getWaterComponent(curTile);
       const nearestPort = findClosestBy(
-        tradeShipOwner.units(UnitType.Port),
+        tradeShipOwner.units("Port"),
         (port) => this.mg.manhattanDist(port.tile(), curTile),
         (port) =>
           port.isActive() &&
@@ -184,7 +177,7 @@ export class TradeShipExecution implements Execution {
       this.tradeShip!.owner().addGold(gold, this._dstPort.tile());
       this.mg.displayMessage(
         "events_display.received_gold_from_captured_ship",
-        MessageType.CAPTURED_ENEMY_UNIT,
+        "CAPTURED_ENEMY_UNIT",
         this.tradeShip!.owner().id(),
         gold,
         {

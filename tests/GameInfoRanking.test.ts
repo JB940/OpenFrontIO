@@ -2,11 +2,7 @@ import {
   Ranking,
 } from "../src/client/components/baseComponents/ranking/GameInfoRanking";
 import {
-  Difficulty,
-  GameMapSize,
   GameMapType,
-  GameMode,
-  GameType,
 } from "../src/core/game/Game";
 import { AnalyticsRecord, GameConfig } from "../src/core/Schemas";
 import {
@@ -20,12 +16,12 @@ import {
 describe("Ranking class", () => {
   const mockConfig: GameConfig = {
     gameMap: GameMapType.Montreal,
-    difficulty: Difficulty.Medium,
+    difficulty: "Medium",
     donateGold: false,
     donateTroops: false,
-    gameType: GameType.Public,
-    gameMode: GameMode.FFA,
-    gameMapSize: GameMapSize.Normal,
+    gameType: "Public",
+    gameMode: "Free For All",
+    gameMapSize: "Normal",
     nations: "disabled",
     bots: 0,
     infiniteGold: false,

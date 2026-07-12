@@ -1,10 +1,5 @@
-import {
-  Tick,
-  TrainType,
-  TransportShipState,
-  UnitType,
-  WarshipState,
-} from "../../core/game/Game";
+import { Tick, TransportShipState, WarshipState } from "../../core/game/Game";
+import type { UnitType, TrainType } from "../../core/game/Game";
 import { TileRef } from "../../core/game/GameMap";
 import { UnitUpdate } from "../../core/game/GameUpdates";
 import type { UnitState } from "../render/types";
@@ -18,11 +13,11 @@ import { PlayerView } from "./PlayerView";
  */
 function trainTypeToNum(t: TrainType | undefined): number | null {
   switch (t) {
-    case TrainType.Engine:
+    case "Engine":
       return RendererTrainType.enum.Engine;
-    case TrainType.TailEngine:
+    case "TailEngine":
       return RendererTrainType.enum.TailEngine;
-    case TrainType.Carriage:
+    case "Carriage":
       return RendererTrainType.enum.Carriage;
     default:
       return null;
@@ -32,11 +27,11 @@ function trainTypeToNum(t: TrainType | undefined): number | null {
 function numToTrainType(n: number | null): TrainType | undefined {
   switch (n) {
     case RendererTrainType.enum.Engine:
-      return TrainType.Engine;
+      return "Engine";
     case RendererTrainType.enum.TailEngine:
-      return TrainType.TailEngine;
+      return "TailEngine";
     case RendererTrainType.enum.Carriage:
-      return TrainType.Carriage;
+      return "Carriage";
     default:
       return undefined;
   }
@@ -274,7 +269,7 @@ export class UnitView {
     let readiness = missilesReady / maxMissiles;
 
     const cooldownDuration =
-      this.state.unitType === UnitType.SAMLauncher
+      this.state.unitType === "SAMLauncher"
         ? this.gameView.config().SAMCooldown()
         : this.gameView.config().SiloCooldown();
 

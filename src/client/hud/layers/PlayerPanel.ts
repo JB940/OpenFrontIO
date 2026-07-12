@@ -5,12 +5,11 @@ import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
 import {
   AllPlayers,
-  GameType,
   PlayerActions,
   PlayerProfile,
-  PlayerType,
-  Relation,
+  RelationSchema,
 } from "../../../core/game/Game";
+import type { Relation, PlayerType } from "../../../core/game/Game";
 import { TileRef } from "../../../core/game/GameMap";
 import { Emoji, flattenedEmojiTable } from "../../../core/Util";
 import { fetchLobbyListed } from "../../Api";
@@ -120,7 +119,7 @@ export class PlayerPanel extends LitElement implements Controller {
     }
 
     // Only private games can be listed.
-    if (this.g.config().gameConfig().gameType === GameType.Private) {
+    if (this.g.config().gameConfig().gameType === "Private") {
       void fetchLobbyListed(this.g.gameID()).then((listed) => {
         this.gameListed = listed;
       });
@@ -387,13 +386,13 @@ export class PlayerPanel extends LitElement implements Controller {
       "shadow-[inset_0_0_8px_rgba(255,255,255,0.04)]";
 
     switch (relation) {
-      case Relation.Hostile:
+      case RelationSchema.enum.Hostile:
         return `${base} border-red-400/30 bg-red-500/10 text-red-200`;
-      case Relation.Distrustful:
+      case RelationSchema.enum.Distrustful:
         return `${base} border-red-300/40 bg-red-300/10 text-red-300`;
-      case Relation.Friendly:
+      case RelationSchema.enum.Friendly:
         return `${base} border-emerald-400/30 bg-emerald-500/10 text-emerald-200`;
-      case Relation.Neutral:
+      case RelationSchema.enum.Neutral:
       default:
         return `${base} border-zinc-400/30 bg-zinc-500/10 text-zinc-200`;
     }
@@ -401,13 +400,13 @@ export class PlayerPanel extends LitElement implements Controller {
 
   private getRelationName(relation: Relation): string {
     switch (relation) {
-      case Relation.Hostile:
+      case RelationSchema.enum.Hostile:
         return translateText("relation.hostile");
-      case Relation.Distrustful:
+      case RelationSchema.enum.Distrustful:
         return translateText("relation.distrustful");
-      case Relation.Friendly:
+      case RelationSchema.enum.Friendly:
         return translateText("relation.friendly");
-      case Relation.Neutral:
+      case RelationSchema.enum.Neutral:
       default:
         return translateText("relation.neutral");
     }
@@ -495,7 +494,7 @@ export class PlayerPanel extends LitElement implements Controller {
     if (!this.otherProfile || !my) return html``;
 
     const relation =
-      this.otherProfile.relations?.[my.smallID()] ?? Relation.Neutral;
+      this.otherProfile.relations?.[my.smallID()] ?? RelationSchema.enum.Neutral;
     const cls = this.getRelationClass(relation);
     const name = this.getRelationName(relation);
 

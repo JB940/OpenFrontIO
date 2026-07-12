@@ -1,7 +1,7 @@
 import { vi } from "vitest";
 import { ConstructionExecution } from "../src/core/execution/ConstructionExecution";
 import { NationStructureBehavior } from "../src/core/execution/nation/NationStructureBehavior";
-import { Difficulty, PlayerType } from "../src/core/game/Game";
+import type { Difficulty, PlayerType } from "../src/core/game/Game";
 import { Cluster } from "../src/core/game/TrainStation";
 import { PseudoRandom } from "../src/core/PseudoRandom";
 
@@ -99,7 +99,7 @@ describe("NationStructureBehavior.shouldUseConnectivityScore", () => {
       const { behavior, random } = behaviorWithNextInt(v);
       vi.spyOn(random, "nextInt").mockReturnValue(v);
       expect(
-        (behavior as any).shouldUseConnectivityScore(Difficulty.Easy),
+        (behavior as any).shouldUseConnectivityScore("Easy"),
       ).toBe(false);
     }
   });
@@ -107,27 +107,27 @@ describe("NationStructureBehavior.shouldUseConnectivityScore", () => {
   it("returns true for Medium when nextInt < 60", () => {
     const { behavior } = behaviorWithNextInt(59);
     expect(
-      (behavior as any).shouldUseConnectivityScore(Difficulty.Medium),
+      (behavior as any).shouldUseConnectivityScore("Medium" as Difficulty),
     ).toBe(true);
   });
 
   it("returns false for Medium when nextInt === 60 (boundary)", () => {
     const { behavior } = behaviorWithNextInt(60);
     expect(
-      (behavior as any).shouldUseConnectivityScore(Difficulty.Medium),
+      (behavior as any).shouldUseConnectivityScore("Medium"  as Difficulty),
     ).toBe(false);
   });
 
   it("returns true for Hard when nextInt < 75", () => {
     const { behavior } = behaviorWithNextInt(74);
-    expect((behavior as any).shouldUseConnectivityScore(Difficulty.Hard)).toBe(
+    expect((behavior as any).shouldUseConnectivityScore("Hard" as Difficulty)).toBe(
       true,
     );
   });
 
   it("returns false for Hard when nextInt === 75 (boundary)", () => {
     const { behavior } = behaviorWithNextInt(75);
-    expect((behavior as any).shouldUseConnectivityScore(Difficulty.Hard)).toBe(
+    expect((behavior as any).shouldUseConnectivityScore("Hard" as Difficulty)).toBe(
       false,
     );
   });
@@ -137,7 +137,7 @@ describe("NationStructureBehavior.shouldUseConnectivityScore", () => {
       const { behavior, random } = behaviorWithNextInt(v);
       vi.spyOn(random, "nextInt").mockReturnValue(v);
       expect(
-        (behavior as any).shouldUseConnectivityScore(Difficulty.Impossible),
+        (behavior as any).shouldUseConnectivityScore("Impossible" as Difficulty),
       ).toBe(true);
     }
   });
@@ -367,35 +367,35 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
   }
 
   it("returns false on Easy regardless of ratio", () => {
-    expect(callTryBuild(Difficulty.Easy, 100, [makeLandAttack(5000)])).toBe(
+    expect(callTryBuild("Easy", 100, [makeLandAttack(5000)])).toBe(
       false,
     );
   });
 
   it("returns false when there are no incoming attacks", () => {
-    expect(callTryBuild(Difficulty.Hard, 1000, [])).toBe(false);
+    expect(callTryBuild("Hard", 1000, [])).toBe(false);
   });
 
   it("returns false when only boat attacks are incoming", () => {
-    expect(callTryBuild(Difficulty.Hard, 100, [makeBoatAttack(5000)])).toBe(
+    expect(callTryBuild("Hard", 100, [makeBoatAttack(5000)])).toBe(
       false,
     );
   });
 
   it("returns false when land-attack ratio is below 0.35", () => {
-    expect(callTryBuild(Difficulty.Hard, 1000, [makeLandAttack(349)])).toBe(
+    expect(callTryBuild("Hard", 1000, [makeLandAttack(349)])).toBe(
       false,
     );
   });
 
   it("returns false when own troops are zero", () => {
-    expect(callTryBuild(Difficulty.Hard, 0, [makeLandAttack(500)])).toBe(false);
+    expect(callTryBuild("Hard", 0, [makeLandAttack(500)])).toBe(false);
   });
 
   // ── Medium 50% gate ──────────────────────────────────────────────────────
 
   it("Medium: returns false when random.chance(2) fails (50% gate closed)", () => {
-    const game = makeMinimalGame(Difficulty.Medium);
+    const game = makeMinimalGame("Medium");
     const player = makeMinimalPlayer(1000, [makeLandAttack(1000)]);
     const random = new PseudoRandom(0);
     vi.spyOn(random, "chance").mockReturnValue(false);
@@ -405,7 +405,7 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
   });
 
   it("Medium: 50% gate consumes only the chance(2) call", () => {
-    const game = makeMinimalGame(Difficulty.Medium);
+    const game = makeMinimalGame("Medium");
     const player = makeMinimalPlayer(1000, [makeLandAttack(1000)]);
     const random = new PseudoRandom(0);
     const chanceSpy = vi.spyOn(random, "chance").mockReturnValue(false);
@@ -416,7 +416,7 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
   });
 
   it("Hard: skips chance gate (no chance(2) consumed)", () => {
-    const game = makeMinimalGame(Difficulty.Hard);
+    const game = makeMinimalGame("Hard");
     const player = {
       ...makeMinimalPlayer(1000, [makeLandAttack(1000)]),
       borderTiles: () => [],
@@ -433,7 +433,7 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
   // ── Cap enforcement ──────────────────────────────────────────────────────
 
   it("Hard: returns false once countDefensePostsNearFront reaches the allowed cap", () => {
-    const game = makeMinimalGame(Difficulty.Hard);
+    const game = makeMinimalGame("Hard");
     // ratio = 1.0 → ceil(1.0 / 0.4) = 3 allowed
     const player = makeMinimalPlayer(1000, [makeLandAttack(1000)]);
     const behavior = makeBehavior(game, player);
@@ -444,7 +444,7 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
   });
 
   it("Hard: returns false once countDefensePostsNearFront exceeds the allowed cap", () => {
-    const game = makeMinimalGame(Difficulty.Hard);
+    const game = makeMinimalGame("Hard");
     // ratio = 0.4 → ceil(0.4 / 0.4) = 1 allowed
     const player = makeMinimalPlayer(1000, [makeLandAttack(400)]);
     const behavior = makeBehavior(game, player);
@@ -459,7 +459,7 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
   it("Hard: dispatches a ConstructionExecution for DefensePost on successful build", () => {
     const addExecution = vi.fn();
     const game = {
-      ...makeMinimalGame(Difficulty.Hard),
+      ...makeMinimalGame("Hard"),
       addExecution,
     };
     const canBuild = vi.fn(() => true);
@@ -482,7 +482,7 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
 
   it("returns false when player.gold() is below cost", () => {
     const game = {
-      ...makeMinimalGame(Difficulty.Hard),
+      ...makeMinimalGame("Hard"),
       // cost > 0 so gold check fails
       unitInfo: () => ({ cost: () => 1_000_000n }),
     };
@@ -500,7 +500,7 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
   it("returns false when no sampled tile passes canBuild", () => {
     const addExecution = vi.fn();
     const game = {
-      ...makeMinimalGame(Difficulty.Hard),
+      ...makeMinimalGame("Hard"),
       addExecution,
     };
     const player = {
@@ -556,36 +556,36 @@ describe("NationStructureBehavior.defensePostNeeded", () => {
   }
 
   it("returns false on Easy", () => {
-    expect(call(Difficulty.Easy, 1000, [makeAttack(1000)])).toBe(false);
+    expect(call("Easy", 1000, [makeAttack(1000)])).toBe(false);
   });
 
   it("returns false when there are no incoming attacks", () => {
-    expect(call(Difficulty.Hard, 1000, [])).toBe(false);
+    expect(call("Hard", 1000, [])).toBe(false);
   });
 
   it("returns false when own troops are zero", () => {
-    expect(call(Difficulty.Hard, 0, [makeAttack(1000)])).toBe(false);
+    expect(call("Hard", 0, [makeAttack(1000)])).toBe(false);
   });
 
   it("returns false when ratio is below threshold (0.35)", () => {
-    expect(call(Difficulty.Hard, 1000, [makeAttack(349)])).toBe(false);
+    expect(call("Hard", 1000, [makeAttack(349)])).toBe(false);
   });
 
   it("returns true when ratio is exactly at threshold (0.35)", () => {
-    expect(call(Difficulty.Hard, 1000, [makeAttack(350)])).toBe(true);
+    expect(call("Hard", 1000, [makeAttack(350)])).toBe(true);
   });
 
   it("returns true when ratio is above threshold", () => {
-    expect(call(Difficulty.Medium, 1000, [makeAttack(700)])).toBe(true);
+    expect(call("Medium", 1000, [makeAttack(700)])).toBe(true);
   });
 
   it("ignores boat attacks (sourceTile != null)", () => {
-    expect(call(Difficulty.Hard, 1000, [makeAttack(5000, 999)])).toBe(false);
+    expect(call("Hard", 1000, [makeAttack(5000, 999)])).toBe(false);
   });
 
   it("sums troops across multiple land attacks for the ratio", () => {
     expect(
-      call(Difficulty.Hard, 1000, [makeAttack(200), makeAttack(200)]),
+      call("Hard", 1000, [makeAttack(200), makeAttack(200)]),
     ).toBe(true);
   });
 });

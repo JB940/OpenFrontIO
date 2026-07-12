@@ -6,7 +6,7 @@ import {
   doomsdayClockSideRequiredTiles,
   doomsdayClockWaveState,
 } from "../../core/game/DoomsdayClock";
-import { GameMode, Team } from "../../core/game/Game";
+import { Team } from "../../core/game/Game";
 import { themeProvider } from "../theme/ThemeProvider";
 import { renderTroops, translateText } from "../Utils";
 import { GameView } from "../view";
@@ -49,7 +49,7 @@ export class DoomsdayClockPanel extends LitElement {
     size: number;
   } {
     if (!me) return { tiles: 0, size: 1 };
-    const ffa = this.game.config().gameConfig().gameMode === GameMode.FFA;
+    const ffa = this.game.config().gameConfig().gameMode === "Free For All";
     const myTeam = me.team();
     if (ffa || myTeam === null) return { tiles: me.numTilesOwned(), size: 1 };
     const mates = this.game

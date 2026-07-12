@@ -1,11 +1,11 @@
 import { NukeExecution } from "../../src/core/execution/NukeExecution";
-import { Game, Player, PlayerInfo, UnitType } from "../../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../../src/core/game/Game";
 import { TileRef } from "../../src/core/game/GameMap";
 import { setup } from "../util/Setup";
 import { constructionExecution } from "../util/utils";
 
 function launchNukeAt(game: Game, player: Player, target: TileRef): void {
-  game.addExecution(new NukeExecution(UnitType.AtomBomb, player, target, null));
+  game.addExecution(new NukeExecution("AtomBomb", player, target, null));
   // init + build
   game.executeNextTick();
   game.executeNextTick();
@@ -37,7 +37,7 @@ describe("Water Nukes", () => {
       player.conquer(game.ref(1, 1));
 
       // Build a missile silo
-      constructionExecution(game, player, 1, 1, UnitType.MissileSilo);
+      constructionExecution(game, player, 1, 1, "MissileSilo");
     });
 
     test("nuke converts land tiles to water instead of fallout", () => {
@@ -115,7 +115,7 @@ describe("Water Nukes", () => {
       );
       const player2 = navGame.player(info.id);
       player2.conquer(navGame.ref(1, 1));
-      constructionExecution(navGame, player2, 1, 1, UnitType.MissileSilo);
+      constructionExecution(navGame, player2, 1, 1, "MissileSilo");
 
       const versionBefore = navGame.waterGraphVersion();
 
@@ -123,7 +123,7 @@ describe("Water Nukes", () => {
       // for at least one minimap tile to flip (need >= 3 of 4 source tiles)
       const target = navGame.ref(50, 50);
       navGame.addExecution(
-        new NukeExecution(UnitType.AtomBomb, player2, target, null),
+        new NukeExecution("AtomBomb", player2, target, null),
       );
       // Tick enough for nuke to land + graph rebuild throttle (20 ticks)
       for (let i = 0; i < 80; i++) navGame.executeNextTick();
@@ -146,7 +146,7 @@ describe("Water Nukes", () => {
       player = game.player(info.id);
       player.conquer(game.ref(1, 1));
 
-      constructionExecution(game, player, 1, 1, UnitType.MissileSilo);
+      constructionExecution(game, player, 1, 1, "MissileSilo");
     });
 
     test("nuke applies fallout instead of converting to water", () => {
@@ -185,7 +185,7 @@ describe("Water Nukes", () => {
       );
       player = game.player(info.id);
       player.conquer(game.ref(1, 1));
-      constructionExecution(game, player, 1, 1, UnitType.MissileSilo);
+      constructionExecution(game, player, 1, 1, "MissileSilo");
 
       const target = game.ref(10, 10);
       const terrainBefore = game.terrainByte(target);

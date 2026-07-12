@@ -7,7 +7,6 @@ import {
   TUTORIAL_VIDEO_URL,
 } from "../../../client/Utils";
 import { EventBus } from "../../../core/EventBus";
-import { RankedType } from "../../../core/game/Game";
 import { GameUpdateType } from "../../../core/game/GameUpdates";
 import { getUserMe } from "../../Api";
 import "../../components/CosmeticButton";
@@ -227,8 +226,7 @@ export class WinModal extends LitElement implements Controller {
     crazyGamesSDK.gameplayStop();
     await this.loadPatternContent();
     // Check if this is a ranked game
-    this.isRankedGame =
-      this.game.config().gameConfig().rankedType === RankedType.OneVOne;
+    this.isRankedGame = this.game.config().gameConfig().rankedType === "1v1";
     this.isVisible = true;
     this.requestUpdate();
     setTimeout(() => {

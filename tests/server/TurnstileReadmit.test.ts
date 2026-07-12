@@ -16,7 +16,6 @@ vi.mock("../../src/core/Schemas", async () => {
   };
 });
 
-import { GameType } from "../../src/core/game/Game";
 import { Client } from "../../src/server/Client";
 import { GameServer } from "../../src/server/GameServer";
 
@@ -82,7 +81,7 @@ describe("GameServer - wasAdmitted (Turnstile re-admission)", () => {
 
   function makeGame() {
     return new GameServer("test-game", mockLogger, Date.now(), {
-      gameType: GameType.Private,
+      gameType: "Private",
     } as any);
   }
 

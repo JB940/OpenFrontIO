@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ClientEnv } from "src/client/ClientEnv";
-import { GameType } from "../../../core/game/Game";
 import { Controller } from "../../Controller";
 import { MultiTabDetector } from "../../MultiTabDetector";
 import { translateText } from "../../Utils";
@@ -30,7 +29,7 @@ export class MultiTabModal extends LitElement implements Controller {
   tick() {
     if (
       this.game.inSpawnPhase() ||
-      this.game.config().gameConfig().gameType === GameType.Singleplayer ||
+      this.game.config().gameConfig().gameType === "Singleplayer" ||
       ClientEnv.env() === "DEV" ||
       this.game.config().isReplay()
     ) {

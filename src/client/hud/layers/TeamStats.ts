@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { EventBus } from "../../../core/EventBus";
-import { GameMode, Team, UnitType } from "../../../core/game/Game";
+import { Team } from "../../../core/game/Game";
 import { Controller } from "../../Controller";
 import {
   formatPercentage,
@@ -47,7 +47,7 @@ export class TeamStats extends LitElement implements Controller {
   }
 
   tick() {
-    if (this.game.config().gameConfig().gameMode !== GameMode.Team) return;
+    if (this.game.config().gameConfig().gameMode !== "Team") return;
 
     if (!this._shownOnInit && !this.game.inSpawnPhase()) {
       this._shownOnInit = true;
@@ -94,10 +94,10 @@ export class TeamStats extends LitElement implements Controller {
             totalMaxTroops += this.game.config().maxTroops(p);
             totalGold += p.gold();
             totalScoreSort += p.numTilesOwned();
-            totalLaunchers += p.totalUnitLevels(UnitType.MissileSilo);
-            totalSAMs += p.totalUnitLevels(UnitType.SAMLauncher);
-            totalWarShips += p.totalUnitLevels(UnitType.Warship);
-            totalCities += p.totalUnitLevels(UnitType.City);
+            totalLaunchers += p.totalUnitLevels("MissileSilo");
+            totalSAMs += p.totalUnitLevels("SAMLauncher");
+            totalWarShips += p.totalUnitLevels("Warship");
+            totalCities += p.totalUnitLevels("City");
           }
         }
 

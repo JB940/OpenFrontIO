@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { EventBus, GameEvent } from "../../../core/EventBus";
-import { GameMode, GameType, Team } from "../../../core/game/Game";
+import { Team } from "../../../core/game/Game";
 import { Controller } from "../../Controller";
 import { themeProvider } from "../../theme/ThemeProvider";
 import { TransformHandler } from "../../TransformHandler";
@@ -43,7 +43,7 @@ export class SpawnTimer extends LitElement implements Controller {
 
   tick() {
     if (
-      this.game.config().gameConfig().gameType === GameType.Singleplayer &&
+      this.game.config().gameConfig().gameType === "Singleplayer" &&
       this.game.inSpawnPhase()
     ) {
       // Singleplayer has no spawn countdown.
@@ -63,7 +63,7 @@ export class SpawnTimer extends LitElement implements Controller {
       this.ratios = [];
       this.colors = [];
 
-      if (this.game.config().gameConfig().gameMode === GameMode.Team) {
+      if (this.game.config().gameConfig().gameMode === "Team") {
         const teamTiles: Map<Team, number> = new Map();
         for (const player of this.game.players()) {
           const team = player.team();
@@ -107,7 +107,7 @@ export class SpawnTimer extends LitElement implements Controller {
 
     if (
       !this.game.inSpawnPhase() &&
-      this.game.config().gameConfig().gameMode !== GameMode.Team
+      this.game.config().gameConfig().gameMode !== "Team"
     ) {
       return html``;
     }

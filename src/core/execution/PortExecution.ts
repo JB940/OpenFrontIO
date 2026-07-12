@@ -1,4 +1,4 @@
-import { Execution, Game, Unit, UnitType } from "../game/Game";
+import { Execution, Game, Unit } from "../game/Game";
 import { PseudoRandom } from "../PseudoRandom";
 import { TradeShipExecution } from "./TradeShipExecution";
 import { TrainStationExecution } from "./TrainStationExecution";
@@ -69,7 +69,7 @@ export class PortExecution implements Execution {
   }
 
   shouldSpawnTradeShip(): boolean {
-    const numTradeShips = this.mg.unitCount(UnitType.TradeShip);
+    const numTradeShips = this.mg.unitCount("TradeShip");
     const spawnRate = this.mg
       .config()
       .tradeShipSpawnRate(this.tradeShipSpawnRejections, numTradeShips);
@@ -87,7 +87,7 @@ export class PortExecution implements Execution {
     const nearbyFactory = this.mg.hasUnitNearby(
       this.port.tile()!,
       this.mg.config().trainStationMaxRange(),
-      UnitType.Factory,
+      "Factory",
     );
     if (nearbyFactory) {
       this.mg.addExecution(new TrainStationExecution(this.port));
@@ -106,7 +106,7 @@ export class PortExecution implements Execution {
     const ports = this.mg
       .players()
       .filter((p) => p !== this.port!.owner() && p.canTrade(this.port!.owner()))
-      .flatMap((p) => p.units(UnitType.Port))
+      .flatMap((p) => p.units("Port"))
       .filter((p) => {
         for (const comp of sourceComponents) {
           if (this.mg.hasWaterComponent(p.tile(), comp)) return true;

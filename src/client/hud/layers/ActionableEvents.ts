@@ -1,7 +1,8 @@
 import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { EventBus } from "../../../core/EventBus";
-import { MessageType, Tick } from "../../../core/game/Game";
+import {  Tick } from "../../../core/game/Game";
+import type { MessageType } from "../../../core/game/Game";
 import {
   AllianceExtensionUpdate,
   AllianceRequestReplyUpdate,
@@ -83,7 +84,7 @@ export class ActionableEvents extends LitElement implements Controller {
     this.events = this.events.filter(
       (event) =>
         !(
-          event.type === MessageType.RENEW_ALLIANCE &&
+          event.type === "RENEW_ALLIANCE" &&
           event.allianceID === allianceID
         ),
     );
@@ -119,7 +120,7 @@ export class ActionableEvents extends LitElement implements Controller {
       (event) =>
         (event.duration === undefined ||
           this.game.ticks() - event.createdAt < event.duration) &&
-        (event.type !== MessageType.ALLIANCE_REQUEST ||
+        (event.type !== "ALLIANCE_REQUEST" ||
           // We remove Alliance Requests if the requestor is dead.
           ((
             this.game.playerBySmallID(event.requestorID) as PlayerView
@@ -168,7 +169,7 @@ export class ActionableEvents extends LitElement implements Controller {
         description: translateText("events_display.about_to_expire", {
           name: other.displayName(),
         }),
-        type: MessageType.RENEW_ALLIANCE,
+        type: "RENEW_ALLIANCE",
         buttons: [
           {
             text: translateText("events_display.focus"),
@@ -248,7 +249,7 @@ export class ActionableEvents extends LitElement implements Controller {
             this.eventBus.emit(new SendAllianceRejectIntentEvent(requestor)),
         },
       ],
-      type: MessageType.ALLIANCE_REQUEST,
+      type: "ALLIANCE_REQUEST",
       createdAt: this.game.ticks(),
       priority: 0,
       duration: this.game.config().allianceRequestDuration(),
@@ -268,7 +269,7 @@ export class ActionableEvents extends LitElement implements Controller {
     const remaining = this.events.filter(
       (event) =>
         !(
-          event.type === MessageType.ALLIANCE_REQUEST &&
+          event.type === "ALLIANCE_REQUEST" &&
           event.focusID === requestorID
         ),
     );

@@ -1,17 +1,15 @@
 import { simpleHash, toInt, withinInt } from "../Util";
 import {
-  AllUnitParams,
-  MessageType,
-  Player,
-  Tick,
-  TrainType,
-  TrajectoryTile,
-  TransportShipState,
-  Unit,
-  UnitInfo,
-  UnitType,
-  WarshipState,
+   AllUnitParams,
+   Player,
+   Tick,
+   TrajectoryTile,
+   TransportShipState,
+   Unit,
+   UnitInfo,
+   WarshipState,
 } from "./Game";
+import type { UnitType, TrainType } from "./Game";
 import { GameImpl } from "./GameImpl";
 import { TileRef } from "./GameMap";
 import { GameUpdateType, UnitUpdate } from "./GameUpdates";
@@ -64,7 +62,7 @@ export class UnitImpl implements Unit {
       "lastSetSafeFromPirates" in params
         ? (params.lastSetSafeFromPirates ?? 0)
         : 0;
-    if (this._type === UnitType.TransportShip) {
+    if (this._type === "TransportShip") {
       this._transportShipState = { isRetreating: false, troops: 0 };
     }
     if ("patrolTile" in params) {
@@ -83,13 +81,13 @@ export class UnitImpl implements Unit {
     this._trainType = "trainType" in params ? params.trainType : undefined;
 
     switch (this._type) {
-      case UnitType.Warship:
-      case UnitType.Port:
-      case UnitType.MissileSilo:
-      case UnitType.DefensePost:
-      case UnitType.SAMLauncher:
-      case UnitType.City:
-      case UnitType.Factory:
+      case "Warship":
+      case "Port":
+      case "MissileSilo":
+      case "DefensePost":
+      case "SAMLauncher":
+      case "City":
+      case "Factory":
         this.mg.stats().unitBuild(_owner, this._type);
     }
   }
@@ -205,13 +203,13 @@ export class UnitImpl implements Unit {
   setOwner(newOwner: PlayerImpl): void {
     this.clearPendingDeletion();
     switch (this._type) {
-      case UnitType.Warship:
-      case UnitType.Port:
-      case UnitType.MissileSilo:
-      case UnitType.DefensePost:
-      case UnitType.SAMLauncher:
-      case UnitType.City:
-      case UnitType.Factory:
+      case "Warship":
+      case "Port":
+      case "MissileSilo":
+      case "DefensePost":
+      case "SAMLauncher":
+      case "City":
+      case "Factory":
         this.mg.stats().unitCapture(newOwner, this._type);
         this.mg.stats().unitLose(this._owner, this._type);
         break;
@@ -303,21 +301,21 @@ export class UnitImpl implements Unit {
 
     if (destroyer !== undefined) {
       switch (this._type) {
-        case UnitType.TransportShip:
+        case "TransportShip":
           this.mg
             .stats()
             .boatDestroyTroops(destroyer, this._owner, this._troops);
           break;
-        case UnitType.TradeShip:
+        case "TradeShip":
           this.mg.stats().boatDestroyTrade(destroyer, this._owner);
           break;
-        case UnitType.City:
-        case UnitType.DefensePost:
-        case UnitType.MissileSilo:
-        case UnitType.Port:
-        case UnitType.SAMLauncher:
-        case UnitType.Warship:
-        case UnitType.Factory:
+        case "City":
+        case "DefensePost":
+        case "MissileSilo":
+        case "Port":
+        case "SAMLauncher":
+        case "Warship":
+        case "Factory":
           this.mg.stats().unitDestroy(destroyer, this._type);
           this.mg.stats().unitLose(this.owner(), this._type);
           break;
@@ -329,15 +327,15 @@ export class UnitImpl implements Unit {
     // Only warships and transport ships are worth notifying about; everything
     // else is either visible on the map or too low-stakes to surface.
     if (
-      this._type !== UnitType.Warship &&
-      this._type !== UnitType.TransportShip
+      this._type !== "Warship" &&
+      this._type !== "TransportShip"
     ) {
       return;
     }
 
     this.mg.displayMessage(
       "events_display.unit_destroyed",
-      MessageType.UNIT_DESTROYED,
+      "UNIT_DESTROYED",
       this.owner().id(),
       undefined,
       { unit: this._type },
@@ -559,13 +557,13 @@ export class UnitImpl implements Unit {
     if (this._warshipState === undefined) {
       return;
     }
-    if (targetType === UnitType.Warship) {
+    if (targetType === "Warship") {
       // Final blow on an enemy warship: instant level, and the partial
       // transport/capture progress toward the next level is wiped.
       this._warshipState.veterancyProgress = 0;
       this.increaseVeterancy();
-    } else if (targetType === UnitType.TransportShip) {
-      this.addVeterancyProgress(UnitType.TransportShip);
+    } else if (targetType === "TransportShip") {
+      this.addVeterancyProgress("TransportShip");
     }
   }
 
@@ -573,7 +571,7 @@ export class UnitImpl implements Unit {
     if (this._warshipState === undefined) {
       return;
     }
-    this.addVeterancyProgress(UnitType.TradeShip);
+    this.addVeterancyProgress("TradeShip");
   }
 
   /**
@@ -600,7 +598,7 @@ export class UnitImpl implements Unit {
     const captureThreshold = this.mg.config().warshipVeterancyTradeCaptures();
     const pointsPerLevel = transportThreshold * captureThreshold;
     this._warshipState.veterancyProgress +=
-      source === UnitType.TransportShip ? captureThreshold : transportThreshold;
+      source === "TransportShip" ? captureThreshold : transportThreshold;
     while (
       this._warshipState.veterancyProgress >= pointsPerLevel &&
       this._warshipState.veterancy < maxVeterancy
@@ -624,7 +622,7 @@ export class UnitImpl implements Unit {
 
   increaseLevel(): void {
     this._level++;
-    if ([UnitType.MissileSilo, UnitType.SAMLauncher].includes(this.type())) {
+    if (["MissileSilo", "SAMLauncher"].includes(this.type())) {
       this._missileTimerQueue.push(this.mg.ticks());
     }
     this.mg.addUpdate(this.toUpdate());
@@ -632,7 +630,7 @@ export class UnitImpl implements Unit {
 
   decreaseLevel(destroyer?: Player): void {
     this._level--;
-    if ([UnitType.MissileSilo, UnitType.SAMLauncher].includes(this.type())) {
+    if (["MissileSilo", "SAMLauncher"].includes(this.type())) {
       this._missileTimerQueue.pop();
     }
     if (this._level <= 0) {

@@ -1,4 +1,3 @@
-import { GameType } from "../../src/core/game/Game";
 import { UsernameSchema } from "../../src/core/Schemas";
 import { Client } from "../../src/server/Client";
 import { GameServer } from "../../src/server/GameServer";
@@ -56,7 +55,7 @@ function makeGame(
     logger,
     Date.now(),
     {
-      gameType: GameType.Private,
+      gameType: "Private",
       anonymizeNames,
       disableClanTags,
       nameReveals,

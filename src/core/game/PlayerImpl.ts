@@ -20,7 +20,6 @@ import {
   ColoredTeams,
   Embargo,
   EmojiMessage,
-  GameMode,
   Gold,
   MutableAlliance,
   Player,
@@ -29,16 +28,15 @@ import {
   PlayerID,
   PlayerInfo,
   PlayerProfile,
-  PlayerType,
-  Relation,
+  RelationSchema,
   Structures,
   Team,
   TerraNullius,
   Tick,
   Unit,
   UnitParams,
-  UnitType,
 } from "./Game";
+import type { Relation, UnitType, PlayerType } from "./Game";
 import { GameImpl } from "./GameImpl";
 import { andFN, manhattanDistFN, TileRef } from "./GameMap";
 import {
@@ -792,15 +790,15 @@ export class PlayerImpl implements Player {
 
   private relationFromValue(relationValue: number): Relation {
     if (relationValue < -50) {
-      return Relation.Hostile;
+      return RelationSchema.enum.Hostile;
     }
     if (relationValue < 0) {
-      return Relation.Distrustful;
+      return RelationSchema.enum.Distrustful;
     }
     if (relationValue < 50) {
-      return Relation.Neutral;
+      return RelationSchema.enum.Neutral;
     }
-    return Relation.Friendly;
+    return RelationSchema.enum.Friendly;
   }
 
   allRelationsSorted(): { player: Player; relation: Relation }[] {
@@ -1264,7 +1262,7 @@ export class PlayerImpl implements Player {
     if (this._gold < cost) {
       return false;
     }
-    if (unitType !== UnitType.MIRVWarhead && !this.isAlive()) {
+    if (unitType !== "MIRVWarhead" && !this.isAlive()) {
       return false;
     }
     return true;
@@ -1381,34 +1379,34 @@ export class PlayerImpl implements Player {
     validTiles: TileRef[] | null,
   ): TileRef | false {
     switch (unitType) {
-      case UnitType.MIRV:
+      case "MIRV":
         if (!this.mg.hasOwner(targetTile)) {
           return false;
         }
         return this.nukeSpawn(targetTile, unitType);
-      case UnitType.AtomBomb:
-      case UnitType.HydrogenBomb:
+      case "AtomBomb":
+      case "HydrogenBomb":
         return this.nukeSpawn(targetTile, unitType);
-      case UnitType.MIRVWarhead:
+      case "MIRVWarhead":
         return targetTile;
-      case UnitType.Port:
+      case "Port":
         return this.portSpawn(targetTile, validTiles);
-      case UnitType.Warship:
+      case "Warship":
         return this.warshipSpawn(targetTile);
-      case UnitType.Shell:
-      case UnitType.SAMMissile:
+      case "Shell":
+      case "SAMMissile":
         return targetTile;
-      case UnitType.TransportShip:
+      case "TransportShip":
         return canBuildTransportShip(this.mg, this, targetTile);
-      case UnitType.TradeShip:
+      case "TradeShip":
         return this.tradeShipSpawn(targetTile);
-      case UnitType.Train:
+      case "Train":
         return this.landBasedUnitSpawn(targetTile);
-      case UnitType.MissileSilo:
-      case UnitType.DefensePost:
-      case UnitType.SAMLauncher:
-      case UnitType.City:
-      case UnitType.Factory:
+      case "MissileSilo":
+      case "DefensePost":
+      case "SAMLauncher":
+      case "City":
+      case "Factory":
         return this.landBasedStructureSpawn(targetTile, validTiles);
       default:
         assertNever(unitType);
@@ -1437,8 +1435,8 @@ export class PlayerImpl implements Player {
     // Prevent launching nukes that would hit teammate structures (only in team games).
     // Disabled after game-over so players can nuke teammates in the aftergame.
     if (
-      config.gameConfig().gameMode === GameMode.Team &&
-      nukeType !== UnitType.MIRV &&
+      config.gameConfig().gameMode === "Team" &&
+      nukeType !== "MIRV" &&
       !gameOver
     ) {
       const magnitude = config.nukeMagnitudes(nukeType);
@@ -1455,7 +1453,7 @@ export class PlayerImpl implements Player {
 
     // only get missilesilos that are not on cooldown and not under construction
     const bestSilo = findClosestBy(
-      this.units(UnitType.MissileSilo),
+      this.units("MissileSilo"),
       (silo) => mg.manhattanDist(silo.tile(), tile),
       (silo) =>
         silo.isActive() && !silo.isInCooldown() && !silo.isUnderConstruction(),
@@ -1494,7 +1492,7 @@ export class PlayerImpl implements Player {
 
     const tileComponent = this.mg.getWaterComponent(tile);
     const bestPort = findClosestBy(
-      this.units(UnitType.Port),
+      this.units("Port"),
       (port) => this.mg.manhattanDist(port.tile(), tile),
       (port) =>
         port.isActive() &&
@@ -1562,7 +1560,7 @@ export class PlayerImpl implements Player {
   }
 
   tradeShipSpawn(targetTile: TileRef): TileRef | false {
-    return this.units(UnitType.Port).find((u) => u.tile() === targetTile)
+    return this.units("Port").find((u) => u.tile() === targetTile)
       ? targetTile
       : false;
   }

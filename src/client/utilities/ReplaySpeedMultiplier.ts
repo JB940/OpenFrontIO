@@ -1,8 +1,12 @@
-export enum ReplaySpeedMultiplier {
-  slow = 2,
-  normal = 1,
-  fast = 0.5,
-  fastest = 0,
-}
+import z from "zod";
 
-export const defaultReplaySpeedMultiplier = ReplaySpeedMultiplier.normal;
+export const ReplaySpeedMultiplierSchema = z.enum({
+  "Slow": 2,
+  "Normal": 1,
+  "Fast": 0.5,
+  "Fastest": 0,
+});
+
+export type ReplaySpeedMultiplier = z.infer<typeof ReplaySpeedMultiplierSchema>;
+
+export const defaultReplaySpeedMultiplier = ReplaySpeedMultiplierSchema.enum.Normal;

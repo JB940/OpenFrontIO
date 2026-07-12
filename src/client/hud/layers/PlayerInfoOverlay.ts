@@ -2,12 +2,8 @@ import { html, LitElement, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
-import {
-  PlayerProfile,
-  Relation,
-  Unit,
-  UnitType,
-} from "../../../core/game/Game";
+import { PlayerProfile, RelationSchema, Unit } from "../../../core/game/Game";
+import type { UnitType, Relation } from "../../../core/game/Game";
 import { TileRef } from "../../../core/game/GameMap";
 import { AllianceView } from "../../../core/game/GameUpdates";
 import { Controller } from "../../Controller";
@@ -156,7 +152,7 @@ export class PlayerInfoOverlay extends LitElement implements Controller {
       this.setVisible(true);
     } else if (!this.game.isLand(tile)) {
       const units = this.game
-        .units(UnitType.Warship, UnitType.TradeShip, UnitType.TransportShip)
+        .units("Warship", "TradeShip", "TransportShip")
         .filter((u) => euclideanDistWorld(worldCoord, u.tile(), this.game) < 50)
         .sort(distSortUnitWorld(worldCoord, this.game));
 
@@ -188,20 +184,20 @@ export class PlayerInfoOverlay extends LitElement implements Controller {
     if (!myPlayer || myPlayer === player || player.type() !== "Nation")
       return "";
     const relation =
-      this.playerProfile?.relations[myPlayer.smallID()] ?? Relation.Neutral;
-    if (relation === Relation.Neutral) return "";
+      this.playerProfile?.relations[myPlayer.smallID()] ?? RelationSchema.enum.Neutral;
+    if (relation === RelationSchema.enum.Neutral) return "";
     return html`<relation-smiley .relation=${relation}></relation-smiley>`;
   }
 
   private getRelationName(relation: Relation): string {
     switch (relation) {
-      case Relation.Hostile:
+      case RelationSchema.enum.Hostile:
         return translateText("relation.hostile");
-      case Relation.Distrustful:
+      case RelationSchema.enum.Distrustful:
         return translateText("relation.distrustful");
-      case Relation.Neutral:
+      case RelationSchema.enum.Neutral:
         return translateText("relation.neutral");
-      case Relation.Friendly:
+      case RelationSchema.enum.Friendly:
         return translateText("relation.friendly");
       default:
         return translateText("relation.default");
@@ -374,20 +370,20 @@ export class PlayerInfoOverlay extends LitElement implements Controller {
             ${this.renderPlayerNameIcons(player)} ${allianceHtml ?? ""}
           </div>
           <div class="flex gap-0.5 lg:gap-1 items-center mt-0.5">
-            ${this.displayUnitCount(player, UnitType.City, cityIcon)}
-            ${this.displayUnitCount(player, UnitType.Factory, factoryIcon)}
-            ${this.displayUnitCount(player, UnitType.Port, portIcon)}
+            ${this.displayUnitCount(player, "City", cityIcon)}
+            ${this.displayUnitCount(player, "Factory", factoryIcon)}
+            ${this.displayUnitCount(player, "Port", portIcon)}
             ${this.displayUnitCount(
               player,
-              UnitType.MissileSilo,
+              "MissileSilo",
               missileSiloIcon,
             )}
             ${this.displayUnitCount(
               player,
-              UnitType.SAMLauncher,
+              "SAMLauncher",
               samLauncherIcon,
             )}
-            ${this.displayUnitCount(player, UnitType.Warship, warshipIcon)}
+            ${this.displayUnitCount(player, "Warship", warshipIcon)}
           </div>
         </div>
       </div>
@@ -463,7 +459,7 @@ export class PlayerInfoOverlay extends LitElement implements Controller {
           ${unit.hasHealth()
             ? html` <div class="text-sm">Health: ${unit.health()}</div> `
             : ""}
-          ${unit.type() === UnitType.TransportShip
+          ${unit.type() === "TransportShip"
             ? html`
                 <div class="text-sm">
                   Troops: ${renderTroops(unit.troops())}

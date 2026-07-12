@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Relation } from "../../../core/game/Game";
+import { RelationSchema } from "../../../core/game/Game";
+import type { Relation } from "../../../core/game/Game";
 
 type FaceData = {
   color: string;
@@ -9,18 +10,18 @@ type FaceData = {
   brows?: string[];
 };
 const RELATION_FACES: Partial<Record<Relation, FaceData>> = {
-  [Relation.Hostile]: {
+  [RelationSchema.enum.Hostile]: {
     color: "#ef4444",
     eyeCy: 7.5,
     mouth: "M5 12 Q8 9 11 12",
     brows: ["M4 5.5 L6.5 7", "M12 5.5 L9.5 7"],
   },
-  [Relation.Distrustful]: {
+  [RelationSchema.enum.Distrustful]: {
     color: "#f97316",
     eyeCy: 6.8,
     mouth: "M5.5 11 Q8 9.2 10.5 11",
   },
-  [Relation.Friendly]: {
+  [RelationSchema.enum.Friendly]: {
     color: "#22c55e",
     eyeCy: 6.5,
     mouth: "M5 10 Q8 13 11 10",
@@ -30,7 +31,7 @@ const RELATION_FACES: Partial<Record<Relation, FaceData>> = {
 @customElement("relation-smiley")
 export class RelationSmiley extends LitElement {
   @property({ type: Number })
-  relation: Relation = Relation.Neutral;
+  relation: Relation = RelationSchema.enum.Neutral;
 
   createRenderRoot() {
     return this;

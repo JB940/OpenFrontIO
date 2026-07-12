@@ -1,12 +1,8 @@
 // Minimal test maps for pathfinding unit tests
 
 import {
-  Difficulty,
   Game,
-  GameMapSize,
   GameMapType,
-  GameMode,
-  GameType,
 } from "../../../src/core/game/Game";
 import { createGame as createGameImpl } from "../../../src/core/game/GameImpl";
 import { GameMapImpl } from "../../../src/core/game/GameMap";
@@ -132,10 +128,10 @@ export function createGame(data: TestMapData): Game {
 
   const gameConfig: GameConfig = {
     gameMap: GameMapType.Asia,
-    gameMapSize: GameMapSize.Normal,
-    gameMode: GameMode.FFA,
-    gameType: GameType.Singleplayer,
-    difficulty: Difficulty.Medium,
+    gameMapSize: "Normal",
+    gameMode: "Free For All",
+    gameType: "Singleplayer",
+    difficulty: "Medium",
     nations: "default",
     donateGold: false,
     donateTroops: false,

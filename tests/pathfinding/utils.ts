@@ -2,12 +2,8 @@ import fs from "fs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import {
-  Difficulty,
   Game,
-  GameMapSize,
   GameMapType,
-  GameMode,
-  GameType,
   PlayerInfo,
 } from "../../src/core/game/Game";
 import { createGame, GameImpl } from "../../src/core/game/GameImpl";
@@ -258,10 +254,10 @@ export async function setupFromPath(
   const config = new TestConfig(
     {
       gameMap: GameMapType.Asia,
-      gameMapSize: GameMapSize.Normal,
-      gameMode: GameMode.FFA,
-      gameType: GameType.Singleplayer,
-      difficulty: Difficulty.Medium,
+      gameMapSize: "Normal",
+      gameMode: "Free For All",
+      gameType: "Singleplayer",
+      difficulty: "Medium",
       nations: "default",
       donateGold: false,
       donateTroops: false,

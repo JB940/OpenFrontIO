@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { z } from "zod";
 import type {
   Express,
   NextFunction,
@@ -7,8 +8,6 @@ import type {
   Response,
 } from "express";
 import type { Logger } from "winston";
-import { z } from "zod";
-import { GameType } from "../core/game/Game";
 import {
   ADMIN_BOT_CLIENT_ID,
   GameConfigSchema,
@@ -78,7 +77,7 @@ export function registerAdminBotRoutes(opts: {
     const config = parsed.data;
     // Private only: reject Public and Singleplayer. An omitted gameType defaults
     // to Private in createGame, so it's allowed through.
-    if (config.gameType !== undefined && config.gameType !== GameType.Private) {
+    if (config.gameType !== undefined && config.gameType !== "Private") {
       return res
         .status(400)
         .json({ error: "admin bot can only create private games" });

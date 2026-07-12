@@ -3,15 +3,10 @@ import { vi, type Mocked } from "vitest";
 import { Config } from "../../../src/core/configuration/Config";
 import { TrainExecution } from "../../../src/core/execution/TrainExecution";
 import {
-  Difficulty,
   Game,
-  GameMapSize,
   GameMapType,
-  GameMode,
-  GameType,
   Player,
   Unit,
-  UnitType,
 } from "../../../src/core/game/Game";
 import { Cluster, TrainStation } from "../../../src/core/game/TrainStation";
 import { UserSettings } from "../../../src/core/game/UserSettings";
@@ -73,7 +68,7 @@ describe("TrainStation", () => {
   });
 
   it("handles City stop", () => {
-    unit.type.mockReturnValue(UnitType.City);
+    unit.type.mockReturnValue("City");
     const station = new TrainStation(game, unit);
 
     station.onTrainStop(trainExecution);
@@ -82,7 +77,7 @@ describe("TrainStation", () => {
   });
 
   it("handles allied trade", () => {
-    unit.type.mockReturnValue(UnitType.City);
+    unit.type.mockReturnValue("City");
     player.isFriendly.mockReturnValue(true);
     const station = new TrainStation(game, unit);
 
@@ -111,7 +106,7 @@ describe("TrainStation", () => {
       isOnSameTeam: vi.fn().mockReturnValue(false),
     } as any;
 
-    unit.type.mockReturnValue(UnitType.City);
+    unit.type.mockReturnValue("City");
     unit.owner.mockReturnValue(stationOwner);
     trainExecution.owner.mockReturnValue(trainOwner);
     const station = new TrainStation(game, unit);
@@ -128,7 +123,7 @@ describe("TrainStation", () => {
   });
 
   it("passes tradeStopsVisited to trainGold", () => {
-    unit.type.mockReturnValue(UnitType.City);
+    unit.type.mockReturnValue("City");
     const trainGoldSpy = vi.fn().mockReturnValue(500n);
     (game.config as any).mockReturnValue({
       trainGold: trainGoldSpy,
@@ -211,11 +206,11 @@ describe("Config.trainGold trade stop penalty", () => {
 
   beforeEach(() => {
     const gameConfig: GameConfig = {
-      gameMap: GameMapType.Asia,
-      gameMapSize: GameMapSize.Normal,
-      gameMode: GameMode.FFA,
-      gameType: GameType.Singleplayer,
-      difficulty: Difficulty.Medium,
+      gameMap:  GameMapType.Asia,
+      gameMapSize: "Normal",
+      gameMode: "Free For All",
+      gameType: "Singleplayer",
+      difficulty: "Medium",
       nations: "default",
       donateGold: false,
       donateTroops: false,

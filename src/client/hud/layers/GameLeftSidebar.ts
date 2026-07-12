@@ -3,7 +3,7 @@ import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
-import { GameMode, Team } from "../../../core/game/Game";
+import { Team } from "../../../core/game/Game";
 import { Controller } from "../../Controller";
 import { Platform } from "../../Platform";
 import { themeProvider } from "../../theme/ThemeProvider";
@@ -97,7 +97,7 @@ export class GameLeftSidebar extends LitElement implements Controller {
   }
 
   private get isTeamGame(): boolean {
-    return this.game?.config().gameConfig().gameMode === GameMode.Team;
+    return this.game?.config().gameConfig().gameMode === "Team";
   }
 
   render() {

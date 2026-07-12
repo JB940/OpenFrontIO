@@ -38,13 +38,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { Config } from "../../../src/core/configuration/Config";
 import { Executor } from "../../../src/core/execution/ExecutionManager";
-import {
-  Difficulty,
-  GameMapSize,
-  GameMapType,
-  GameMode,
-  GameType,
-} from "../../../src/core/game/Game";
+import { GameMapType } from "../../../src/core/game/Game";
 import { createGame } from "../../../src/core/game/GameImpl";
 import { GameUpdateType, HashUpdate } from "../../../src/core/game/GameUpdates";
 import { createNationsForGame } from "../../../src/core/game/NationCreation";
@@ -218,10 +212,10 @@ async function main(): Promise<void> {
 
   const gameConfig: GameConfig = {
     gameMap: opts.map,
-    gameMapSize: GameMapSize.Normal,
-    gameMode: GameMode.FFA,
-    gameType: GameType.Public,
-    difficulty: Difficulty.Medium,
+    gameMapSize: "Normal",
+    gameMode: "Free For All",
+    gameType: "Public",
+    difficulty: "Medium",
     nations: opts.nations,
     donateGold: false,
     donateTroops: false,

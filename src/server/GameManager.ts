@@ -1,12 +1,6 @@
 import { Logger } from "winston";
 import WebSocket from "ws";
-import {
-  Difficulty,
-  GameMapSize,
-  GameMapType,
-  GameMode,
-  GameType,
-} from "../core/game/Game";
+import { GameMapType } from "../core/game/Game";
 import { GameConfig, GameID, PublicGameType } from "../core/Schemas";
 import { Client } from "./Client";
 import { GamePhase, GameServer } from "./GameServer";
@@ -81,16 +75,16 @@ export class GameManager {
         donateGold: false,
         donateTroops: false,
         gameMap: GameMapType.World,
-        gameType: GameType.Private,
-        gameMapSize: GameMapSize.Normal,
-        difficulty: Difficulty.Easy,
+        gameType: "Private",
+        gameMapSize: "Normal",
+        difficulty: "Easy",
         nations: "default",
         infiniteGold: false,
         infiniteTroops: false,
         maxTimerValue: undefined,
         instantBuild: false,
         randomSpawn: false,
-        gameMode: GameMode.FFA,
+        gameMode: "Free For All",
         bots: 400,
         disabledUnits: [],
         ...gameConfig,

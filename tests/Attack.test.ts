@@ -1,7 +1,7 @@
 import { AttackExecution } from "../src/core/execution/AttackExecution";
 import { SpawnExecution } from "../src/core/execution/SpawnExecution";
 import { TransportShipExecution } from "../src/core/execution/TransportShipExecution";
-import { Game, Player, PlayerInfo, UnitType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
 import { GameUpdateType, UnitUpdate } from "../src/core/game/GameUpdates";
 import { GameID } from "../src/core/Schemas";
@@ -84,11 +84,11 @@ describe("Attack", () => {
   test("Nuke reduce attacking troop counts", async () => {
     // Not building exactly spawn to it's better protected from attacks (but still
     // on defender territory)
-    constructionExecution(game, defender, 1, 1, UnitType.MissileSilo);
-    expect(defender.units(UnitType.MissileSilo)).toHaveLength(1);
+    constructionExecution(game, defender, 1, 1, "MissileSilo");
+    expect(defender.units("MissileSilo")).toHaveLength(1);
     game.addExecution(new AttackExecution(100, attacker, defender.id()));
-    constructionExecution(game, defender, 0, 15, UnitType.AtomBomb, 3);
-    const nuke = defender.units(UnitType.AtomBomb)[0];
+    constructionExecution(game, defender, 0, 15, "AtomBomb", 3);
+    const nuke = defender.units("AtomBomb")[0];
     expect(nuke.isActive()).toBe(true);
 
     expect(attacker.outgoingAttacks()).toHaveLength(1);
@@ -102,20 +102,20 @@ describe("Attack", () => {
   });
 
   test("Nuke reduce attacking boat troop count", async () => {
-    constructionExecution(game, defender, 1, 1, UnitType.MissileSilo);
-    expect(defender.units(UnitType.MissileSilo)).toHaveLength(1);
+    constructionExecution(game, defender, 1, 1, "MissileSilo");
+    expect(defender.units("MissileSilo")).toHaveLength(1);
 
     sendBoat(game.ref(15, 8), 100);
 
-    constructionExecution(game, defender, 0, 15, UnitType.AtomBomb, 3);
-    const nuke = defender.units(UnitType.AtomBomb)[0];
+    constructionExecution(game, defender, 0, 15, "AtomBomb", 3);
+    const nuke = defender.units("AtomBomb")[0];
     expect(nuke.isActive()).toBe(true);
 
-    const ship = defender.units(UnitType.TransportShip)[0];
+    const ship = defender.units("TransportShip")[0];
     expect(ship.troops()).toBe(100);
 
     const updates = game.executeNextTick();
-    const updatedShip = defender.units(UnitType.TransportShip)[0];
+    const updatedShip = defender.units("TransportShip")[0];
     const shipUpdates = (updates[GameUpdateType.Unit] as UnitUpdate[]).filter(
       (u) => u.id === ship.id(),
     );
@@ -125,7 +125,7 @@ describe("Attack", () => {
     expect(shipUpdates).toContainEqual(
       expect.objectContaining({
         id: ship.id(),
-        unitType: UnitType.TransportShip,
+        unitType: "TransportShip",
         troops: updatedShip.troops(),
         transportShipState: expect.objectContaining({
           troops: updatedShip.troops(),
@@ -142,7 +142,7 @@ describe("Attack", () => {
 
     game.executeNextTick();
 
-    const ship = defender.units(UnitType.TransportShip)[0];
+    const ship = defender.units("TransportShip")[0];
     expect(ship.troops()).toBe(boat_troops);
     expect(ship.isActive()).toBe(true);
 
@@ -438,7 +438,7 @@ describe("Attack immunity", () => {
     // Player A sends a boat targeting Player B
     game.addExecution(new TransportShipExecution(playerA, game.ref(7, 15), 10));
     game.executeNextTick();
-    expect(playerA.units(UnitType.TransportShip)).toHaveLength(0);
+    expect(playerA.units("TransportShip")).toHaveLength(0);
   });
 
   test("Should be able to send a boat after immunity phase", async () => {
@@ -446,7 +446,7 @@ describe("Attack immunity", () => {
     // Player A sends a boat targeting Player B
     game.addExecution(new TransportShipExecution(playerA, game.ref(7, 15), 10));
     game.executeNextTick();
-    expect(playerA.units(UnitType.TransportShip)).toHaveLength(1);
+    expect(playerA.units("TransportShip")).toHaveLength(1);
   });
 
   test("Should not be able to attack nations during nation immunity phase", async () => {
@@ -490,16 +490,16 @@ describe("Attack immunity", () => {
   });
 
   test("Can't send nuke during immunity phase", async () => {
-    constructionExecution(game, playerA, 7, 0, UnitType.MissileSilo);
-    expect(playerA.units(UnitType.MissileSilo)).toHaveLength(1);
+    constructionExecution(game, playerA, 7, 0, "MissileSilo");
+    expect(playerA.units("MissileSilo")).toHaveLength(1);
     // Player A sends a bomb to player B
-    constructionExecution(game, playerA, 0, 11, UnitType.AtomBomb, 3);
-    expect(playerA.units(UnitType.AtomBomb)).toHaveLength(0);
+    constructionExecution(game, playerA, 0, 11, "AtomBomb", 3);
+    expect(playerA.units("AtomBomb")).toHaveLength(0);
     // Now wait for immunity to end
     waitForImmunityToEnd();
     // And send the exact same order
-    constructionExecution(game, playerA, 0, 11, UnitType.AtomBomb, 3);
-    expect(playerA.units(UnitType.AtomBomb)).toHaveLength(1);
+    constructionExecution(game, playerA, 0, 11, "AtomBomb", 3);
+    expect(playerA.units("AtomBomb")).toHaveLength(1);
   });
 
   test("Should abort TransportShipExecution when target is the attacker itself", async () => {
@@ -514,7 +514,7 @@ describe("Attack immunity", () => {
 
     // Verify it aborted immediately: active is false, and no transport ship unit spawned
     expect(exec.isActive()).toBe(false);
-    expect(playerA.units(UnitType.TransportShip)).toHaveLength(0);
+    expect(playerA.units("TransportShip")).toHaveLength(0);
   });
 
   test("Nation can attack human during PVP immunity", async () => {

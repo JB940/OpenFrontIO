@@ -1,5 +1,6 @@
 import { UnitView } from "../../client/view";
-import { PlayerID, Unit, UnitType } from "./Game";
+import { PlayerID, Unit } from "./Game";
+import type { UnitType } from "./Game";
 import { GameMap, TileRef } from "./GameMap";
 
 export type UnitPredicate = (value: {

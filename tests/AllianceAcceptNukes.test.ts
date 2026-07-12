@@ -1,7 +1,7 @@
 import { AllianceRequestExecution } from "src/core/execution/alliance/AllianceRequestExecution";
 import { GameUpdateType } from "src/core/game/GameUpdates";
 import { NukeExecution } from "../src/core/execution/NukeExecution";
-import { Game, Player, PlayerInfo, UnitType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 import { TestConfig } from "./util/TestConfig";
 
@@ -32,13 +32,13 @@ describe("Alliance acceptance immediately destroys in-flight nukes", () => {
     player2.conquer(game.ref(5, 5));
     player3.conquer(game.ref(10, 10));
 
-    player1.buildUnit(UnitType.MissileSilo, game.ref(0, 0), {});
+    player1.buildUnit("MissileSilo", game.ref(0, 0), {});
   });
 
   test("accepting alliance destroys in-flight nukes between the newly allied players", () => {
     game.addExecution(
       new NukeExecution(
-        UnitType.AtomBomb,
+        "AtomBomb",
         player1,
         game.ref(5, 5),
         game.ref(0, 0),
@@ -50,7 +50,7 @@ describe("Alliance acceptance immediately destroys in-flight nukes", () => {
     game.executeNextTick(); // init
     game.executeNextTick(); // spawn nuke
 
-    expect(game.units(UnitType.AtomBomb)).toHaveLength(1);
+    expect(game.units("AtomBomb")).toHaveLength(1);
 
     expect(player2.isAlliedWith(player1)).toBe(false);
     expect(player1.isFriendly(player2)).toBe(false);
@@ -63,23 +63,23 @@ describe("Alliance acceptance immediately destroys in-flight nukes", () => {
     expect(player2.isAlliedWith(player1)).toBe(true);
     expect(player1.isFriendly(player2)).toBe(true);
 
-    expect(game.units(UnitType.AtomBomb)).toHaveLength(0);
+    expect(game.units("AtomBomb")).toHaveLength(0);
   });
 
   test("accepting alliance destroys only nukes between allied players", () => {
-    player1.buildUnit(UnitType.MissileSilo, game.ref(0, 0), {});
+    player1.buildUnit("MissileSilo", game.ref(0, 0), {});
 
     game.addExecution(
-      new NukeExecution(UnitType.AtomBomb, player1, game.ref(5, 5), null),
+      new NukeExecution("AtomBomb", player1, game.ref(5, 5), null),
     );
     game.addExecution(
-      new NukeExecution(UnitType.AtomBomb, player1, game.ref(10, 10), null),
+      new NukeExecution("AtomBomb", player1, game.ref(10, 10), null),
     );
 
     game.executeNextTick(); // init
     game.executeNextTick(); // spawn nukes
 
-    expect(game.units(UnitType.AtomBomb)).toHaveLength(2);
+    expect(game.units("AtomBomb")).toHaveLength(2);
 
     expect(player2.isAlliedWith(player1)).toBe(false);
     expect(player1.isFriendly(player2)).toBe(false);
@@ -93,17 +93,17 @@ describe("Alliance acceptance immediately destroys in-flight nukes", () => {
     expect(player2.isAlliedWith(player1)).toBe(true);
     expect(player1.isFriendly(player2)).toBe(true);
 
-    expect(game.units(UnitType.AtomBomb)).toHaveLength(1);
+    expect(game.units("AtomBomb")).toHaveLength(1);
 
     // Ensure remaining nuke targets player3
-    const remainingNuke = game.units(UnitType.AtomBomb)[0];
+    const remainingNuke = game.units("AtomBomb")[0];
     expect(remainingNuke.targetTile()).toBe(game.ref(10, 10));
   });
 
   test("accepting alliance displays a nuke-cancellation display message", () => {
     game.addExecution(
       new NukeExecution(
-        UnitType.AtomBomb,
+        "AtomBomb",
         player1,
         game.ref(5, 5),
         game.ref(0, 0),
@@ -115,7 +115,7 @@ describe("Alliance acceptance immediately destroys in-flight nukes", () => {
     game.executeNextTick(); // init
     game.executeNextTick(); // spawn nuke
 
-    expect(game.units(UnitType.AtomBomb)).toHaveLength(1);
+    expect(game.units("AtomBomb")).toHaveLength(1);
 
     expect(player2.isAlliedWith(player1)).toBe(false);
     expect(player1.isFriendly(player2)).toBe(false);
@@ -128,7 +128,7 @@ describe("Alliance acceptance immediately destroys in-flight nukes", () => {
     expect(player2.isAlliedWith(player1)).toBe(true);
     expect(player1.isFriendly(player2)).toBe(true);
 
-    expect(game.units(UnitType.AtomBomb)).toHaveLength(0);
+    expect(game.units("AtomBomb")).toHaveLength(0);
 
     const messages =
       updates[GameUpdateType.DisplayEvent]?.map((e) => e.message) ?? [];

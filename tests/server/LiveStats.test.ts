@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { GameType } from "../../src/core/game/Game";
 import { PlayerLiveStats } from "../../src/core/Schemas";
 import { registerAdminBotRoutes } from "../../src/server/AdminBotRoutes";
 import { GameServer } from "../../src/server/GameServer";
@@ -36,7 +35,7 @@ describe("GameServer.handleLiveStats", () => {
   // A GameServer with three distinct-IP active clients wired up.
   function gameWithClients() {
     const game = new GameServer("test-game", mockLogger, Date.now(), {
-      gameType: GameType.Private,
+      gameType: "Private",
     } as any);
     const clients = [
       makeClient("client01", "1.1.1.1", "Alice"),

@@ -1,5 +1,4 @@
 import {
-  Difficulty,
   Execution,
   Game,
   Gold,
@@ -92,13 +91,13 @@ export class DonateGoldExecution implements Execution {
   private getGoldChunkSize(): number {
     const { difficulty } = this.mg.config().gameConfig();
     switch (difficulty) {
-      case Difficulty.Easy:
+      case "Easy":
         return 2_500;
-      case Difficulty.Medium:
+      case "Medium":
         return 5_000;
-      case Difficulty.Hard:
+      case "Hard":
         return 12_500;
-      case Difficulty.Impossible:
+      case "Impossible":
         return 25_000;
       default:
         assertNever(difficulty);

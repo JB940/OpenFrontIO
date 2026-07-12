@@ -5,7 +5,7 @@ import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
 import { ClientID } from "../../../core/Schemas";
 import { Config } from "../../../core/configuration/Config";
-import { GameMode, GameType, Gold } from "../../../core/game/Game";
+import { Gold } from "../../../core/game/Game";
 import { TileRef } from "../../../core/game/GameMap";
 import { GameUpdateType } from "../../../core/game/GameUpdates";
 import { UserSettings } from "../../../core/game/UserSettings";
@@ -236,7 +236,7 @@ export class ControlPanel extends LitElement implements Controller {
     // Army limit warning
     const { gameMode, gameType } = config.gameConfig();
     const isPublicTeamGame =
-      gameMode === GameMode.Team && gameType === GameType.Public;
+      gameMode === "Team" && gameType === "Public";
     const canDonateTroops = config.donateTroops();
     if (isPublicTeamGame && canDonateTroops) {
       const ratio = this._troops / Math.max(this._maxTroops, 1);

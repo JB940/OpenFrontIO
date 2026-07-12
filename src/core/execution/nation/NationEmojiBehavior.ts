@@ -1,10 +1,8 @@
 import {
   AllPlayers,
-  Difficulty,
   Game,
-  GameMode,
   Player,
-  Relation,
+  RelationSchema,
   Tick,
 } from "../../game/Game";
 import { PseudoRandom } from "../../PseudoRandom";
@@ -115,7 +113,7 @@ export class NationEmojiBehavior {
     this.gameOver = true;
 
     const isTeamGame =
-      this.game.config().gameConfig().gameMode === GameMode.Team;
+      this.game.config().gameConfig().gameMode === "Team";
 
     if (isTeamGame) {
       // Team game: all nations congratulate if another team won
@@ -229,7 +227,7 @@ export class NationEmojiBehavior {
     if (!this.shouldSendEmoji(otherPlayer)) return;
 
     // If we have a good relation to the other player, we are probably attacking first (aggressive)
-    if (this.player.relation(otherPlayer) >= Relation.Neutral) {
+    if (this.player.relation(otherPlayer) >= RelationSchema.enum.Neutral) {
       if (!this.random.chance(2)) return;
       this.sendEmoji(otherPlayer, EMOJI_AGGRESSIVE_ATTACK);
       return;
@@ -306,14 +304,14 @@ export function respondToEmoji(
   }
 
   if (["🕊️", "🏳️", "❤️", "🥰", "👏"].includes(emojiString)) {
-    if (game.config().gameConfig().difficulty === Difficulty.Easy) {
+    if (game.config().gameConfig().difficulty === "Easy") {
       recipient.updateRelation(sender, 15);
     }
     game.addExecution(
       new EmojiExecution(
         recipient,
         sender.id(),
-        sender.relation(recipient) >= Relation.Neutral
+        sender.relation(recipient) >= RelationSchema.enum.Neutral
           ? random.randElement(EMOJI_LOVE)
           : random.randElement(EMOJI_CONFUSED),
       ),

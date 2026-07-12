@@ -1,13 +1,7 @@
 import EventEmitter from "events";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { WebSocket } from "ws";
-import {
-  Difficulty,
-  GameMapSize,
-  GameMapType,
-  GameMode,
-  GameType,
-} from "../../src/core/game/Game";
+import { GameMapType } from "../../src/core/game/Game";
 import {
   HOSTED_LOBBY_AUTO_START_MS,
   MAX_HOSTED_LOBBIES,
@@ -60,7 +54,7 @@ function makeGame(
     id,
     mockLogger,
     Date.now(),
-    { gameType: GameType.Private, ...config } as any,
+    { gameType: "Private", ...config } as any,
     creatorPersistentID,
   );
 }
@@ -98,7 +92,7 @@ describe("GameServer listing", () => {
 
   it("never matches a creator when created without one", () => {
     const game = new GameServer("no-creator", mockLogger, Date.now(), {
-      gameType: GameType.Private,
+      gameType: "Private",
     } as any);
     expect(game.isCreator(CREATOR)).toBe(false);
     expect(game.hashedCreatorID()).toBeUndefined();
@@ -140,7 +134,7 @@ describe("GameServer listing", () => {
     expect(game.gameInfo().listed).toBe(true);
 
     const pub = new GameServer("pub", mockLogger, Date.now(), {
-      gameType: GameType.Public,
+      gameType: "Public",
     } as any);
     expect(pub.gameInfo().listed).toBeUndefined();
   });
@@ -171,7 +165,7 @@ describe("GameManager.listedLobbies", () => {
     const gm = new GameManager(mockLogger);
     const pub = gm.createGame(
       "g-public",
-      { gameType: GameType.Public } as any,
+      { gameType: "Public" } as any,
       undefined,
     )!;
     pub.setListed(true);
@@ -469,7 +463,7 @@ describe("MasterLobbyService hosted lobbies", () => {
     vi.spyOn(ServerEnv, "workerIndex").mockReturnValue(1);
     vi.spyOn(ServerEnv, "gameCreationRate").mockReturnValue(60_000);
     const playlist = {
-      gameConfig: vi.fn().mockResolvedValue({ gameType: GameType.Public }),
+      gameConfig: vi.fn().mockResolvedValue({ gameType: "Public" }),
     };
     const log = { info: vi.fn(), error: vi.fn() } as any;
     const service = new MasterLobbyService(playlist as any, log);
@@ -728,12 +722,12 @@ describe("WorkerLobbyService hosted lobbies", () => {
         hostedLobby("g1", "hash", {
           gameConfig: {
             gameMap,
-            difficulty: Difficulty.Easy,
+            difficulty: "Easy",
             donateGold: false,
             donateTroops: false,
-            gameType: GameType.Private,
-            gameMode: GameMode.FFA,
-            gameMapSize: GameMapSize.Normal,
+            gameType: "Private",
+            gameMode: "Free For All",
+            gameMapSize: "Normal",
             nations: "default",
             bots: 0,
             infiniteGold: false,

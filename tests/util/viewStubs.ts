@@ -11,7 +11,7 @@ import { Theme } from "../../src/client/theme/ThemeProvider";
 import { GameView } from "../../src/client/view/GameView";
 import { PlayerView } from "../../src/client/view/PlayerView";
 import { Config } from "../../src/core/configuration/Config";
-import { NameViewData, Team, UnitType } from "../../src/core/game/Game";
+import { NameViewData, Team } from "../../src/core/game/Game";
 import { GameMapImpl } from "../../src/core/game/GameMap";
 import {
   GameUpdateType,
@@ -143,7 +143,7 @@ export function makeUnitUpdate(
 ): UnitUpdate {
   return {
     type: GameUpdateType.Unit,
-    unitType: UnitType.Warship,
+    unitType: "Warship",
     troops: 0,
     id: 1,
     ownerID: 1,

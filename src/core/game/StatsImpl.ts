@@ -31,7 +31,8 @@ import {
   unitTypeToBombUnit,
   unitTypeToOtherUnit,
 } from "../StatsSchemas";
-import { Player, PlayerType, TerraNullius, UnitType } from "./Game";
+import { Player, TerraNullius } from "./Game";
+import type { PlayerType } from "./Game";
 import { Stats } from "./Stats";
 
 type BigIntLike = bigint | number;
@@ -232,7 +233,7 @@ export class StatsImpl implements Stats {
     target: Player | TerraNullius,
     type: NukeType,
   ): void {
-    if (type === UnitType.MIRV) {
+    if (type === "MIRV") {
       this._numMirvLaunched++;
     }
     this._addBomb(player, type, BOMB_INDEX_LAUNCH, 1);

@@ -1,6 +1,7 @@
 import DOMPurify from "dompurify";
 import { customAlphabet } from "nanoid";
-import { Cell, PlayerType, Unit } from "./game/Game";
+import { Cell, Unit } from "./game/Game";
+import type { PlayerType } from "./game/Game";
 import { GameMap, TileRef } from "./game/GameMap";
 import { TileSet } from "./game/TileSet";
 import {
@@ -103,7 +104,7 @@ export function findMinimumBy<T>(
 /**
  * Finds closest by fast. Example usage:
  * findClosestBy(
- *       this.units(UnitType.MissileSilo),
+ *       this.units("MissileSilo"),
  *       (silo) => mg.manhattanDist(silo.tile(), tile),
  *       (silo) => !silo.isInCooldown() && !silo.isUnderConstruction(),
  *     )

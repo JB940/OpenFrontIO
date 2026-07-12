@@ -2,7 +2,7 @@ import { z } from "zod";
 import { base64urlToUuid } from "./Base64";
 import { ClanTagSchema } from "./Schemas";
 import { BigIntStringSchema, PlayerStatsSchema } from "./StatsSchemas";
-import { Difficulty, GameMode, RankedType } from "./game/Game";
+import { DifficultySchema, GameModeSchema, RankedTypeSchema } from "./game/Game";
 
 function stripClanTagFromUsername(username: string): string {
   return username.replace(/^\s*\[[a-zA-Z0-9]{2,5}\]\s*/u, "").trim();
@@ -72,7 +72,7 @@ export type GoogleUser = z.infer<typeof GoogleUserSchema>;
 
 const SingleplayerMapAchievementSchema = z.object({
   mapName: z.string(),
-  difficulty: z.enum(Difficulty),
+  difficulty: DifficultySchema,
 });
 
 // An unclaimed subscription reward from GET /users/@me. `id` and `amount` are
@@ -195,15 +195,15 @@ export const PlayerStatsLeafSchema = z.object({
 export type PlayerStatsLeaf = z.infer<typeof PlayerStatsLeafSchema>;
 
 const GameModeStatsSchema = z.partialRecord(
-  z.enum(GameMode),
-  z.partialRecord(z.enum(Difficulty), PlayerStatsLeafSchema),
+  GameModeSchema,
+  z.partialRecord(DifficultySchema, PlayerStatsLeafSchema),
 );
 
 export const PlayerStatsTreeSchema = z.object({
   Singleplayer: GameModeStatsSchema.optional(),
   Public: GameModeStatsSchema.optional(),
   Private: GameModeStatsSchema.optional(),
-  Ranked: z.partialRecord(z.enum(RankedType), PlayerStatsLeafSchema).optional(),
+  Ranked: z.partialRecord(RankedTypeSchema, PlayerStatsLeafSchema).optional(),
 });
 export type PlayerStatsTree = z.infer<typeof PlayerStatsTreeSchema>;
 
@@ -305,7 +305,7 @@ export type RankedLeaderboardEntry = z.infer<
 >;
 
 export const RankedLeaderboardResponseSchema = z.object({
-  [RankedType.OneVOne]: RankedLeaderboardEntrySchema.array(),
+  "1v1": RankedLeaderboardEntrySchema.array(),
 });
 export type RankedLeaderboardResponse = z.infer<
   typeof RankedLeaderboardResponseSchema

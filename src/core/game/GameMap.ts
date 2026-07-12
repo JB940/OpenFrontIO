@@ -1,4 +1,5 @@
-import { Cell, TerrainType } from "./Game";
+import { Cell } from "./Game";
+import type { TerrainType } from "./Game"
 
 export type TileRef = number;
 
@@ -359,12 +360,12 @@ export class GameMapImpl implements GameMap {
     if (this.isLand(ref)) {
       const magnitude = this.magnitude(ref);
       if (magnitude >= GameMapImpl.IMPASSABLE_MAGNITUDE)
-        return TerrainType.Impassable;
-      if (magnitude < 10) return TerrainType.Plains;
-      if (magnitude < 20) return TerrainType.Highland;
-      return TerrainType.Mountain;
+        return "Impassable";
+      if (magnitude < 10) return "Plains";
+      if (magnitude < 20) return "Highland";
+      return "Mountain";
     }
-    return TerrainType.Ocean;
+    return "Ocean";
   }
 
   neighbors(ref: TileRef): TileRef[] {

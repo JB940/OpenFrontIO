@@ -1,15 +1,14 @@
 import { Config } from "../../core/configuration/Config";
-import {
-  Cell,
-  GameUpdates,
-  PlayerID,
-  TerrainType,
-  TerraNullius,
-  Tick,
-  Unit,
-  UnitInfo,
-  UnitType,
+import { 
+   Cell, 
+   GameUpdates, 
+   PlayerID, 
+   TerraNullius, 
+   Tick, 
+   Unit, 
+   UnitInfo,
 } from "../../core/game/Game";
+import type { UnitType, TerrainType } from "../../core/game/Game";
 import { GameMap, TileRef } from "../../core/game/GameMap";
 import {
   GameUpdateType,
@@ -40,11 +39,11 @@ import { PlayerView } from "./PlayerView";
 import { UnitView } from "./UnitView";
 
 const TRAIL_TYPES: ReadonlySet<UnitType> = new Set<UnitType>([
-  UnitType.TransportShip,
-  UnitType.AtomBomb,
-  UnitType.HydrogenBomb,
-  UnitType.MIRV,
-  UnitType.MIRVWarhead,
+  "TransportShip",
+  "AtomBomb",
+  "HydrogenBomb",
+  "MIRV",
+  "MIRVWarhead",
 ]);
 
 type TrainPlanState = {

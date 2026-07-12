@@ -1,5 +1,5 @@
 import { ConstructionExecution } from "../../src/core/execution/ConstructionExecution";
-import { Game, Player, PlayerInfo, UnitType } from "../../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../../src/core/game/Game";
 import { setup } from "../util/Setup";
 
 // Regression test: the ghost/build-menu price of a structure must not double-count
@@ -35,12 +35,12 @@ describe("Structure cost while under construction", () => {
 
   function buildFirstCityUnderConstruction() {
     game.addExecution(
-      new ConstructionExecution(player, UnitType.City, game.ref(0, 10)),
+      new ConstructionExecution(player, "City", game.ref(0, 10)),
     );
     game.executeNextTick(); // init
     game.executeNextTick(); // build unit + setUnderConstruction(true)
     const built = player
-      .units(UnitType.City)
+      .units("City")
       .find((u) => u.tile() === game.ref(0, 10));
     expect(built?.isUnderConstruction()).toBe(true);
   }
@@ -48,20 +48,20 @@ describe("Structure cost while under construction", () => {
   test("first city under construction does not double-count itself", () => {
     buildFirstCityUnderConstruction();
     // One built city (under construction) → next city is the 2nd → 250k.
-    expect(player.unitsConstructed(UnitType.City)).toBe(1);
-    expect(game.unitInfo(UnitType.City).cost(game, player)).toBe(250_000n);
+    expect(player.unitsConstructed("City")).toBe(1);
+    expect(game.unitInfo("City").cost(game, player)).toBe(250_000n);
   });
 
   test("captured city does not inflate the price of a city under construction", () => {
     // 'other' builds a city; 'player' captures it (owns it without building it).
-    const captured = other.buildUnit(UnitType.City, game.ref(15, 15), {});
+    const captured = other.buildUnit("City", game.ref(15, 15), {});
     player.captureUnit(captured);
 
     buildFirstCityUnderConstruction();
 
     // Player has BUILT exactly one city (still under construction). The captured
     // city must not count toward build cost, so the next city is still 250k.
-    expect(player.unitsConstructed(UnitType.City)).toBe(1);
-    expect(game.unitInfo(UnitType.City).cost(game, player)).toBe(250_000n);
+    expect(player.unitsConstructed("City")).toBe(1);
+    expect(game.unitInfo("City").cost(game, player)).toBe(250_000n);
   });
 });

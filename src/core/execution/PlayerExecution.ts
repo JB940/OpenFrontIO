@@ -1,12 +1,5 @@
 import { Config } from "../configuration/Config";
-import {
-  Cell,
-  Execution,
-  Game,
-  Player,
-  Structures,
-  UnitType,
-} from "../game/Game";
+import { Cell, Execution, Game, Player, Structures } from "../game/Game";
 import { GameMap, TileRef } from "../game/GameMap";
 import {
   bumpTraversalGeneration,
@@ -58,7 +51,7 @@ export class PlayerExecution implements Execution {
       }
 
       const captor = this.mg!.player(owner.id());
-      if (u.type() === UnitType.DefensePost) {
+      if (u.type() === "DefensePost") {
         u.delete(true, captor);
       } else {
         captor.captureUnit(u);
@@ -423,10 +416,10 @@ export class PlayerExecution implements Execution {
 
     this.player.units().forEach((u) => {
       if (
-        u.type() !== UnitType.AtomBomb &&
-        u.type() !== UnitType.HydrogenBomb &&
-        u.type() !== UnitType.MIRVWarhead &&
-        u.type() !== UnitType.MIRV
+        u.type() !== "AtomBomb" &&
+        u.type() !== "HydrogenBomb" &&
+        u.type() !== "MIRVWarhead" &&
+        u.type() !== "MIRV"
       ) {
         u.delete();
       }

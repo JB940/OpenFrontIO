@@ -5,7 +5,6 @@ import { SpawnExecution } from "../../../src/core/execution/SpawnExecution";
 import { AllianceRequestExecution } from "../../../src/core/execution/alliance/AllianceRequestExecution";
 import {
   Game,
-  GameType,
   Player,
   PlayerInfo,
 } from "../../../src/core/game/Game";
@@ -134,7 +133,7 @@ describe("GameImpl", () => {
     const singleplayerGame = await setup(
       "plains",
       {
-        gameType: GameType.Singleplayer,
+        gameType: "Singleplayer",
       },
       [],
       undefined,

@@ -15,11 +15,10 @@ import {
   PlayerBuildableUnitType,
   PlayerID,
   PlayerProfile,
-  PlayerType,
   Team,
   Tick,
-  UnitType,
 } from "../../core/game/Game";
+import type { UnitType, PlayerType } from "../../core/game/Game";
 import { TileRef } from "../../core/game/GameMap";
 import { applyStateUpdate } from "../../core/game/GameUpdateUtils";
 import {

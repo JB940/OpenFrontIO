@@ -2,7 +2,7 @@ import Benchmark from "benchmark";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { MirvExecution } from "../../src/core/execution/MIRVExecution";
-import { PlayerInfo, UnitType } from "../../src/core/game/Game";
+import { PlayerInfo } from "../../src/core/game/Game";
 import { setup } from "../util/Setup";
 
 // Setup sparse territory scenario (small target area)
@@ -36,7 +36,7 @@ claimRow(140, 15);
 claimRow(185, 15);
 
 sparsePlayer.buildUnit(
-  UnitType.MissileSilo,
+  "MissileSilo",
   sparseTerritoryGame.ref(10, 10),
   {},
 );
@@ -63,7 +63,7 @@ for (let x = 0; x < 200; x++) {
   }
 }
 
-densePlayer.buildUnit(UnitType.MissileSilo, denseTerritoryGame.ref(10, 10), {});
+densePlayer.buildUnit("MissileSilo", denseTerritoryGame.ref(10, 10), {});
 
 // Setup giant world map scenario (realistic large-scale test)
 const giantMapGame = await setup(
@@ -92,7 +92,7 @@ for (let x = 0; x < giantMapGame.map().width(); x++) {
 }
 console.log(`Conquered ${conqueredCount} tiles on giant world map`);
 
-giantMapPlayer.buildUnit(UnitType.MissileSilo, giantMapGame.ref(800, 350), {});
+giantMapPlayer.buildUnit("MissileSilo", giantMapGame.ref(800, 350), {});
 
 const results: string[] = [];
 

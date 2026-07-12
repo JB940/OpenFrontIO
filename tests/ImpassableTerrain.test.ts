@@ -6,16 +6,10 @@ import { NationNukeBehavior } from "../src/core/execution/nation/NationNukeBehav
 import { NukeExecution } from "../src/core/execution/NukeExecution";
 import { AiAttackBehavior } from "../src/core/execution/utils/AiAttackBehavior";
 import {
-  Difficulty,
   Game,
-  GameMapSize,
   GameMapType,
-  GameMode,
-  GameType,
   Player,
   PlayerInfo,
-  TerrainType,
-  UnitType,
 } from "../src/core/game/Game";
 import { createGame } from "../src/core/game/GameImpl";
 import { genTerrainFromBin } from "../src/core/game/TerrainMapLoader";
@@ -78,10 +72,10 @@ async function setupImpassableGame(humans: PlayerInfo[] = []): Promise<Game> {
 
   const gameConfig: GameConfig = {
     gameMap: GameMapType.Asia,
-    gameMapSize: GameMapSize.Normal,
-    gameMode: GameMode.FFA,
-    gameType: GameType.Singleplayer,
-    difficulty: Difficulty.Medium,
+    gameMapSize: "Normal",
+    gameMode: "Free For All",
+    gameType: "Singleplayer",
+    difficulty: "Medium",
     nations: "default",
     donateGold: false,
     donateTroops: false,
@@ -133,7 +127,7 @@ describe("Impassable Terrain", () => {
   });
 
   test("terrainType returns Impassable for impassable tiles", () => {
-    expect(game.terrainType(game.ref(WALL_X, 50))).toBe(TerrainType.Impassable);
+    expect(game.terrainType(game.ref(WALL_X, 50))).toBe("Impassable");
   });
 
   test("isLand returns true for impassable (solid for pathfinding)", () => {
@@ -188,20 +182,20 @@ describe("Impassable Terrain", () => {
   // ── Nukes: targeting ─────────────────────────────────────────────────
 
   test("canBuild(AtomBomb) returns false for impassable target", () => {
-    expect(player.canBuild(UnitType.AtomBomb, game.ref(WALL_X, 50))).toBe(
+    expect(player.canBuild("AtomBomb", game.ref(WALL_X, 50))).toBe(
       false,
     );
   });
 
   test("canBuild(MIRV) returns false for impassable target", () => {
-    expect(player.canBuild(UnitType.MIRV, game.ref(WALL_X, 50))).toBe(false);
+    expect(player.canBuild("MIRV", game.ref(WALL_X, 50))).toBe(false);
   });
 
   test("nuke execution deactivates when targeting impassable tile", () => {
     player.conquer(game.ref(10, 10));
-    player.buildUnit(UnitType.MissileSilo, game.ref(10, 10), {});
+    player.buildUnit("MissileSilo", game.ref(10, 10), {});
     const nuke = new NukeExecution(
-      UnitType.AtomBomb,
+      "AtomBomb",
       player,
       game.ref(WALL_X, 10),
     );
@@ -214,12 +208,12 @@ describe("Impassable Terrain", () => {
 
   test("nuke blast does not destroy or flood impassable tiles", () => {
     player.conquer(game.ref(10, 100));
-    player.buildUnit(UnitType.MissileSilo, game.ref(10, 100), {});
+    player.buildUnit("MissileSilo", game.ref(10, 100), {});
     // Other player owns a tile just left of the wall.
     other.conquer(game.ref(WALL_X - 1, 100));
 
     const nuke = new NukeExecution(
-      UnitType.AtomBomb,
+      "AtomBomb",
       player,
       game.ref(WALL_X - 1, 100),
       game.ref(10, 100),
@@ -239,12 +233,12 @@ describe("Impassable Terrain", () => {
 
   test("nuke trajectory blocked by impassable terrain", () => {
     player.conquer(game.ref(20, 100));
-    player.buildUnit(UnitType.MissileSilo, game.ref(20, 100), {});
+    player.buildUnit("MissileSilo", game.ref(20, 100), {});
     // Target is on the right side of the wall — trajectory must cross it.
     const target = game.ref(150, 100);
     expect(game.isImpassable(target)).toBe(false);
 
-    const nuke = new NukeExecution(UnitType.AtomBomb, player, target);
+    const nuke = new NukeExecution("AtomBomb", player, target);
     game.addExecution(nuke);
     executeTicks(game, 10);
     // Should have been blocked.
@@ -253,12 +247,12 @@ describe("Impassable Terrain", () => {
 
   test("nuke can launch when trajectory does not cross impassable terrain", () => {
     player.conquer(game.ref(20, 100));
-    player.buildUnit(UnitType.MissileSilo, game.ref(20, 100), {});
+    player.buildUnit("MissileSilo", game.ref(20, 100), {});
     // Target is on the same (left) side — no impassable terrain in between.
     const target = game.ref(50, 100);
     expect(game.isImpassable(target)).toBe(false);
 
-    const nuke = new NukeExecution(UnitType.AtomBomb, player, target);
+    const nuke = new NukeExecution("AtomBomb", player, target);
     game.addExecution(nuke);
     executeTicks(game, 40);
     // Should have detonated and deactivated normally.
@@ -402,7 +396,7 @@ describe("Impassable Terrain", () => {
     test("NationNukeBehavior skips nuke targets whose trajectory crosses impassable terrain", () => {
       // Build a silo on the left side of the wall.
       nukePlayer.conquer(game.ref(20, 100));
-      nukePlayer.buildUnit(UnitType.MissileSilo, game.ref(20, 100), {});
+      nukePlayer.buildUnit("MissileSilo", game.ref(20, 100), {});
 
       // Enemy owns tiles on the RIGHT side of the wall — trajectory must
       // cross the impassable wall.
@@ -447,7 +441,7 @@ describe("Impassable Terrain", () => {
       nukeBehavior.maybeSendNuke();
 
       // No nukes should have been launched.
-      const nukes = nukePlayer.units(UnitType.AtomBomb, UnitType.HydrogenBomb);
+      const nukes = nukePlayer.units("AtomBomb", "HydrogenBomb");
       expect(nukes.length).toBe(0);
     });
   });

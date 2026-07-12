@@ -12,11 +12,8 @@ import {
   listNukeBreakAlliance,
   wouldNukeBreakAlliance,
 } from "../../core/execution/Util";
-import {
-  BuildableUnit,
-  PlayerBuildableUnitType,
-  UnitType,
-} from "../../core/game/Game";
+import { BuildableUnit, PlayerBuildableUnitType } from "../../core/game/Game";
+import type { UnitType } from "../../core/game/Game";
 import { TileRef } from "../../core/game/GameMap";
 import { UserSettings } from "../../core/game/UserSettings";
 import { Controller } from "../Controller";
@@ -38,7 +35,7 @@ import { GameView } from "../view";
 
 /** True for nuke types (AtomBomb, HydrogenBomb): ghost is preserved after placement so user can place multiple or keep selection (Enter/key confirm). */
 export function shouldPreserveGhostAfterBuild(unitType: UnitType): boolean {
-  return unitType === UnitType.AtomBomb || unitType === UnitType.HydrogenBomb;
+  return unitType === "AtomBomb" || unitType === "HydrogenBomb";
 }
 
 /**
@@ -213,7 +210,7 @@ export class BuildPreviewController implements Controller {
     if (
       tileRef &&
       myPlayer &&
-      (nukeType === UnitType.AtomBomb || nukeType === UnitType.HydrogenBomb)
+      (nukeType === "AtomBomb" || nukeType === "HydrogenBomb")
     ) {
       this.connectedAllySmallIds.clear();
       const allies = myPlayer.allies();
@@ -304,7 +301,7 @@ export class BuildPreviewController implements Controller {
       return;
     }
     const type = this.ghostUnit.buildableUnit.type;
-    if (type !== UnitType.AtomBomb && type !== UnitType.HydrogenBomb) {
+    if (type !== "AtomBomb" && type !== "HydrogenBomb") {
       this.clearNukeTrajectory();
       return;
     }
@@ -320,7 +317,7 @@ export class BuildPreviewController implements Controller {
     // distance. Keeping these in sync prevents the preview arc from
     // originating from a silo the game wouldn't use.
     const silos = myPlayer
-      .units(UnitType.MissileSilo)
+      .units("MissileSilo")
       .filter(
         (u) => u.isActive() && !u.isInCooldown() && !u.isUnderConstruction(),
       );
@@ -366,7 +363,7 @@ export class BuildPreviewController implements Controller {
           })
         : new Set();
     const sams: SAMInfo[] = [];
-    for (const s of this.game.units(UnitType.SAMLauncher)) {
+    for (const s of this.game.units("SAMLauncher")) {
       if (!s.isActive()) continue;
       const owner = s.owner();
       if (owner === myPlayer) continue;
@@ -430,19 +427,19 @@ export class BuildPreviewController implements Controller {
     // previews show the outer blast radius at the target tile.
     let rangeRadius = 0;
     switch (u.type) {
-      case UnitType.SAMLauncher: {
+      case "SAMLauncher": {
         const level = this.resolveGhostRangeLevel(u) ?? 1;
         rangeRadius = this.game.config().samRange(level);
         break;
       }
-      case UnitType.AtomBomb:
-      case UnitType.HydrogenBomb:
+      case "AtomBomb":
+      case "HydrogenBomb":
         rangeRadius = this.game.config().nukeMagnitudes(u.type).outer;
         break;
-      case UnitType.Factory:
+      case "Factory":
         rangeRadius = this.game.config().trainStationMaxRange();
         break;
-      case UnitType.DefensePost:
+      case "DefensePost":
         rangeRadius = this.game.config().defensePostRange();
         break;
     }
@@ -514,7 +511,7 @@ export class BuildPreviewController implements Controller {
     } else if (this.ghostUnit.buildableUnit.canBuild) {
       const unitType = this.ghostUnit.buildableUnit.type;
       const rocketDirectionUp =
-        unitType === UnitType.AtomBomb || unitType === UnitType.HydrogenBomb
+        unitType === "AtomBomb" || unitType === "HydrogenBomb"
           ? this.uiState.rocketDirectionUp
           : undefined;
       this.eventBus.emit(
@@ -568,7 +565,7 @@ export class BuildPreviewController implements Controller {
   private resolveGhostRangeLevel(
     buildableUnit: BuildableUnit,
   ): number | undefined {
-    if (buildableUnit.type !== UnitType.SAMLauncher) return undefined;
+    if (buildableUnit.type !== "SAMLauncher") return undefined;
     if (buildableUnit.canUpgrade !== false) {
       const existing = this.game.unit(buildableUnit.canUpgrade);
       if (existing) {

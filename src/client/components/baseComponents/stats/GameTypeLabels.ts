@@ -1,4 +1,3 @@
-import { GameMode } from "../../../../core/game/Game";
 import { translateText } from "../../../Utils";
 
 // Shared game-type labelling for the paginated history lists (clan + player).
@@ -17,7 +16,7 @@ export type GameTypeFields = {
 // (the server buckets those into "team"), so a null-with-a-mode row is still a
 // Team game and must not be relabelled FFA.
 export function isFfa(game: GameTypeFields): boolean {
-  if (game.mode === GameMode.FFA) return true;
+  if (game.mode === "Free For All") return true;
   if (
     game.mode === undefined &&
     (game.playerTeams === null || game.playerTeams === undefined)

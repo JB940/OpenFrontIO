@@ -1,11 +1,4 @@
-import {
-  Execution,
-  Game,
-  MessageType,
-  Player,
-  Unit,
-  UnitType,
-} from "../game/Game";
+import { Execution, Game, Player, Unit } from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { PathFinding } from "../pathfinding/PathFinder";
 import { PathStatus, SteppingPathFinder } from "../pathfinding/types";
@@ -34,7 +27,7 @@ export class SAMMissileExecution implements Execution {
 
   tick(ticks: number): void {
     this.SAMMissile ??= this._owner.buildUnit(
-      UnitType.SAMMissile,
+      "SAMMissile",
       this.spawn,
       {},
     );
@@ -43,7 +36,7 @@ export class SAMMissileExecution implements Execution {
       return;
     }
     // Mirv warheads are too fast, and mirv shouldn't be stopped ever
-    const nukesWhitelist = [UnitType.AtomBomb, UnitType.HydrogenBomb];
+    const nukesWhitelist = ["AtomBomb", "HydrogenBomb"];
     if (
       !this.target.isActive() ||
       !this.ownerUnit.isActive() ||
@@ -66,7 +59,7 @@ export class SAMMissileExecution implements Execution {
       if (result.status === PathStatus.COMPLETE) {
         this.mg.displayMessage(
           "events_display.missile_intercepted",
-          MessageType.SAM_HIT,
+          "SAM_HIT",
           this._owner.id(),
           undefined,
           { unit: this.target.type() },

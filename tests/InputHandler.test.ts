@@ -9,7 +9,6 @@ import {
 import { UIState } from "../src/client/UIState";
 import { GameView, PlayerView } from "../src/client/view";
 import { EventBus } from "../src/core/EventBus";
-import { UnitType } from "../src/core/game/Game";
 import { KEYBINDS_KEY, UserSettings } from "../src/core/game/UserSettings";
 
 class MockPointerEvent {
@@ -551,7 +550,7 @@ describe("InputHandler AutoUpgrade", () => {
 
     test("emits ConfirmGhostStructureEvent on Enter when ghost structure is set", () => {
       const mockEmit = vi.spyOn(eventBus, "emit");
-      uiState.ghostStructure = UnitType.City;
+      uiState.ghostStructure = "City";
 
       window.dispatchEvent(new KeyboardEvent("keydown", { code: "Enter" }));
 
@@ -562,7 +561,7 @@ describe("InputHandler AutoUpgrade", () => {
 
     test("emits ConfirmGhostStructureEvent on NumpadEnter when ghost structure is set", () => {
       const mockEmit = vi.spyOn(eventBus, "emit");
-      uiState.ghostStructure = UnitType.Factory;
+      uiState.ghostStructure = "Factory";
 
       window.dispatchEvent(
         new KeyboardEvent("keydown", { code: "NumpadEnter" }),
@@ -607,21 +606,21 @@ describe("InputHandler AutoUpgrade", () => {
       window.dispatchEvent(
         new KeyboardEvent("keyup", { code: "Numpad1", key: "1" }),
       );
-      expect(inputHandler["uiState"].ghostStructure).toBe(UnitType.City);
+      expect(inputHandler["uiState"].ghostStructure).toBe("City");
     });
 
     test("Numpad5 sets ghost structure to MissileSilo when buildMissileSilo is Digit5", () => {
       window.dispatchEvent(
         new KeyboardEvent("keyup", { code: "Numpad5", key: "5" }),
       );
-      expect(inputHandler["uiState"].ghostStructure).toBe(UnitType.MissileSilo);
+      expect(inputHandler["uiState"].ghostStructure).toBe("MissileSilo");
     });
 
     test("Numpad0 sets ghost structure to MIRV when buildMIRV is Digit0", () => {
       window.dispatchEvent(
         new KeyboardEvent("keyup", { code: "Numpad0", key: "0" }),
       );
-      expect(inputHandler["uiState"].ghostStructure).toBe(UnitType.MIRV);
+      expect(inputHandler["uiState"].ghostStructure).toBe("MIRV");
     });
 
     test("does not set ghost structure when the player is dead", () => {
@@ -660,13 +659,13 @@ describe("InputHandler AutoUpgrade", () => {
       window.dispatchEvent(
         new KeyboardEvent("keyup", { code: "Digit1", key: "1" }),
       );
-      expect(inputHandler["uiState"].ghostStructure).toBe(UnitType.City);
+      expect(inputHandler["uiState"].ghostStructure).toBe("City");
     });
     test("Digit0 sets ghost structrue to MIRV when buildMIRV is Numpad0", () => {
       window.dispatchEvent(
         new KeyboardEvent("keyup", { code: "Digit0", key: "0" }),
       );
-      expect(inputHandler["uiState"].ghostStructure).toBe(UnitType.MIRV);
+      expect(inputHandler["uiState"].ghostStructure).toBe("MIRV");
     });
   });
 
@@ -732,7 +731,7 @@ describe("InputHandler AutoUpgrade", () => {
         new KeyboardEvent("keyup", { code: "Digit1", key: "1" }),
       );
 
-      expect(inputHandler["uiState"].ghostStructure).toBe(UnitType.City);
+      expect(inputHandler["uiState"].ghostStructure).toBe("City");
     });
 
     test("exact code match wins: Numpad1 sets Factory when buildCity=Digit1 and buildFactory=Numpad1", () => {
@@ -758,7 +757,7 @@ describe("InputHandler AutoUpgrade", () => {
         new KeyboardEvent("keyup", { code: "Numpad1", key: "1" }),
       );
 
-      expect(inputHandler["uiState"].ghostStructure).toBe(UnitType.Factory);
+      expect(inputHandler["uiState"].ghostStructure).toBe("Factory");
     });
 
     test("digit alias used when no exact match: Numpad1 sets City when only buildCity=Digit1", () => {
@@ -781,7 +780,7 @@ describe("InputHandler AutoUpgrade", () => {
         new KeyboardEvent("keyup", { code: "Numpad1", key: "1" }),
       );
 
-      expect(inputHandler["uiState"].ghostStructure).toBe(UnitType.City);
+      expect(inputHandler["uiState"].ghostStructure).toBe("City");
     });
   });
 
@@ -811,7 +810,7 @@ describe("InputHandler AutoUpgrade", () => {
         new KeyboardEvent("keyup", { code: "Digit1", shiftKey: true }),
       );
 
-      expect(uiState.ghostStructure).toBe(UnitType.City);
+      expect(uiState.ghostStructure).toBe("City");
     });
 
     test("plain Digit1 does NOT trigger buildCity when bound to Shift+Digit1", () => {
@@ -889,14 +888,14 @@ describe("InputHandler AutoUpgrade", () => {
       window.dispatchEvent(
         new KeyboardEvent("keyup", { code: "Digit1", shiftKey: false }),
       );
-      expect(uiState.ghostStructure).toBe(UnitType.City);
+      expect(uiState.ghostStructure).toBe("City");
 
       uiState.ghostStructure = null;
 
       window.dispatchEvent(
         new KeyboardEvent("keyup", { code: "Digit1", shiftKey: true }),
       );
-      expect(uiState.ghostStructure).toBe(UnitType.Factory);
+      expect(uiState.ghostStructure).toBe("Factory");
     });
 
     test("Numpad alias works with Shift+Digit keybind", () => {
@@ -913,7 +912,7 @@ describe("InputHandler AutoUpgrade", () => {
         new KeyboardEvent("keyup", { code: "Numpad1", shiftKey: true }),
       );
 
-      expect(uiState.ghostStructure).toBe(UnitType.City);
+      expect(uiState.ghostStructure).toBe("City");
     });
   });
 });
@@ -965,7 +964,7 @@ describe("Warship box selection (Shift+drag)", () => {
   });
 
   test("Shift keydown discards active ghostStructure", () => {
-    uiState.ghostStructure = UnitType.Warship;
+    uiState.ghostStructure = "Warship";
 
     window.dispatchEvent(new KeyboardEvent("keydown", { code: "ShiftLeft" }));
 

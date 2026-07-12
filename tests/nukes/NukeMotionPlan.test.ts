@@ -1,12 +1,6 @@
 import { ConstructionExecution } from "../../src/core/execution/ConstructionExecution";
 import { NukeExecution } from "../../src/core/execution/NukeExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-  Unit,
-  UnitType,
-} from "../../src/core/game/Game";
+import { Game, Player, PlayerInfo, Unit } from "../../src/core/game/Game";
 import { TileRef } from "../../src/core/game/GameMap";
 import { GameUpdateType, UnitUpdate } from "../../src/core/game/GameUpdates";
 import {
@@ -27,23 +21,23 @@ describe("Nuke motion plan", () => {
     player = game.player(info.id);
     player.conquer(game.ref(1, 1));
     game.addExecution(
-      new ConstructionExecution(player, UnitType.MissileSilo, game.ref(1, 1)),
+      new ConstructionExecution(player, "MissileSilo", game.ref(1, 1)),
     );
     game.executeNextTick();
     game.executeNextTick();
-    expect(player.units(UnitType.MissileSilo)).toHaveLength(1);
+    expect(player.units("MissileSilo")).toHaveLength(1);
     game.drainPackedMotionPlans();
   });
 
   function buildNuke(): Unit {
     for (
       let i = 0;
-      i < 10 && player.units(UnitType.AtomBomb).length === 0;
+      i < 10 && player.units("AtomBomb").length === 0;
       i++
     ) {
       game.executeNextTick();
     }
-    const nukes = player.units(UnitType.AtomBomb);
+    const nukes = player.units("AtomBomb");
     expect(nukes).toHaveLength(1);
     return nukes[0];
   }
@@ -71,7 +65,7 @@ describe("Nuke motion plan", () => {
 
   test("records a grid plan matching the nuke's per-tick positions", () => {
     game.addExecution(
-      new ConstructionExecution(player, UnitType.AtomBomb, game.ref(80, 80)),
+      new ConstructionExecution(player, "AtomBomb", game.ref(80, 80)),
     );
     const nuke = buildNuke();
     const plan = drainGridPlan(nuke.id());
@@ -97,7 +91,7 @@ describe("Nuke motion plan", () => {
     const waitTicks = 5;
     game.addExecution(
       new NukeExecution(
-        UnitType.AtomBomb,
+        "AtomBomb",
         player,
         game.ref(80, 80),
         null,
@@ -124,7 +118,7 @@ describe("Nuke motion plan", () => {
 
   test("does not emit per-tick unit updates while in flight", () => {
     game.addExecution(
-      new ConstructionExecution(player, UnitType.AtomBomb, game.ref(80, 80)),
+      new ConstructionExecution(player, "AtomBomb", game.ref(80, 80)),
     );
     const nuke = buildNuke();
     let lastTargetable = nuke.isTargetable();

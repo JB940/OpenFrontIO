@@ -1,4 +1,5 @@
-import { Unit, UnitType } from "./Game";
+import { Unit } from "./Game";
+import type { UnitType } from "./Game";
 import { TileRef } from "./GameMap";
 import { StationManager } from "./RailNetworkImpl";
 import { TrainStation } from "./TrainStation";

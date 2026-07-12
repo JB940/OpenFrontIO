@@ -1,13 +1,5 @@
-import {
-  AllPlayers,
-  Difficulty,
-  Game,
-  Gold,
-  Player,
-  PlayerID,
-  Tick,
-  UnitType,
-} from "../../game/Game";
+import { AllPlayers, Game, Gold, Player, PlayerID, Tick } from "../../game/Game";
+import type { UnitType } from "../../game/Game";
 import { TileRef } from "../../game/GameMap";
 import { PseudoRandom } from "../../PseudoRandom";
 import { assertNever } from "../../Util";
@@ -38,13 +30,13 @@ export class NationMIRVBehavior {
   private get hesitationOdds(): number {
     const { difficulty } = this.game.config().gameConfig();
     switch (difficulty) {
-      case Difficulty.Easy:
+      case "Easy":
         return 2; // More likely to hesitate
-      case Difficulty.Medium:
+      case "Medium":
         return 4;
-      case Difficulty.Hard:
+      case "Hard":
         return 8;
-      case Difficulty.Impossible:
+      case "Impossible":
         return 16; // Rarely hesitates
       default:
         assertNever(difficulty);
@@ -54,13 +46,13 @@ export class NationMIRVBehavior {
   private get victoryDenialTeamThreshold(): number {
     const { difficulty } = this.game.config().gameConfig();
     switch (difficulty) {
-      case Difficulty.Easy:
+      case "Easy":
         return 0.9; // Only react right before the game ends (95%)
-      case Difficulty.Medium:
+      case "Medium":
         return 0.8;
-      case Difficulty.Hard:
+      case "Hard":
         return 0.7;
-      case Difficulty.Impossible:
+      case "Impossible":
         return 0.6; // Reacts early
       default:
         assertNever(difficulty);
@@ -70,13 +62,13 @@ export class NationMIRVBehavior {
   private get victoryDenialIndividualThreshold(): number {
     const { difficulty } = this.game.config().gameConfig();
     switch (difficulty) {
-      case Difficulty.Easy:
+      case "Easy":
         return 0.75; // Only react right before the game ends (80%)
-      case Difficulty.Medium:
+      case "Medium":
         return 0.65;
-      case Difficulty.Hard:
+      case "Hard":
         return 0.55;
-      case Difficulty.Impossible:
+      case "Impossible":
         return 0.4; // Reacts early
       default:
         assertNever(difficulty);
@@ -86,13 +78,13 @@ export class NationMIRVBehavior {
   private get steamrollCityGapMultiplier(): number {
     const { difficulty } = this.game.config().gameConfig();
     switch (difficulty) {
-      case Difficulty.Easy:
+      case "Easy":
         return 2; // Needs larger gap to trigger
-      case Difficulty.Medium:
+      case "Medium":
         return 1.5;
-      case Difficulty.Hard:
+      case "Hard":
         return 1.25;
-      case Difficulty.Impossible:
+      case "Impossible":
         return 1.15; // Reacts to smaller gaps
       default:
         assertNever(difficulty);
@@ -102,12 +94,12 @@ export class NationMIRVBehavior {
   private get steamrollMinLeaderCities(): number {
     const { difficulty } = this.game.config().gameConfig();
     switch (difficulty) {
-      case Difficulty.Easy:
+      case "Easy":
         return 20; // Needs more cities to trigger
-      case Difficulty.Medium:
-      case Difficulty.Hard:
+      case "Medium":
+      case "Hard":
         return 10;
-      case Difficulty.Impossible:
+      case "Impossible":
         return 8; // Reacts early
       default:
         assertNever(difficulty);
@@ -116,13 +108,13 @@ export class NationMIRVBehavior {
 
   considerMIRV(): boolean {
     if (this.player === null) throw new Error("not initialized");
-    if (this.game.config().isUnitDisabled(UnitType.MIRV)) {
+    if (this.game.config().isUnitDisabled("MIRV")) {
       return false;
     }
-    if (this.player.units(UnitType.MissileSilo).length === 0) {
+    if (this.player.units("MissileSilo").length === 0) {
       return false;
     }
-    if (this.player.gold() < this.cost(UnitType.MIRV)) {
+    if (this.player.gold() < this.cost("MIRV")) {
       return false;
     }
 
@@ -262,7 +254,7 @@ export class NationMIRVBehavior {
 
   private isInboundMIRVFrom(attacker: Player): boolean {
     if (this.player === null) throw new Error("not initialized");
-    const enemyMirvs = attacker.units(UnitType.MIRV);
+    const enemyMirvs = attacker.units("MIRV");
     for (const mirv of enemyMirvs) {
       const dst = mirv.targetTile();
       if (!dst) continue;
@@ -282,7 +274,7 @@ export class NationMIRVBehavior {
     this.emojiBehavior.maybeSendAttackEmoji(enemy);
 
     const centerTile = this.calculateTerritoryCenter(enemy);
-    if (centerTile && this.player.canBuild(UnitType.MIRV, centerTile)) {
+    if (centerTile && this.player.canBuild("MIRV", centerTile)) {
       this.game.addExecution(new MirvExecution(this.player, centerTile));
       this.recordMirvHit(enemy);
       this.emojiBehavior.sendEmoji(AllPlayers, EMOJI_NUKE);
@@ -291,7 +283,7 @@ export class NationMIRVBehavior {
   }
 
   private countCities(p: Player): number {
-    return p.unitCount(UnitType.City);
+    return p.unitCount("City");
   }
 
   private calculateTerritoryCenter(target: Player): TileRef | null {

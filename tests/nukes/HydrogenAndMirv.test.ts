@@ -1,5 +1,5 @@
 import { ConstructionExecution } from "../../src/core/execution/ConstructionExecution";
-import { Game, Player, PlayerInfo, UnitType } from "../../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../../src/core/game/Game";
 import { setup } from "../util/Setup";
 
 describe("Hydrogen Bomb and MIRV flows", () => {
@@ -18,21 +18,21 @@ describe("Hydrogen Bomb and MIRV flows", () => {
   test("Hydrogen bomb launches when silo exists and cannot use silo under construction", () => {
     // Build a silo instantly and launch Hydrogen Bomb
     game.addExecution(
-      new ConstructionExecution(player, UnitType.MissileSilo, game.ref(1, 1)),
+      new ConstructionExecution(player, "MissileSilo", game.ref(1, 1)),
     );
     game.executeNextTick();
     game.executeNextTick();
-    expect(player.units(UnitType.MissileSilo)).toHaveLength(1);
+    expect(player.units("MissileSilo")).toHaveLength(1);
 
     // Launch Hydrogen Bomb
     const target = game.ref(7, 7);
     game.addExecution(
-      new ConstructionExecution(player, UnitType.HydrogenBomb, target),
+      new ConstructionExecution(player, "HydrogenBomb", target),
     );
     game.executeNextTick();
     game.executeNextTick();
     game.executeNextTick();
-    expect(player.units(UnitType.HydrogenBomb).length).toBeGreaterThan(0);
+    expect(player.units("HydrogenBomb").length).toBeGreaterThan(0);
 
     // Now build another silo with construction time and ensure it won't be used
     // Use non-instant config by simulating an under-construction flag on a new silo
@@ -58,7 +58,7 @@ describe("Hydrogen Bomb and MIRV flows", () => {
     // Capture gold before starting silo construction
     const goldBeforeSilo = playerWithConstruction.gold();
     const siloCost = gameWithConstruction
-      .unitInfo(UnitType.MissileSilo)
+      .unitInfo("MissileSilo")
       .cost(gameWithConstruction, playerWithConstruction);
     playerWithConstruction.addGold(siloCost);
 
@@ -66,7 +66,7 @@ describe("Hydrogen Bomb and MIRV flows", () => {
     gameWithConstruction.addExecution(
       new ConstructionExecution(
         playerWithConstruction,
-        UnitType.MissileSilo,
+        "MissileSilo",
         siloTile,
       ),
     );
@@ -74,7 +74,7 @@ describe("Hydrogen Bomb and MIRV flows", () => {
     gameWithConstruction.executeNextTick();
 
     // Verify silo exists and is under construction
-    const silos = playerWithConstruction.units(UnitType.MissileSilo);
+    const silos = playerWithConstruction.units("MissileSilo");
     expect(silos.length).toBe(1);
     const silo = silos[0];
     expect(silo.isUnderConstruction()).toBe(true);
@@ -86,11 +86,11 @@ describe("Hydrogen Bomb and MIRV flows", () => {
     // Attempt to launch HydrogenBomb while silo is under construction
     const targetTile = gameWithConstruction.ref(10, 10);
     const hydrogenBombCountBefore = playerWithConstruction.units(
-      UnitType.HydrogenBomb,
+      "HydrogenBomb",
     ).length;
 
     const canBuildResult = playerWithConstruction.canBuild(
-      UnitType.HydrogenBomb,
+      "HydrogenBomb",
       targetTile,
     );
     expect(canBuildResult).toBe(false); // Should fail because silo is under construction
@@ -99,7 +99,7 @@ describe("Hydrogen Bomb and MIRV flows", () => {
     gameWithConstruction.addExecution(
       new ConstructionExecution(
         playerWithConstruction,
-        UnitType.HydrogenBomb,
+        "HydrogenBomb",
         targetTile,
       ),
     );
@@ -108,7 +108,7 @@ describe("Hydrogen Bomb and MIRV flows", () => {
 
     // Assert launch does not succeed
     const hydrogenBombCountAfter = playerWithConstruction.units(
-      UnitType.HydrogenBomb,
+      "HydrogenBomb",
     ).length;
     expect(hydrogenBombCountAfter).toBe(hydrogenBombCountBefore);
 
@@ -118,25 +118,25 @@ describe("Hydrogen Bomb and MIRV flows", () => {
 
     // Advance ticks to complete construction
     const constructionDuration =
-      gameWithConstruction.unitInfo(UnitType.MissileSilo)
+      gameWithConstruction.unitInfo("MissileSilo")
         .constructionDuration ?? 0;
     for (let i = 0; i < constructionDuration + 2; i++) {
       gameWithConstruction.executeNextTick();
     }
 
     // Verify silo is complete
-    const completedSilo = playerWithConstruction.units(UnitType.MissileSilo)[0];
+    const completedSilo = playerWithConstruction.units("MissileSilo")[0];
     expect(completedSilo.isUnderConstruction()).toBe(false);
 
     // Now launch should succeed - ensure we have gold and target is conquered
     playerWithConstruction.conquer(targetTile);
     const hydrogenBombCost = gameWithConstruction
-      .unitInfo(UnitType.HydrogenBomb)
+      .unitInfo("HydrogenBomb")
       .cost(gameWithConstruction, playerWithConstruction);
     playerWithConstruction.addGold(hydrogenBombCost);
 
     const canBuildAfterCompletion = playerWithConstruction.canBuild(
-      UnitType.HydrogenBomb,
+      "HydrogenBomb",
       targetTile,
     );
     expect(canBuildAfterCompletion).not.toBe(false);
@@ -144,7 +144,7 @@ describe("Hydrogen Bomb and MIRV flows", () => {
     gameWithConstruction.addExecution(
       new ConstructionExecution(
         playerWithConstruction,
-        UnitType.HydrogenBomb,
+        "HydrogenBomb",
         targetTile,
       ),
     );
@@ -154,7 +154,7 @@ describe("Hydrogen Bomb and MIRV flows", () => {
 
     // Verify launch succeeded
     const hydrogenBombCountAfterSuccess = playerWithConstruction.units(
-      UnitType.HydrogenBomb,
+      "HydrogenBomb",
     ).length;
     expect(hydrogenBombCountAfterSuccess).toBeGreaterThan(
       hydrogenBombCountBefore,
@@ -164,22 +164,22 @@ describe("Hydrogen Bomb and MIRV flows", () => {
   test("MIRV launches when silo exists and targets player-owned tiles", () => {
     // Build a silo instantly
     game.addExecution(
-      new ConstructionExecution(player, UnitType.MissileSilo, game.ref(1, 1)),
+      new ConstructionExecution(player, "MissileSilo", game.ref(1, 1)),
     );
     game.executeNextTick();
     game.executeNextTick();
-    expect(player.units(UnitType.MissileSilo)).toHaveLength(1);
+    expect(player.units("MissileSilo")).toHaveLength(1);
 
     // Launch MIRV at a player-owned tile (the silo tile)
     const target = game.ref(1, 1);
-    game.addExecution(new ConstructionExecution(player, UnitType.MIRV, target));
+    game.addExecution(new ConstructionExecution(player, "MIRV", target));
     game.executeNextTick(); // init
     game.executeNextTick(); // create MIRV unit
     game.executeNextTick();
 
     // MIRV should appear briefly before separation, otherwise warheads should be queued
-    const mirvs = player.units(UnitType.MIRV).length;
-    const warheads = player.units(UnitType.MIRVWarhead).length;
+    const mirvs = player.units("MIRV").length;
+    const warheads = player.units("MIRVWarhead").length;
     expect(mirvs > 0 || warheads > 0).toBe(true);
   });
 });

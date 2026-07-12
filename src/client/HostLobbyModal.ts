@@ -11,13 +11,8 @@ import {
 import { hasActiveSubscription } from "../core/ApiSchemas";
 import { EventBus } from "../core/EventBus";
 import { DoomsdayClockSpeed } from "../core/game/DoomsdayClock";
-import {
-  Difficulty,
-  GameMapSize,
-  GameMapType,
-  GameMode,
-  UnitType,
-} from "../core/game/Game";
+import { Difficulty, GameMapType, GameMode } from "../core/game/Game";
+import type { UnitType } from "../core/game/Game";
 import { UserSettings } from "../core/game/UserSettings";
 import {
   ClientInfo,
@@ -56,10 +51,10 @@ import {
 @customElement("host-lobby-modal")
 export class HostLobbyModal extends BaseModal {
   @state() private selectedMap: GameMapType = GameMapType.World;
-  @state() private selectedDifficulty: Difficulty = Difficulty.Easy;
+  @state() private selectedDifficulty: Difficulty = "Easy";
   @state() private nations: number = 0;
   @state() private defaultNationCount: number = 0;
-  @state() private gameMode: GameMode = GameMode.FFA;
+  @state() private gameMode: GameMode = "Free For All";
   @state() private teamCount: TeamCountConfig = 2;
 
   constructor() {
@@ -752,10 +747,10 @@ export class HostLobbyModal extends BaseModal {
 
     // Reset all transient form state to ensure clean slate
     this.selectedMap = GameMapType.World;
-    this.selectedDifficulty = Difficulty.Easy;
+    this.selectedDifficulty = "Easy";
     this.nations = 0;
     this.defaultNationCount = 0;
-    this.gameMode = GameMode.FFA;
+    this.gameMode = "Free For All";
     this.teamCount = 2;
     this.bots = 400;
     this.spawnImmunity = false;
@@ -1218,7 +1213,7 @@ export class HostLobbyModal extends BaseModal {
 
   private async handleGameModeSelection(value: GameMode) {
     this.gameMode = value;
-    if (this.gameMode === GameMode.Team) {
+    if (this.gameMode === "Team") {
       this.donateGold = true;
       this.donateTroops = true;
     } else {
@@ -1298,8 +1293,8 @@ export class HostLobbyModal extends BaseModal {
           config: {
             gameMap: this.selectedMap,
             gameMapSize: this.compactMap
-              ? GameMapSize.Compact
-              : GameMapSize.Normal,
+              ? "Compact"
+              : "Normal",
             difficulty: this.selectedDifficulty,
             bots: this.bots,
             infiniteGold: this.infiniteGold,

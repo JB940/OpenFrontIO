@@ -38,13 +38,7 @@ import { fileURLToPath } from "url";
 import { GameView } from "../../../src/client/view/GameView";
 import { WebGLFrameBuilder } from "../../../src/client/WebGLFrameBuilder";
 import { Config } from "../../../src/core/configuration/Config";
-import {
-  Difficulty,
-  GameMapSize,
-  GameMapType,
-  GameMode,
-  GameType,
-} from "../../../src/core/game/Game";
+import { GameMapType } from "../../../src/core/game/Game";
 import {
   GameUpdateType,
   GameUpdateViewData,
@@ -307,10 +301,10 @@ async function main(): Promise<void> {
 
   const gameConfig: GameConfig = {
     gameMap: opts.map,
-    gameMapSize: GameMapSize.Normal,
-    gameMode: GameMode.FFA,
-    gameType: GameType.Public,
-    difficulty: Difficulty.Medium,
+    gameMapSize: "Normal",
+    gameMode: "Free For All",
+    gameType: "Public",
+    difficulty: "Medium",
     nations: opts.nations,
     donateGold: false,
     donateTroops: false,

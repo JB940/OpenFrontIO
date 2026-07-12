@@ -3,17 +3,14 @@ import {
   EmojiMessage,
   GameUpdates,
   Gold,
-  MessageType,
   NameViewData,
   PlayerID,
-  PlayerType,
   Team,
   Tick,
-  TrainType,
   TransportShipState,
-  UnitType,
   WarshipState,
 } from "./Game";
+import type { UnitType, TrainType, PlayerType, MessageType } from "./Game";
 import { TileRef } from "./GameMap";
 
 export interface GameUpdateViewData {

@@ -1,12 +1,5 @@
-import {
-  AllPlayers,
-  Difficulty,
-  Game,
-  Gold,
-  Player,
-  Unit,
-  UnitType,
-} from "../../game/Game";
+import { AllPlayers, Game, Gold, Player, Unit } from "../../game/Game";
+import type { UnitType } from "../../game/Game";
 import { TileRef } from "../../game/GameMap";
 import { PseudoRandom } from "../../PseudoRandom";
 import { ConstructionExecution } from "../ConstructionExecution";
@@ -34,30 +27,30 @@ export class NationWarshipBehavior {
 
   maybeSpawnWarship(): boolean {
     if (this.player === null) throw new Error("not initialized");
-    if (this.game.config().isUnitDisabled(UnitType.Warship)) {
+    if (this.game.config().isUnitDisabled("Warship")) {
       return false;
     }
     if (!this.random.chance(50)) {
       return false;
     }
-    const ports = this.player.units(UnitType.Port);
-    const ships = this.player.units(UnitType.Warship);
+    const ports = this.player.units("Port");
+    const ships = this.player.units("Warship");
     if (
       ports.length > 0 &&
       ships.length === 0 &&
-      this.player.gold() > this.cost(UnitType.Warship)
+      this.player.gold() > this.cost("Warship")
     ) {
       const port = this.random.randElement(ports);
       const targetTile = this.warshipSpawnTile(port.tile(), 250);
       if (targetTile === null) {
         return false;
       }
-      const canBuild = this.player.canBuild(UnitType.Warship, targetTile);
+      const canBuild = this.player.canBuild("Warship", targetTile);
       if (canBuild === false) {
         return false;
       }
       this.game.addExecution(
-        new ConstructionExecution(this.player, UnitType.Warship, targetTile),
+        new ConstructionExecution(this.player, "Warship", targetTile),
       );
       return true;
     }
@@ -95,12 +88,12 @@ export class NationWarshipBehavior {
 
   // Send out a warship if our transport ship got captured
   private trackTransportShipsAndRetaliate(): void {
-    if (this.game.config().isUnitDisabled(UnitType.TransportShip)) {
+    if (this.game.config().isUnitDisabled("TransportShip")) {
       return;
     }
     // Add any currently owned transport ships to our tracking set
     this.player
-      .units(UnitType.TransportShip)
+      .units("TransportShip")
       .forEach((u) => this.trackedTransportShips.add(u));
 
     // Iterate tracked transport ships; if it got destroyed by an enemy:
@@ -124,7 +117,7 @@ export class NationWarshipBehavior {
   private trackTradeShipsAndRetaliate(): void {
     // Add any currently owned trade ships to our tracking map
     this.player
-      .units(UnitType.TradeShip)
+      .units("TradeShip")
       .forEach((u) => this.trackedTradeShips.add(u));
 
     // Iterate tracked trade ships; if we no longer own it, it was captured:
@@ -144,7 +137,7 @@ export class NationWarshipBehavior {
 
   private trackIncomingTransportsAndRetaliate(): void {
     // Add any transports which are targeting us to our tracking map
-    for (const p of this.game.units(UnitType.TransportShip)) {
+    for (const p of this.game.units("TransportShip")) {
       const target = p.targetTile();
       if (
         target &&
@@ -190,11 +183,11 @@ export class NationWarshipBehavior {
           this.game.hasUnitNearby(
             target,
             90,
-            UnitType.Warship,
+            "Warship",
             this.player.id(),
             true,
           ) ||
-          this.player.units(UnitType.Warship).filter((p) => {
+          this.player.units("Warship").filter((p) => {
             const patrolTile = p.warshipState().patrolTile;
             return (
               patrolTile !== undefined &&
@@ -229,7 +222,7 @@ export class NationWarshipBehavior {
     }
 
     // Don't send too many warships
-    if (this.player.units(UnitType.Warship).length >= 10) {
+    if (this.player.units("Warship").length >= 10) {
       this.maybeMoveWarship(tile);
       return;
     }
@@ -237,17 +230,17 @@ export class NationWarshipBehavior {
     const { difficulty } = this.game.config().gameConfig();
     // In Easy never retaliate. In Medium retaliate with 15% chance. Hard with 50%, Impossible with 80%.
     if (
-      (difficulty === Difficulty.Medium && this.random.nextInt(0, 100) < 15) ||
-      (difficulty === Difficulty.Hard && this.random.nextInt(0, 100) < 50) ||
-      (difficulty === Difficulty.Impossible && this.random.nextInt(0, 100) < 80)
+      (difficulty === "Medium" && this.random.nextInt(0, 100) < 15) ||
+      (difficulty === "Hard" && this.random.nextInt(0, 100) < 50) ||
+      (difficulty === "Impossible" && this.random.nextInt(0, 100) < 80)
     ) {
-      const canBuild = this.player.canBuild(UnitType.Warship, tile);
+      const canBuild = this.player.canBuild("Warship", tile);
       if (canBuild === false) {
         this.maybeMoveWarship(tile);
         return;
       }
       this.game.addExecution(
-        new ConstructionExecution(this.player, UnitType.Warship, tile),
+        new ConstructionExecution(this.player, "Warship", tile),
       );
       this.emojiBehavior.maybeSendEmoji(enemy, EMOJI_WARSHIP_RETALIATION);
       this.player.updateRelation(enemy, reason === "trade" ? -7.5 : -15);
@@ -258,7 +251,7 @@ export class NationWarshipBehavior {
     // Make sure we are targeting water
     if (this.game.isWater(tile)) {
       const warship = this.player
-        .units(UnitType.Warship)
+        .units("Warship")
         .filter((p) => {
           const patrolTile = p.warshipState().patrolTile;
           return (
@@ -300,36 +293,36 @@ export class NationWarshipBehavior {
   }
 
   private shouldCounterWarshipInfestation(): boolean {
-    if (this.game.config().isUnitDisabled(UnitType.Warship)) {
+    if (this.game.config().isUnitDisabled("Warship")) {
       return false;
     }
 
     // Only the smart nations can do this
     const { difficulty } = this.game.config().gameConfig();
     if (
-      difficulty !== Difficulty.Hard &&
-      difficulty !== Difficulty.Impossible
+      difficulty !== "Hard" &&
+      difficulty !== "Impossible"
     ) {
       return false;
     }
 
     // Quit early if there aren't many warships in the game
-    if (this.game.unitCount(UnitType.Warship) <= 10) {
+    if (this.game.unitCount("Warship") <= 10) {
       return false;
     }
 
     // Quit early if we can't afford a warship
-    if (this.cost(UnitType.Warship) > this.player.gold()) {
+    if (this.cost("Warship") > this.player.gold()) {
       return false;
     }
 
     // Quit early if we don't have a port to send warships from
-    if (this.player.units(UnitType.Port).length === 0) {
+    if (this.player.units("Port").length === 0) {
       return false;
     }
 
     // Don't send too many warships
-    if (this.player.units(UnitType.Warship).length >= 10) {
+    if (this.player.units("Warship").length >= 10) {
       return false;
     }
 
@@ -375,7 +368,7 @@ export class NationWarshipBehavior {
       if (team === null) continue;
 
       const teamKey = team.toString();
-      const warshipCount = p.units(UnitType.Warship).length;
+      const warshipCount = p.units("Warship").length;
 
       if (!enemyTeamWarships.has(teamKey)) {
         enemyTeamWarships.set(teamKey, {
@@ -395,15 +388,15 @@ export class NationWarshipBehavior {
         // Find player in that team with most warships
         const playerWithMostWarships = teamData.players.reduce(
           (max, p) => {
-            const count = p.units(UnitType.Warship).length;
-            const maxCount = max ? max.units(UnitType.Warship).length : 0;
+            const count = p.units("Warship").length;
+            const maxCount = max ? max.units("Warship").length : 0;
             return count > maxCount ? p : max;
           },
           null as Player | null,
         );
 
         if (playerWithMostWarships) {
-          const warships = playerWithMostWarships.units(UnitType.Warship);
+          const warships = playerWithMostWarships.units("Warship");
           if (warships.length > 3) {
             return {
               player: playerWithMostWarships,
@@ -426,7 +419,7 @@ export class NationWarshipBehavior {
       .filter((p) => !this.player.isFriendly(p) && p.id() !== this.player.id());
 
     for (const enemy of enemies) {
-      const enemyWarships = enemy.units(UnitType.Warship);
+      const enemyWarships = enemy.units("Warship");
       if (enemyWarships.length > 10) {
         return {
           player: enemy,
@@ -440,7 +433,7 @@ export class NationWarshipBehavior {
 
   private buildCounterWarship(target: { player: Player; warship: Unit }): void {
     const canBuild = this.player.canBuild(
-      UnitType.Warship,
+      "Warship",
       target.warship.tile(),
     );
     if (canBuild === false) {
@@ -451,7 +444,7 @@ export class NationWarshipBehavior {
     this.game.addExecution(
       new ConstructionExecution(
         this.player,
-        UnitType.Warship,
+        "Warship",
         target.warship.tile(),
       ),
     );

@@ -10,7 +10,6 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { UnitType } from "../../../src/core/game/Game";
 import { GameUpdateType } from "../../../src/core/game/GameUpdates";
 import {
   makeEmptyGu,
@@ -444,9 +443,9 @@ describe("GameView.update — units", () => {
     const game = makeGameView();
     const gu = makeEmptyGu(1);
     gu.updates[GameUpdateType.Unit] = [
-      makeUnitUpdate({ id: 1, unitType: UnitType.City, isActive: true }),
-      makeUnitUpdate({ id: 2, unitType: UnitType.Port, isActive: true }),
-      makeUnitUpdate({ id: 3, unitType: UnitType.City, isActive: false }),
+      makeUnitUpdate({ id: 1, unitType: "City", isActive: true }),
+      makeUnitUpdate({ id: 2, unitType: "Port", isActive: true }),
+      makeUnitUpdate({ id: 3, unitType: "City", isActive: false }),
     ];
     game.update(gu);
 
@@ -456,7 +455,7 @@ describe("GameView.update — units", () => {
         .map((u) => u.id())
         .sort(),
     ).toEqual([1, 2]);
-    expect(game.units(UnitType.City).map((u) => u.id())).toEqual([1]);
+    expect(game.units("City").map((u) => u.id())).toEqual([1]);
     // The inactive one is still present until the NEXT tick sweeps it.
     expect(game.unit(3)).toBeDefined();
   });
@@ -786,9 +785,9 @@ describe("GameView.unitsOwnedBy — per-tick owner index", () => {
     const game = makeGameView();
     game.update(
       withUnits(1, [
-        makeUnitUpdate({ id: 1, ownerID: 1, unitType: UnitType.City }),
-        makeUnitUpdate({ id: 2, ownerID: 1, unitType: UnitType.Port }),
-        makeUnitUpdate({ id: 3, ownerID: 2, unitType: UnitType.City }),
+        makeUnitUpdate({ id: 1, ownerID: 1, unitType: "City" }),
+        makeUnitUpdate({ id: 2, ownerID: 1, unitType: "Port" }),
+        makeUnitUpdate({ id: 3, ownerID: 2, unitType: "City" }),
       ]),
     );
     expect(game.unitsOwnedBy(1).map((u) => u.id())).toEqual([1, 2]);
@@ -834,10 +833,10 @@ describe("GameView.unitsOwnedBy — per-tick owner index", () => {
     const gu = withUnits(
       1,
       [
-        makeUnitUpdate({ id: 1, ownerID: 1, unitType: UnitType.City }),
-        makeUnitUpdate({ id: 2, ownerID: 1, unitType: UnitType.Port }),
-        makeUnitUpdate({ id: 3, ownerID: 1, unitType: UnitType.City }),
-        makeUnitUpdate({ id: 4, ownerID: 2, unitType: UnitType.City }),
+        makeUnitUpdate({ id: 1, ownerID: 1, unitType: "City" }),
+        makeUnitUpdate({ id: 2, ownerID: 1, unitType: "Port" }),
+        makeUnitUpdate({ id: 3, ownerID: 1, unitType: "City" }),
+        makeUnitUpdate({ id: 4, ownerID: 2, unitType: "City" }),
       ],
       [
         makePlayerUpdate({ id: "alice", smallID: 1 }),
@@ -847,7 +846,7 @@ describe("GameView.unitsOwnedBy — per-tick owner index", () => {
     game.update(gu);
 
     const alice = game.player("alice");
-    expect(alice.units(UnitType.City).map((u) => u.id())).toEqual([1, 3]);
+    expect(alice.units("City").map((u) => u.id())).toEqual([1, 3]);
     expect(alice.units().map((u) => u.id())).toEqual([1, 2, 3]);
     // Returned arrays are copies — mutating them must not corrupt the index.
     alice.units().pop();

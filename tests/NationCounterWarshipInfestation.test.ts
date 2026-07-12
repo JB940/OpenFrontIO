@@ -1,11 +1,8 @@
 import { NationExecution } from "../src/core/execution/NationExecution";
 import {
   Cell,
-  Difficulty,
-  GameMode,
   Nation,
   PlayerInfo,
-  UnitType,
 } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 
@@ -19,7 +16,7 @@ describe("Counter Warship Infestation", () => {
     const game = await setup("half_land_half_ocean", {
       infiniteGold: true,
       instantBuild: true,
-      difficulty: Difficulty.Hard, // Required for counter-warship logic
+      difficulty: "Hard", // Required for counter-warship logic
     });
 
     // Create players: a rich nation and an enemy with many warships
@@ -67,7 +64,7 @@ describe("Counter Warship Infestation", () => {
     // Build a port for the nation on the coast (x=7 is ocean shore)
     // Need to find an ocean shore tile in nation's territory
     const coastTile = game.ref(6, 4); // Should be land next to ocean
-    nation.buildUnit(UnitType.Port, coastTile, {});
+    nation.buildUnit("Port", coastTile, {});
 
     // Give nation plenty of gold to be one of the richest
     nation.addGold(10_000_000_000n);
@@ -79,22 +76,22 @@ describe("Counter Warship Infestation", () => {
       const oceanY = i < 8 ? 4 : 12;
       const oceanTile = game.ref(oceanX, oceanY);
       if (game.map().isOcean(oceanTile)) {
-        enemy.buildUnit(UnitType.Warship, oceanTile, {
+        enemy.buildUnit("Warship", oceanTile, {
           patrolTile: oceanTile,
         });
       }
     }
 
     // Verify preconditions
-    expect(nation.units(UnitType.Port)).toHaveLength(1);
-    expect(enemy.units(UnitType.Warship).length).toBeGreaterThan(10);
-    expect(game.unitCount(UnitType.Warship)).toBeGreaterThan(10);
+    expect(nation.units("Port")).toHaveLength(1);
+    expect(enemy.units("Warship").length).toBeGreaterThan(10);
+    expect(game.unitCount("Warship")).toBeGreaterThan(10);
     expect(nation.gold()).toBeGreaterThan(0n);
     expect(game.inSpawnPhase()).toBe(false);
     expect(nation.isAlive()).toBe(true);
 
     // Track warships before nation counters
-    const warshipCountBefore = nation.units(UnitType.Warship).length;
+    const warshipCountBefore = nation.units("Warship").length;
 
     // Initialize nation with NationExecution to enable counter-warship logic
     const testExecutionNation = new Nation(new Cell(3, 4), nation.info());
@@ -116,7 +113,7 @@ describe("Counter Warship Infestation", () => {
         game.executeNextTick();
 
         // Check if nation built a counter-warship
-        if (nation.units(UnitType.Warship).length > warshipCountBefore) {
+        if (nation.units("Warship").length > warshipCountBefore) {
           counterWarshipBuilt = true;
           break;
         }
@@ -129,7 +126,7 @@ describe("Counter Warship Infestation", () => {
     expect(counterWarshipBuilt).toBe(true);
 
     // Verify nation now has a warship
-    expect(nation.units(UnitType.Warship).length).toBeGreaterThan(
+    expect(nation.units("Warship").length).toBeGreaterThan(
       warshipCountBefore,
     );
   });
@@ -174,8 +171,8 @@ describe("Counter Warship Infestation", () => {
       {
         infiniteGold: true,
         instantBuild: true,
-        difficulty: Difficulty.Hard, // Required for counter-warship logic
-        gameMode: GameMode.Team,
+        difficulty: "Hard", // Required for counter-warship logic
+        gameMode: "Team",
         playerTeams: 2,
       },
       [nationInfo, allyInfo, enemy1Info, enemy2Info],
@@ -234,7 +231,7 @@ describe("Counter Warship Infestation", () => {
 
     // Build a port for the nation on the coast
     const coastTile = game.ref(3, 4);
-    nation.buildUnit(UnitType.Port, coastTile, {});
+    nation.buildUnit("Port", coastTile, {});
 
     // Give nation plenty of gold to be one of the richest
     nation.addGold(10_000_000_000n);
@@ -246,7 +243,7 @@ describe("Counter Warship Infestation", () => {
       const oceanY = 2 + Math.floor(i / 8);
       const oceanTile = game.ref(oceanX, oceanY);
       if (game.map().isOcean(oceanTile)) {
-        enemy1.buildUnit(UnitType.Warship, oceanTile, {
+        enemy1.buildUnit("Warship", oceanTile, {
           patrolTile: oceanTile,
         });
       }
@@ -257,27 +254,27 @@ describe("Counter Warship Infestation", () => {
       const oceanY = 10;
       const oceanTile = game.ref(oceanX, oceanY);
       if (game.map().isOcean(oceanTile)) {
-        enemy2.buildUnit(UnitType.Warship, oceanTile, {
+        enemy2.buildUnit("Warship", oceanTile, {
           patrolTile: oceanTile,
         });
       }
     }
 
     // Verify preconditions
-    expect(nation.units(UnitType.Port)).toHaveLength(1);
-    expect(enemy1.units(UnitType.Warship).length).toBe(10);
-    expect(enemy2.units(UnitType.Warship).length).toBe(6);
+    expect(nation.units("Port")).toHaveLength(1);
+    expect(enemy1.units("Warship").length).toBe(10);
+    expect(enemy2.units("Warship").length).toBe(6);
     const totalEnemyTeamWarships =
-      enemy1.units(UnitType.Warship).length +
-      enemy2.units(UnitType.Warship).length;
+      enemy1.units("Warship").length +
+      enemy2.units("Warship").length;
     expect(totalEnemyTeamWarships).toBeGreaterThan(15);
-    expect(game.unitCount(UnitType.Warship)).toBeGreaterThan(10);
+    expect(game.unitCount("Warship")).toBeGreaterThan(10);
     expect(nation.gold()).toBeGreaterThan(0n);
     expect(game.inSpawnPhase()).toBe(false);
     expect(nation.isAlive()).toBe(true);
 
     // Track warships before nation counters
-    const warshipCountBefore = nation.units(UnitType.Warship).length;
+    const warshipCountBefore = nation.units("Warship").length;
 
     // Initialize nation with NationExecution to enable counter-warship logic
     const testExecutionNation = new Nation(new Cell(2, 4), nation.info());
@@ -299,7 +296,7 @@ describe("Counter Warship Infestation", () => {
         game.executeNextTick();
 
         // Check if nation built a counter-warship
-        if (nation.units(UnitType.Warship).length > warshipCountBefore) {
+        if (nation.units("Warship").length > warshipCountBefore) {
           counterWarshipBuilt = true;
           break;
         }
@@ -312,7 +309,7 @@ describe("Counter Warship Infestation", () => {
     expect(counterWarshipBuilt).toBe(true);
 
     // Verify nation now has a warship
-    expect(nation.units(UnitType.Warship).length).toBeGreaterThan(
+    expect(nation.units("Warship").length).toBeGreaterThan(
       warshipCountBefore,
     );
   });

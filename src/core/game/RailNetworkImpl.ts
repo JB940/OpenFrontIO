@@ -1,5 +1,6 @@
 import { PathFinding } from "../pathfinding/PathFinder";
-import { Game, Unit, UnitType } from "./Game";
+import { Game, Unit } from "./Game";
+import type { UnitType } from "./Game";
 import { TileRef } from "./GameMap";
 import { GameUpdateType } from "./GameUpdates";
 import { RailNetwork } from "./RailNetwork";
@@ -224,7 +225,7 @@ export class RailNetworkImpl implements RailNetwork {
   }
 
   overlappingRailroads(unitType: UnitType, tile: TileRef): TileRef[] {
-    if (![UnitType.City, UnitType.Port, UnitType.Factory].includes(unitType)) {
+    if (!["City", "Port", "Factory"].includes(unitType)) {
       return [];
     }
     const tiles = new Set<TileRef>();
@@ -241,7 +242,7 @@ export class RailNetworkImpl implements RailNetwork {
   }
 
   computeGhostRailPaths(unitType: UnitType, tile: TileRef): TileRef[][] {
-    if (![UnitType.City, UnitType.Port, UnitType.Factory].includes(unitType)) {
+    if (!["City", "Port", "Factory"].includes(unitType)) {
       return [];
     }
 
@@ -257,18 +258,18 @@ export class RailNetworkImpl implements RailNetwork {
     // range (see CityExecution/PortExecution). A Factory always becomes a
     // station and pulls nearby City/Port/Factory into the network itself, so
     // it needs no pre-existing factory to connect to.
-    const buildingFactory = unitType === UnitType.Factory;
+    const buildingFactory = unitType === "Factory";
     if (
       !buildingFactory &&
-      !this.game.hasUnitNearby(tile, maxRange, UnitType.Factory)
+      !this.game.hasUnitNearby(tile, maxRange, "Factory")
     ) {
       return [];
     }
 
     const neighbors = this.game.nearbyUnits(tile, maxRange, [
-      UnitType.City,
-      UnitType.Factory,
-      UnitType.Port,
+      "City",
+      "Factory",
+      "Port",
     ]);
     neighbors.sort((a, b) => a.distSquared - b.distSquared);
 
@@ -318,7 +319,7 @@ export class RailNetworkImpl implements RailNetwork {
     const neighbors = this.game.nearbyUnits(
       station.tile(),
       this.game.config().trainStationMaxRange(),
-      [UnitType.City, UnitType.Factory, UnitType.Port],
+      ["City", "Factory", "Port"],
     );
 
     const editedClusters = new Set<Cluster>();

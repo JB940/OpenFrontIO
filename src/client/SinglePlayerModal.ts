@@ -4,15 +4,15 @@ import { translateText } from "../client/Utils";
 import { UserMeResponse } from "../core/ApiSchemas";
 import { assetUrl } from "../core/AssetUrls";
 import { DoomsdayClockSpeed } from "../core/game/DoomsdayClock";
-import {
-  Difficulty,
-  GameMapSize,
-  GameMapType,
-  GameMode,
-  GameType,
-  maps,
-  UnitType,
+import { 
+   Difficulty,
+   DifficultySchema,
+   GameMapType,
+   GameMode,
+   maps,
+   UnitTypeSchema,
 } from "../core/game/Game";
+import type { UnitType } from "../core/game/Game";
 import { TeamCountConfig } from "../core/Schemas";
 import { generateID } from "../core/Util";
 import { hasLinkedAccount } from "./Api";
@@ -43,7 +43,7 @@ import { terrainMapFileLoader } from "./TerrainMapFileLoader";
 
 const DEFAULT_OPTIONS = {
   selectedMap: GameMapType.World,
-  selectedDifficulty: Difficulty.Easy,
+  selectedDifficulty: "Easy" as Difficulty,
   bots: 400,
   infiniteGold: false,
   infiniteTroops: false,
@@ -53,7 +53,7 @@ const DEFAULT_OPTIONS = {
   instantBuild: false,
   randomSpawn: false,
   useRandomMap: false,
-  gameMode: GameMode.FFA,
+  gameMode: "Free For All" as GameMode,
   teamCount: 2 as TeamCountConfig,
   goldMultiplier: false,
   goldMultiplierValue: undefined as number | undefined,
@@ -189,10 +189,10 @@ export class SinglePlayerModal extends BaseModal {
   // Medals earned per difficulty, counted only on achievement-eligible maps.
   private medalCounts(): Record<Difficulty, number> {
     const counts: Record<Difficulty, number> = {
-      [Difficulty.Easy]: 0,
-      [Difficulty.Medium]: 0,
-      [Difficulty.Hard]: 0,
-      [Difficulty.Impossible]: 0,
+      ["Easy"]: 0,
+      ["Medium"]: 0,
+      ["Hard"]: 0,
+      ["Impossible"]: 0,
     };
     // Until eligibility is loaded, count nothing — otherwise the overview would
     // briefly include wins on non-eligible maps before the manifests resolve.
@@ -242,7 +242,7 @@ export class SinglePlayerModal extends BaseModal {
         Object.values(GameMapType).includes(mapName as GameMapType);
       const isValidDifficulty =
         typeof difficulty === "string" &&
-        Object.values(Difficulty).includes(difficulty as Difficulty);
+        DifficultySchema.safeParse(difficulty).success;
       if (!isValidMap || !isValidDifficulty) continue;
 
       const map = mapName as GameMapType;
@@ -849,23 +849,24 @@ export class SinglePlayerModal extends BaseModal {
             config: {
               gameMap: this.selectedMap,
               gameMapSize: this.compactMap
-                ? GameMapSize.Compact
-                : GameMapSize.Normal,
-              gameType: GameType.Singleplayer,
+                ? "Compact"
+                : "Normal",
+              gameType: "Singleplayer",
               gameMode: this.gameMode,
               playerTeams: this.teamCount,
               difficulty: this.selectedDifficulty,
               maxTimerValue: finalMaxTimerValue,
               bots: this.bots,
               infiniteGold: this.infiniteGold,
-              donateGold: this.gameMode === GameMode.Team,
-              donateTroops: this.gameMode === GameMode.Team,
+              donateGold: this.gameMode === "Team",
+              donateTroops: this.gameMode === "Team",
               infiniteTroops: this.infiniteTroops,
               instantBuild: this.instantBuild,
               randomSpawn: this.randomSpawn,
               disabledUnits: this.disabledUnits
-                .map((u) => Object.values(UnitType).find((ut) => ut === u))
-                .filter((ut): ut is UnitType => ut !== undefined),
+                .filter(
+                  (u): u is UnitType => UnitTypeSchema.safeParse(u).success
+                ), // safeParse already forbids undefined and checks valid UnitType  
               nations: sliderToNationsConfig(
                 this.nations,
                 this.defaultNationCount,

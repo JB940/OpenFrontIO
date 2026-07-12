@@ -1,7 +1,6 @@
 import {
   Execution,
   Game,
-  MessageType,
   Player,
   PlayerID,
 } from "../../game/Game";
@@ -47,14 +46,14 @@ export class AllianceExtensionExecution implements Execution {
 
       mg.displayMessage(
         "events_display.alliance_renewed",
-        MessageType.ALLIANCE_ACCEPTED,
+        "ALLIANCE_ACCEPTED",
         this.from.id(),
         undefined,
         { name: to.displayName() },
       );
       mg.displayMessage(
         "events_display.alliance_renewed",
-        MessageType.ALLIANCE_ACCEPTED,
+        "ALLIANCE_ACCEPTED",
         this.toID,
         undefined,
         { name: this.from.displayName() },
@@ -64,7 +63,7 @@ export class AllianceExtensionExecution implements Execution {
       // Only send if this is a new request (transition from "none" to "one")
       mg.displayMessage(
         "events_display.wants_to_renew_alliance",
-        MessageType.RENEW_ALLIANCE,
+        "RENEW_ALLIANCE",
         this.toID,
         undefined,
         { name: this.from.displayName() },

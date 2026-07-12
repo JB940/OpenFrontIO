@@ -1,13 +1,12 @@
 import { z } from "zod";
 import { assetUrl } from "../../../core/AssetUrls";
 import { Config } from "../../../core/configuration/Config";
-import {
-  AllPlayers,
-  BuildableAttacks,
-  PlayerActions,
-  PlayerBuildableUnitType,
-  Structures,
-  UnitType,
+import { 
+   AllPlayers,
+   BuildableAttacks,
+   PlayerActions,
+   PlayerBuildableUnitType,
+   Structures,
 } from "../../../core/game/Game";
 import { TileRef } from "../../../core/game/GameMap";
 import { Emoji, findClosestBy, flattenedEmojiTable } from "../../../core/Util";
@@ -592,7 +591,7 @@ export const boatMenuElement: MenuElement = {
   name: "boat",
   disabled: (params: MenuElementParams) =>
     !params.playerActions.buildableUnits.some(
-      (unit) => unit.type === UnitType.TransportShip && unit.canBuild,
+      (unit) => unit.type === "TransportShip" && unit.canBuild,
     ),
   icon: boatIcon,
   color: COLORS.boat,

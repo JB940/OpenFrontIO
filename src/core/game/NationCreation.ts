@@ -2,9 +2,6 @@ import { PseudoRandom } from "../PseudoRandom";
 import { GameStartInfo } from "../Schemas";
 import {
   Cell,
-  GameMapSize,
-  GameMode,
-  GameType,
   HumansVsNations,
   Nation,
   PlayerInfo,
@@ -39,10 +36,10 @@ export function createNationsForGame(
       new PlayerInfo(n.name, "Nation", null, random.nextID()),
     );
 
-  const isCompactMap = gameStart.config.gameMapSize === GameMapSize.Compact;
+  const isCompactMap = gameStart.config.gameMapSize === "Compact";
 
   const isHumansVsNations =
-    gameStart.config.gameMode === GameMode.Team &&
+    gameStart.config.gameMode === "Team" &&
     gameStart.config.playerTeams === HumansVsNations;
 
   const configNations = gameStart.config.nations;
@@ -60,7 +57,7 @@ export function createNationsForGame(
     );
   }
 
-  if (gameStart.config.gameType === GameType.Public) {
+  if (gameStart.config.gameType === "Public") {
     // For HvN, balance nation count to match human count
     if (isHumansVsNations) {
       return createRandomNations(

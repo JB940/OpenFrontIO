@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { EventBus, GameEvent } from "../../../core/EventBus";
-import { GameMode } from "../../../core/game/Game";
 import { Controller } from "../../Controller";
 import { GameView } from "../../view";
 
@@ -40,7 +39,7 @@ export class ImmunityTimer extends LitElement implements Controller {
     }
 
     const showTeamOwnershipBar =
-      this.game.config().gameConfig().gameMode === GameMode.Team &&
+      this.game.config().gameConfig().gameMode === "Team" &&
       !this.game.inSpawnPhase();
 
     this.style.top = showTeamOwnershipBar ? "7px" : "0px";
