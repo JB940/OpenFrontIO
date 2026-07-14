@@ -4,15 +4,13 @@ import { translateText } from "../client/Utils";
 import { UserMeResponse } from "../core/ApiSchemas";
 import { assetUrl } from "../core/AssetUrls";
 import { DoomsdayClockSpeed } from "../core/game/DoomsdayClock";
-import { 
-   Difficulty,
+import {
    DifficultySchema,
    GameMapType,
-   GameMode,
    maps,
-   UnitTypeSchema,
+   UnitTypeSchema
 } from "../core/game/Game";
-import type { UnitType } from "../core/game/Game";
+import type { Difficulty, GameMode, UnitType } from "../core/game/Game";
 import { TeamCountConfig } from "../core/Schemas";
 import { generateID } from "../core/Util";
 import { hasLinkedAccount } from "./Api";
@@ -43,7 +41,7 @@ import { terrainMapFileLoader } from "./TerrainMapFileLoader";
 
 const DEFAULT_OPTIONS = {
   selectedMap: GameMapType.World,
-  selectedDifficulty: "Easy" as Difficulty,
+  selectedDifficulty: "Easy",
   bots: 400,
   infiniteGold: false,
   infiniteTroops: false,
@@ -866,7 +864,7 @@ export class SinglePlayerModal extends BaseModal {
               disabledUnits: this.disabledUnits
                 .filter(
                   (u): u is UnitType => UnitTypeSchema.safeParse(u).success
-                ), // safeParse already forbids undefined and checks valid UnitType  
+                ), // safeParse already forbids undefined and checks valid UnitType
               nations: sliderToNationsConfig(
                 this.nations,
                 this.defaultNationCount,

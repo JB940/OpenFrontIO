@@ -11,8 +11,15 @@ import {
   DOOMSDAY_CLOCK_SPEEDS,
   DoomsdayClockSpeed,
 } from "../../core/game/DoomsdayClock";
-import { Difficulty, DifficultySchema, Duos, GameMapType, GameMode, HumansVsNations, Quads, Trios } from "../../core/game/Game";
-import type { UnitType } from "../../core/game/Game";
+import {
+   DifficultySchema,
+  Duos,
+  GameMapType,
+  HumansVsNations,
+  Quads,
+  Trios,
+} from "../../core/game/Game";
+import type { Difficulty, GameMode, UnitType } from "../../core/game/Game";
 import { TeamCountConfig } from "../../core/Schemas";
 import { translateText } from "../Utils";
 import "./Difficulties";

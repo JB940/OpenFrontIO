@@ -11,8 +11,12 @@ import {
 import { hasActiveSubscription } from "../core/ApiSchemas";
 import { EventBus } from "../core/EventBus";
 import { DoomsdayClockSpeed } from "../core/game/DoomsdayClock";
-import { Difficulty, GameMapType, GameMode } from "../core/game/Game";
-import type { UnitType } from "../core/game/Game";
+import { GameMapType } from "../core/game/Game";
+import type {
+  Difficulty,
+  GameMode,
+  UnitType,
+} from "../core/game/Game";
 import { UserSettings } from "../core/game/UserSettings";
 import {
   ClientInfo,
