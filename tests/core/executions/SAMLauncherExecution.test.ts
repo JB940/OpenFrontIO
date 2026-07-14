@@ -199,11 +199,7 @@ describe("SAM", () => {
   test("SAMs should target only nukes aimed at nearby targets if not close to launch site", async () => {
     const targetDistance = 199;
     // Middle SAM: should not intercept the nuke
-    const sam1 = middle_defender.buildUnit(
-      "SAMLauncher",
-      game.ref(50, 1),
-      {},
-    );
+    const sam1 = middle_defender.buildUnit("SAMLauncher", game.ref(50, 1), {});
     game.addExecution(new SAMLauncherExecution(defender, null, sam1));
 
     // Far SAM: Should intercept the nuke. Use the far_defender so the SAM can be built

@@ -1,10 +1,4 @@
-import {
-  Execution,
-  Game,
-  Player,
-  PlayerInfo,
-  SpawnArea,
-} from "../game/Game";
+import { Execution, Game, Player, PlayerInfo, SpawnArea } from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { PseudoRandom } from "../PseudoRandom";
 import { GameID } from "../Schemas";

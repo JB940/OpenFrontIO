@@ -85,9 +85,8 @@ describe("Hydrogen Bomb and MIRV flows", () => {
 
     // Attempt to launch HydrogenBomb while silo is under construction
     const targetTile = gameWithConstruction.ref(10, 10);
-    const hydrogenBombCountBefore = playerWithConstruction.units(
-      "HydrogenBomb",
-    ).length;
+    const hydrogenBombCountBefore =
+      playerWithConstruction.units("HydrogenBomb").length;
 
     const canBuildResult = playerWithConstruction.canBuild(
       "HydrogenBomb",
@@ -107,9 +106,8 @@ describe("Hydrogen Bomb and MIRV flows", () => {
     gameWithConstruction.executeNextTick();
 
     // Assert launch does not succeed
-    const hydrogenBombCountAfter = playerWithConstruction.units(
-      "HydrogenBomb",
-    ).length;
+    const hydrogenBombCountAfter =
+      playerWithConstruction.units("HydrogenBomb").length;
     expect(hydrogenBombCountAfter).toBe(hydrogenBombCountBefore);
 
     // Assert no refunds during construction
@@ -118,8 +116,7 @@ describe("Hydrogen Bomb and MIRV flows", () => {
 
     // Advance ticks to complete construction
     const constructionDuration =
-      gameWithConstruction.unitInfo("MissileSilo")
-        .constructionDuration ?? 0;
+      gameWithConstruction.unitInfo("MissileSilo").constructionDuration ?? 0;
     for (let i = 0; i < constructionDuration + 2; i++) {
       gameWithConstruction.executeNextTick();
     }
@@ -153,9 +150,8 @@ describe("Hydrogen Bomb and MIRV flows", () => {
     gameWithConstruction.executeNextTick();
 
     // Verify launch succeeded
-    const hydrogenBombCountAfterSuccess = playerWithConstruction.units(
-      "HydrogenBomb",
-    ).length;
+    const hydrogenBombCountAfterSuccess =
+      playerWithConstruction.units("HydrogenBomb").length;
     expect(hydrogenBombCountAfterSuccess).toBeGreaterThan(
       hydrogenBombCountBefore,
     );

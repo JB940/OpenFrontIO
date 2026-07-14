@@ -1,7 +1,7 @@
 import { MoveWarshipExecution } from "../src/core/execution/MoveWarshipExecution";
 import { WarshipExecution } from "../src/core/execution/WarshipExecution";
-import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import type { UnitType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
 import { PathStatus } from "../src/core/pathfinding/types";
 import { setup } from "./util/Setup";
@@ -40,13 +40,9 @@ describe("Warship", () => {
     }
 
     const port = player1.buildUnit("Port", game.ref(coastX, 10), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      {
-        patrolTile: game.ref(coastX + 1, 10),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
     game.addExecution(new WarshipExecution(warship));
 
     game.executeNextTick();
@@ -71,13 +67,9 @@ describe("Warship", () => {
     }
 
     player1.buildUnit("Port", game.ref(coastX, 10), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      {
-        patrolTile: game.ref(coastX + 1, 10),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
     game.addExecution(new WarshipExecution(warship));
     // inDoomsdayClock() requires isAlive() (owns >=1 tile); a flagged player
     // always does, so give this one a tile to mirror a real game.
@@ -113,13 +105,9 @@ describe("Warship", () => {
       ),
     );
 
-    const tradeShip = player2.buildUnit(
-      "TradeShip",
-      game.ref(coastX + 1, 7),
-      {
-        targetUnit: player2.buildUnit("Port", game.ref(coastX, 10), {}),
-      },
-    );
+    const tradeShip = player2.buildUnit("TradeShip", game.ref(coastX + 1, 7), {
+      targetUnit: player2.buildUnit("Port", game.ref(coastX, 10), {}),
+    });
 
     expect(tradeShip.owner().id()).toBe(player2.id());
     // Let plenty of time for A* to execute
@@ -138,13 +126,9 @@ describe("Warship", () => {
       ),
     );
 
-    const tradeShip = player2.buildUnit(
-      "TradeShip",
-      game.ref(coastX + 1, 11),
-      {
-        targetUnit: player1.buildUnit("Port", game.ref(coastX, 11), {}),
-      },
-    );
+    const tradeShip = player2.buildUnit("TradeShip", game.ref(coastX + 1, 11), {
+      targetUnit: player1.buildUnit("Port", game.ref(coastX, 11), {}),
+    });
 
     expect(tradeShip.owner().id()).toBe(player2.id());
     // Let plenty of time for warship to potentially capture trade ship
@@ -158,22 +142,14 @@ describe("Warship", () => {
   test("Warship doesn't capture trade if there is no port on it's water component", async () => {
     const portTile = game.ref(coastX, 10);
     player1.buildUnit("Port", portTile, {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 11),
-      {
-        patrolTile: game.ref(coastX + 1, 11),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 11), {
+      patrolTile: game.ref(coastX + 1, 11),
+    });
     game.addExecution(new WarshipExecution(warship));
 
-    const tradeShip = player2.buildUnit(
-      "TradeShip",
-      game.ref(coastX + 1, 11),
-      {
-        targetUnit: player1.buildUnit("Port", game.ref(coastX, 11), {}),
-      },
-    );
+    const tradeShip = player2.buildUnit("TradeShip", game.ref(coastX + 1, 11), {
+      targetUnit: player1.buildUnit("Port", game.ref(coastX, 11), {}),
+    });
 
     const warshipTile = warship.tile();
     vi.spyOn(game, "getWaterComponent").mockImplementation((tile) =>
@@ -194,22 +170,14 @@ describe("Warship", () => {
     // build port so warship can target trade ships
     player1.buildUnit("Port", game.ref(coastX, 10), {});
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      {
-        patrolTile: game.ref(coastX + 1, 10),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
     game.addExecution(new WarshipExecution(warship));
 
-    const tradeShip = player2.buildUnit(
-      "TradeShip",
-      game.ref(coastX + 1, 10),
-      {
-        targetUnit: player2.buildUnit("Port", game.ref(coastX, 10), {}),
-      },
-    );
+    const tradeShip = player2.buildUnit("TradeShip", game.ref(coastX + 1, 10), {
+      targetUnit: player2.buildUnit("Port", game.ref(coastX, 10), {}),
+    });
 
     tradeShip.setSafeFromPirates();
 
@@ -221,13 +189,9 @@ describe("Warship", () => {
   test("Warship moves to new patrol tile", async () => {
     game.config().warshipTargettingRange = () => 1;
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      {
-        patrolTile: game.ref(coastX + 1, 10),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
 
     game.addExecution(new WarshipExecution(warship));
 
@@ -250,22 +214,14 @@ describe("Warship", () => {
     // build port so warship can target trade ships
     player1.buildUnit("Port", game.ref(coastX, 10), {});
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      {
-        patrolTile: game.ref(coastX + 1, 10),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
     game.addExecution(new WarshipExecution(warship));
 
-    const tradeShip = player2.buildUnit(
-      "TradeShip",
-      game.ref(coastX + 1, 15),
-      {
-        targetUnit: player2.buildUnit("Port", game.ref(coastX, 10), {}),
-      },
-    );
+    const tradeShip = player2.buildUnit("TradeShip", game.ref(coastX + 1, 15), {
+      targetUnit: player2.buildUnit("Port", game.ref(coastX, 10), {}),
+    });
 
     executeTicks(game, 10);
 
@@ -276,13 +232,9 @@ describe("Warship", () => {
   test("Warship prioritizes transport ships over warships", async () => {
     game.config().warshipShellAttackRate = () => Number.MAX_SAFE_INTEGER;
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      {
-        patrolTile: game.ref(coastX + 1, 10),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
     player2.buildUnit("Warship", game.ref(coastX + 2, 10), {
       patrolTile: game.ref(coastX + 2, 10),
     });
@@ -338,13 +290,9 @@ describe("Warship", () => {
 
   test("MoveWarshipExecution fails if player is not the owner", async () => {
     const originalPatrolTile = game.ref(coastX + 1, 10);
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 5),
-      {
-        patrolTile: originalPatrolTile,
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 5), {
+      patrolTile: originalPatrolTile,
+    });
     new MoveWarshipExecution(
       player2,
       [warship.id()],
@@ -355,13 +303,9 @@ describe("Warship", () => {
 
   test("MoveWarshipExecution fails if warship is not active", async () => {
     const originalPatrolTile = game.ref(coastX + 1, 10);
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 5),
-      {
-        patrolTile: originalPatrolTile,
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 5), {
+      patrolTile: originalPatrolTile,
+    });
     warship.delete();
     new MoveWarshipExecution(
       player1,
@@ -399,13 +343,9 @@ describe("Warship", () => {
     game.config().warshipRetreatHealthPercent = () => 60;
 
     const homePort = player1.buildUnit("Port", game.ref(coastX, 10), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 11),
-      {
-        patrolTile: game.ref(coastX + 1, 11),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 11), {
+      patrolTile: game.ref(coastX + 1, 11),
+    });
     game.addExecution(new WarshipExecution(warship));
 
     game.executeNextTick();
@@ -437,13 +377,9 @@ describe("Warship", () => {
 
     const portTile = game.ref(coastX, 10);
     player1.buildUnit("Port", portTile, {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 11),
-      {
-        patrolTile: game.ref(coastX + 1, 11),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 11), {
+      patrolTile: game.ref(coastX + 1, 11),
+    });
     const warshipExecution = new WarshipExecution(warship);
     game.addExecution(warshipExecution);
 
@@ -522,13 +458,9 @@ describe("Warship", () => {
     game.config().warshipRetreatHealthPercent = () => 90;
 
     const homePort = player1.buildUnit("Port", game.ref(coastX, 10), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 11),
-      {
-        patrolTile: game.ref(coastX + 1, 11),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 11), {
+      patrolTile: game.ref(coastX + 1, 11),
+    });
     const warshipExecution = new WarshipExecution(warship);
     game.addExecution(warshipExecution);
 
@@ -598,13 +530,9 @@ describe("Warship", () => {
     game.config().warshipRetreatHealthPercent = () => 90;
 
     player1.buildUnit("Port", game.ref(coastX, 10), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 11),
-      {
-        patrolTile: game.ref(coastX + 1, 11),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 11), {
+      patrolTile: game.ref(coastX + 1, 11),
+    });
     game.addExecution(new WarshipExecution(warship));
 
     const warshipTile = warship.tile();
@@ -628,13 +556,9 @@ describe("Warship", () => {
 
     player1.buildUnit("Port", game.ref(coastX, 5), {});
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 15),
-      {
-        patrolTile: game.ref(coastX + 1, 15),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 15), {
+      patrolTile: game.ref(coastX + 1, 15),
+    });
     const enemyWarship = player2.buildUnit(
       "Warship",
       game.ref(coastX + 2, 15),
@@ -663,13 +587,9 @@ describe("Warship", () => {
     game.config().warshipShellAttackRate = () => 10_000;
 
     const homePort = player1.buildUnit("Port", game.ref(coastX, 10), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 6, 12),
-      {
-        patrolTile: game.ref(coastX + 6, 12),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 6, 12), {
+      patrolTile: game.ref(coastX + 6, 12),
+    });
     game.addExecution(new WarshipExecution(warship));
 
     game.executeNextTick();
@@ -710,13 +630,9 @@ describe("Warship", () => {
     const homePortTile = game.ref(coastX, 10);
     player1.buildUnit("Port", homePortTile, {});
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 11),
-      {
-        patrolTile: game.ref(coastX + 1, 11),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 11), {
+      patrolTile: game.ref(coastX + 1, 11),
+    });
     game.addExecution(new WarshipExecution(warship));
 
     game.executeNextTick();
@@ -743,13 +659,9 @@ describe("Warship", () => {
 
     player1.buildUnit("Port", game.ref(coastX, 10), {});
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 11),
-      {
-        patrolTile: game.ref(coastX + 1, 11),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 11), {
+      patrolTile: game.ref(coastX + 1, 11),
+    });
     game.addExecution(new WarshipExecution(warship));
     game.executeNextTick();
 
@@ -783,11 +695,9 @@ describe("Warship", () => {
   test("Warship isInCombat becomes true when hit by a shell from an enemy", async () => {
     game.config().warshipPassiveHealing = () => 0;
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      { patrolTile: game.ref(coastX + 1, 10) },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
     game.addExecution(new WarshipExecution(warship));
     game.executeNextTick();
 
@@ -805,11 +715,9 @@ describe("Warship", () => {
     game.config().warshipTargettingRange = () => 5;
 
     player1.buildUnit("Port", game.ref(coastX, 10), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      { patrolTile: game.ref(coastX + 1, 10) },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
     const enemyWarship = player2.buildUnit(
       "Warship",
       game.ref(coastX + 2, 10),
@@ -876,11 +784,9 @@ describe("Warship", () => {
     game.config().warshipShellAttackRate = () => 10_000;
 
     const homePort = player1.buildUnit("Port", game.ref(coastX, 10), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 6, 12),
-      { patrolTile: game.ref(coastX + 6, 12) },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 6, 12), {
+      patrolTile: game.ref(coastX + 6, 12),
+    });
     game.addExecution(new WarshipExecution(warship));
 
     game.executeNextTick();
@@ -924,13 +830,9 @@ describe("Warship", () => {
     // Trade ship is within Manhattan distance 5 — should be captured on the first tick
     // via the dist <= 5 fast path in huntDownTradeShip, without needing pathfinding.
     player1.buildUnit("Port", game.ref(coastX, 8), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 8),
-      {
-        patrolTile: game.ref(coastX + 1, 8),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 8), {
+      patrolTile: game.ref(coastX + 1, 8),
+    });
     const tradeShip = player2.buildUnit(
       "TradeShip",
       game.ref(coastX + 1, 11), // Manhattan distance 3 from warship
@@ -956,13 +858,9 @@ describe("Warship", () => {
     // range. The warship should use direct neighbor movement (not minimap pathfinding)
     // and close the gap cleanly.
     player1.buildUnit("Port", game.ref(coastX, 3), {});
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 3),
-      {
-        patrolTile: game.ref(coastX + 1, 3),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 3), {
+      patrolTile: game.ref(coastX + 1, 3),
+    });
     const tradeShip = player2.buildUnit(
       "TradeShip",
       game.ref(coastX + 1, 13), // Manhattan distance 10 — within greedy range
@@ -990,13 +888,9 @@ describe("Warship", () => {
   test("Warship doesn't accept a new patrol tile if in a different water component", async () => {
     const newPatrolTile = game.ref(coastX + 5, 15);
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      {
-        patrolTile: game.ref(coastX + 1, 10),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
 
     game.addExecution(new WarshipExecution(warship));
 

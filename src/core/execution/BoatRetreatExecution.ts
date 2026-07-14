@@ -13,8 +13,7 @@ export class BoatRetreatExecution implements Execution {
     const unit = this.player
       .units()
       .find(
-        (unit) =>
-          unit.id() === this.unitID && unit.type() === "TransportShip",
+        (unit) => unit.id() === this.unitID && unit.type() === "TransportShip",
       );
 
     if (!unit) {

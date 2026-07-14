@@ -4,6 +4,7 @@ import { ColorPalette } from "../../core/CosmeticSchemas";
 import { PatternDecoder } from "../../core/PatternDecoder";
 import { ClientID, PlayerCosmetics } from "../../core/Schemas";
 import { createRandomName } from "../../core/Util";
+import type { PlayerType, UnitType } from "../../core/game/Game";
 import {
   BuildableUnit,
   Cell,
@@ -18,7 +19,6 @@ import {
   Team,
   Tick,
 } from "../../core/game/Game";
-import type { UnitType, PlayerType } from "../../core/game/Game";
 import { TileRef } from "../../core/game/GameMap";
 import { applyStateUpdate } from "../../core/game/GameUpdateUtils";
 import {

@@ -1,7 +1,7 @@
 import { TrainExecution } from "../execution/TrainExecution";
 import { PseudoRandom } from "../PseudoRandom";
-import { Game, Player, Unit } from "./Game";
 import type { UnitType } from "./Game";
+import { Game, Player, Unit } from "./Game";
 import { TileRef } from "./GameMap";
 import { GameUpdateType } from "./GameUpdates";
 import { Railroad } from "./Railroad";

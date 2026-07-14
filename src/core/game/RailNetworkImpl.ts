@@ -1,6 +1,6 @@
 import { PathFinding } from "../pathfinding/PathFinder";
-import { Game, Unit } from "./Game";
 import type { UnitType } from "./Game";
+import { Game, Unit } from "./Game";
 import { TileRef } from "./GameMap";
 import { GameUpdateType } from "./GameUpdates";
 import { RailNetwork } from "./RailNetwork";

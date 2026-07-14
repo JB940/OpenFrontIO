@@ -1,9 +1,4 @@
-import {
-  Execution,
-  Game,
-  Player,
-  PlayerID,
-} from "../../game/Game";
+import { Execution, Game, Player, PlayerID } from "../../game/Game";
 
 export class AllianceExtensionExecution implements Execution {
   constructor(

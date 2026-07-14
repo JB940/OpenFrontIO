@@ -112,8 +112,7 @@ export class NationEmojiBehavior {
 
     this.gameOver = true;
 
-    const isTeamGame =
-      this.game.config().gameConfig().gameMode === "Team";
+    const isTeamGame = this.game.config().gameConfig().gameMode === "Team";
 
     if (isTeamGame) {
       // Team game: all nations congratulate if another team won

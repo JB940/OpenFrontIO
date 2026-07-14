@@ -20,6 +20,7 @@ import {
   Game,
   GameUpdates,
   HumansVsNations,
+  MessageType,
   MutableAlliance,
   Nation,
   Player,
@@ -29,12 +30,13 @@ import {
   SpawnArea,
   Team,
   TeamGameSpawnAreas,
+  TerrainType,
   TerraNullius,
   Trios,
   Unit,
   UnitInfo,
+  UnitType,
 } from "./Game";
-import { UnitType, TerrainType, MessageType } from "./Game";
 import { GameMap, TileRef } from "./GameMap";
 import { GameUpdate, GameUpdateType } from "./GameUpdates";
 import { MotionPlanRecord, packMotionPlans } from "./MotionPlans";
@@ -1248,11 +1250,7 @@ export class GameImpl implements Game {
     if (conquered.isDisconnected() && conqueror.isOnSameTeam(conquered)) {
       const ships = conquered
         .units()
-        .filter(
-          (u) =>
-            u.type() === "Warship" ||
-            u.type() === "TransportShip",
-        );
+        .filter((u) => u.type() === "Warship" || u.type() === "TransportShip");
 
       for (const ship of ships) {
         conqueror.captureUnit(ship);

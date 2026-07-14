@@ -1,9 +1,6 @@
 // Minimal test maps for pathfinding unit tests
 
-import {
-  Game,
-  GameMapType,
-} from "../../../src/core/game/Game";
+import { Game, GameMapType } from "../../../src/core/game/Game";
 import { createGame as createGameImpl } from "../../../src/core/game/GameImpl";
 import { GameMapImpl } from "../../../src/core/game/GameMap";
 import { UserSettings } from "../../../src/core/game/UserSettings";

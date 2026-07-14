@@ -1,11 +1,7 @@
 import fs from "fs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import {
-  Game,
-  GameMapType,
-  PlayerInfo,
-} from "../../src/core/game/Game";
+import { Game, GameMapType, PlayerInfo } from "../../src/core/game/Game";
 import { createGame, GameImpl } from "../../src/core/game/GameImpl";
 import { TileRef } from "../../src/core/game/GameMap";
 import {

@@ -235,8 +235,7 @@ export class ControlPanel extends LitElement implements Controller {
 
     // Army limit warning
     const { gameMode, gameType } = config.gameConfig();
-    const isPublicTeamGame =
-      gameMode === "Team" && gameType === "Public";
+    const isPublicTeamGame = gameMode === "Team" && gameType === "Public";
     const canDonateTroops = config.donateTroops();
     if (isPublicTeamGame && canDonateTroops) {
       const ratio = this._troops / Math.max(this._maxTroops, 1);

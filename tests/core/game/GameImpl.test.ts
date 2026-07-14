@@ -3,11 +3,7 @@ import { AttackExecution } from "../../../src/core/execution/AttackExecution";
 import { SpawnExecution } from "../../../src/core/execution/SpawnExecution";
 //import { TransportShipExecution } from "../../../src/core/execution/TransportShipExecution";
 import { AllianceRequestExecution } from "../../../src/core/execution/alliance/AllianceRequestExecution";
-import {
-  Game,
-  Player,
-  PlayerInfo,
-} from "../../../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../../../src/core/game/Game";
 import { TileRef } from "../../../src/core/game/GameMap";
 import { GameUpdateType } from "../../../src/core/game/GameUpdates";
 import { setup } from "../../util/Setup";

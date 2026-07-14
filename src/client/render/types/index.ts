@@ -20,10 +20,10 @@ export type {
   PlayerState,
   PlayerStatic,
   PlayerStatusData,
-  RendererConfig,
-  UnitState,
   PlayerType,
+  RendererConfig,
   TrainType,
+  UnitState,
 } from "./Renderer";
 
 // Frame data — boundary contract between game integration and features

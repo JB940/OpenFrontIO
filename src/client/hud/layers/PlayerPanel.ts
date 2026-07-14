@@ -3,13 +3,13 @@ import { customElement, state } from "lit/decorators.js";
 import Countries from "resources/countries.json" with { type: "json" };
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
+import type { PlayerType, Relation } from "../../../core/game/Game";
 import {
   AllPlayers,
   PlayerActions,
   PlayerProfile,
   RelationSchema,
 } from "../../../core/game/Game";
-import type { Relation, PlayerType } from "../../../core/game/Game";
 import { TileRef } from "../../../core/game/GameMap";
 import { Emoji, flattenedEmojiTable } from "../../../core/Util";
 import { fetchLobbyListed } from "../../Api";
@@ -494,7 +494,8 @@ export class PlayerPanel extends LitElement implements Controller {
     if (!this.otherProfile || !my) return html``;
 
     const relation =
-      this.otherProfile.relations?.[my.smallID()] ?? RelationSchema.enum.Neutral;
+      this.otherProfile.relations?.[my.smallID()] ??
+      RelationSchema.enum.Neutral;
     const cls = this.getRelationClass(relation);
     const name = this.getRelationName(relation);
 

@@ -2,16 +2,16 @@ import { z } from "zod";
 import { PlayerView } from "../../client/view";
 import { AssetManifest } from "../AssetUrls";
 import { DoomsdayClockSpeed } from "../game/DoomsdayClock";
-import { 
-   Game, 
-   Gold, 
-   Player, 
-   PlayerInfo, 
-   TerraNullius, 
-   Tick, 
-   UnitInfo 
-} from "../game/Game";
 import type { UnitType } from "../game/Game";
+import {
+  Game,
+  Gold,
+  Player,
+  PlayerInfo,
+  TerraNullius,
+  Tick,
+  UnitInfo,
+} from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { UserSettings } from "../game/UserSettings";
 import { GameConfig, TeamCountConfig } from "../Schemas";
@@ -33,11 +33,7 @@ declare global {
   }
 }
 
-export const GameEnvSchema = z.enum([
-  "DEV",
-  "PREPROD",
-  "PROD",
-]);
+export const GameEnvSchema = z.enum(["DEV", "PREPROD", "PROD"]);
 
 export type GameEnv = z.infer<typeof GameEnvSchema>;
 
@@ -47,7 +43,7 @@ export function parseGameEnv(value: string | undefined): GameEnv {
   if (gameEnvString === "STAGING") gameEnvString = "PREPROD";
   const gameEnv = GameEnvSchema.safeParse(gameEnvString);
   if (!gameEnv.success) {
-      throw new Error(`unsupported game env: ${value}`);
+    throw new Error(`unsupported game env: ${value}`);
   }
   return gameEnv.data;
 }

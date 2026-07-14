@@ -274,10 +274,7 @@ export class NationExecution implements Execution {
         !this.mg.hasOwner(tile) &&
         !this.mg.isImpassable(tile)
       ) {
-        if (
-          this.mg.terrainType(tile) === "Mountain" &&
-          this.random.chance(2)
-        ) {
+        if (this.mg.terrainType(tile) === "Mountain" && this.random.chance(2)) {
           continue;
         }
         return tile;

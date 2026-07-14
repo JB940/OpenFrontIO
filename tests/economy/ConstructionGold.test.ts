@@ -62,9 +62,7 @@ describe("Construction economy", () => {
   });
 
   test("MIRV gets more expensive with each launch", () => {
-    expect(game.config().unitInfo("MIRV").cost(game, other)).toBe(
-      25_000_000n,
-    );
+    expect(game.config().unitInfo("MIRV").cost(game, other)).toBe(25_000_000n);
 
     player.addGold(100_000_000n);
 
@@ -72,9 +70,7 @@ describe("Construction economy", () => {
     player.buildUnit("MissileSilo", game.ref(1, 1), {});
 
     other.conquer(game.ref(10, 10));
-    game.addExecution(
-      new NukeExecution("MIRV", player, game.ref(10, 10)),
-    );
+    game.addExecution(new NukeExecution("MIRV", player, game.ref(10, 10)));
     game.executeNextTick(); // init
     game.executeNextTick(); // create MIRV unit
     game.executeNextTick();
@@ -82,8 +78,6 @@ describe("Construction economy", () => {
     expect(player.units("MIRV")).toHaveLength(1);
 
     // Price of the MIRV increases for everyone with each launch.
-    expect(game.config().unitInfo("MIRV").cost(game, other)).toBe(
-      40_000_000n,
-    );
+    expect(game.config().unitInfo("MIRV").cost(game, other)).toBe(40_000_000n);
   });
 });

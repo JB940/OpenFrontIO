@@ -40,11 +40,7 @@ describe("NukeExecution", () => {
     const sam = player.buildUnit("SAMLauncher", game.ref(1, 11), {});
     sam.touch = vi.fn();
     // Build a Defense post out of range AND out of redraw range
-    const defensePost = player.buildUnit(
-      "DefensePost",
-      game.ref(1, 27),
-      {},
-    );
+    const defensePost = player.buildUnit("DefensePost", game.ref(1, 27), {});
     defensePost.touch = vi.fn();
     // Add a nuke execution targeting the city
     const nukeExec = new NukeExecution(
@@ -125,12 +121,7 @@ describe("NukeExecution", () => {
     const displayMessageSpy = vi.spyOn(game, "displayMessage");
 
     game.addExecution(
-      new NukeExecution(
-        "AtomBomb",
-        player,
-        game.ref(50, 50),
-        game.ref(1, 1),
-      ),
+      new NukeExecution("AtomBomb", player, game.ref(50, 50), game.ref(1, 1)),
     );
     executeTicks(game, 200);
 

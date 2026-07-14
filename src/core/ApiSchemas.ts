@@ -2,7 +2,11 @@ import { z } from "zod";
 import { base64urlToUuid } from "./Base64";
 import { ClanTagSchema } from "./Schemas";
 import { BigIntStringSchema, PlayerStatsSchema } from "./StatsSchemas";
-import { DifficultySchema, GameModeSchema, RankedTypeSchema } from "./game/Game";
+import {
+  DifficultySchema,
+  GameModeSchema,
+  RankedTypeSchema,
+} from "./game/Game";
 
 function stripClanTagFromUsername(username: string): string {
   return username.replace(/^\s*\[[a-zA-Z0-9]{2,5}\]\s*/u, "").trim();

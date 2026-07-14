@@ -16,9 +16,7 @@ function attackerBuildsNuke(
   target: TileRef,
   initialize = true,
 ) {
-  game.addExecution(
-    new NukeExecution("AtomBomb", attacker, target, source),
-  );
+  game.addExecution(new NukeExecution("AtomBomb", attacker, target, source));
   if (initialize) {
     game.executeNextTick();
     game.executeNextTick();
@@ -52,9 +50,7 @@ describe("MissileSilo", () => {
   test("missilesilo should launch nuke", async () => {
     attackerBuildsNuke(null, game.ref(7, 7));
     expect(attacker.units("AtomBomb")).toHaveLength(1);
-    expect(attacker.units("AtomBomb")[0].tile()).not.toBe(
-      game.map().ref(7, 7),
-    );
+    expect(attacker.units("AtomBomb")[0].tile()).not.toBe(game.map().ref(7, 7));
 
     for (let i = 0; i < 5; i++) {
       game.executeNextTick();
@@ -76,9 +72,7 @@ describe("MissileSilo", () => {
 
     for (let i = 0; i < game.config().SiloCooldown() - 2; i++) {
       game.executeNextTick();
-      expect(
-        attacker.units("MissileSilo")[0].isInCooldown(),
-      ).toBeTruthy();
+      expect(attacker.units("MissileSilo")[0].isInCooldown()).toBeTruthy();
     }
 
     executeTicks(game, 2);

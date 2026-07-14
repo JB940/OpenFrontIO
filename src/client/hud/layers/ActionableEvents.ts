@@ -1,8 +1,8 @@
 import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { EventBus } from "../../../core/EventBus";
-import {  Tick } from "../../../core/game/Game";
 import type { MessageType } from "../../../core/game/Game";
+import { Tick } from "../../../core/game/Game";
 import {
   AllianceExtensionUpdate,
   AllianceRequestReplyUpdate,
@@ -83,10 +83,7 @@ export class ActionableEvents extends LitElement implements Controller {
   private removeAllianceRenewalEvents(allianceID: number) {
     this.events = this.events.filter(
       (event) =>
-        !(
-          event.type === "RENEW_ALLIANCE" &&
-          event.allianceID === allianceID
-        ),
+        !(event.type === "RENEW_ALLIANCE" && event.allianceID === allianceID),
     );
   }
 
@@ -268,10 +265,7 @@ export class ActionableEvents extends LitElement implements Controller {
     const requestorID = update.request.requestorID;
     const remaining = this.events.filter(
       (event) =>
-        !(
-          event.type === "ALLIANCE_REQUEST" &&
-          event.focusID === requestorID
-        ),
+        !(event.type === "ALLIANCE_REQUEST" && event.focusID === requestorID),
     );
     if (remaining.length !== this.events.length) {
       this.events = remaining;

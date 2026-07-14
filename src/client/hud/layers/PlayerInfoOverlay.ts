@@ -2,8 +2,8 @@ import { html, LitElement, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
+import type { Relation, UnitType } from "../../../core/game/Game";
 import { PlayerProfile, RelationSchema, Unit } from "../../../core/game/Game";
-import type { UnitType, Relation } from "../../../core/game/Game";
 import { TileRef } from "../../../core/game/GameMap";
 import { AllianceView } from "../../../core/game/GameUpdates";
 import { Controller } from "../../Controller";
@@ -184,7 +184,8 @@ export class PlayerInfoOverlay extends LitElement implements Controller {
     if (!myPlayer || myPlayer === player || player.type() !== "Nation")
       return "";
     const relation =
-      this.playerProfile?.relations[myPlayer.smallID()] ?? RelationSchema.enum.Neutral;
+      this.playerProfile?.relations[myPlayer.smallID()] ??
+      RelationSchema.enum.Neutral;
     if (relation === RelationSchema.enum.Neutral) return "";
     return html`<relation-smiley .relation=${relation}></relation-smiley>`;
   }
@@ -373,16 +374,8 @@ export class PlayerInfoOverlay extends LitElement implements Controller {
             ${this.displayUnitCount(player, "City", cityIcon)}
             ${this.displayUnitCount(player, "Factory", factoryIcon)}
             ${this.displayUnitCount(player, "Port", portIcon)}
-            ${this.displayUnitCount(
-              player,
-              "MissileSilo",
-              missileSiloIcon,
-            )}
-            ${this.displayUnitCount(
-              player,
-              "SAMLauncher",
-              samLauncherIcon,
-            )}
+            ${this.displayUnitCount(player, "MissileSilo", missileSiloIcon)}
+            ${this.displayUnitCount(player, "SAMLauncher", samLauncherIcon)}
             ${this.displayUnitCount(player, "Warship", warshipIcon)}
           </div>
         </div>

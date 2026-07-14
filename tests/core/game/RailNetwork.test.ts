@@ -1,5 +1,5 @@
-import { Unit } from "../../../src/core/game/Game";
 import type { UnitType } from "../../../src/core/game/Game";
+import { Unit } from "../../../src/core/game/Game";
 import {
   RailNetworkImpl,
   StationManagerImpl,
@@ -195,11 +195,7 @@ describe("RailNetworkImpl", () => {
       expect(result).toEqual([]);
     });
 
-    test.each([
-      "MissileSilo",
-      "DefensePost",
-      "SAMLauncher",
-    ] as UnitType[])(
+    test.each(["MissileSilo", "DefensePost", "SAMLauncher"] as UnitType[])(
       "returns empty array for %s which cannot snap to railroads",
       (unitType) => {
         const tile = 42 as any;

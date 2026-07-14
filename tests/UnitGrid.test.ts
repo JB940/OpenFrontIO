@@ -1,5 +1,5 @@
-import { PlayerInfo } from "../src/core/game/Game";
 import type { UnitType } from "../src/core/game/Game";
+import { PlayerInfo } from "../src/core/game/Game";
 import { UnitGrid } from "../src/core/game/UnitGrid";
 import { setup } from "./util/Setup";
 
@@ -17,12 +17,7 @@ async function checkRange(
   const unitTile = game.map().ref(unitPosX, 0);
   grid.addUnit(player.buildUnit("DefensePost", unitTile, {}));
   const tileToCheck = game.map().ref(rangeCheck, 0);
-  return grid.hasUnitNearby(
-    tileToCheck,
-    range,
-    "DefensePost",
-    "test_id",
-  );
+  return grid.hasUnitNearby(tileToCheck, range, "DefensePost", "test_id");
 }
 
 async function nearbyUnits(
@@ -107,9 +102,7 @@ describe("Unit Grid range tests", () => {
       const unitTile = game.map().ref(0, 0);
       grid.addUnit(player.buildUnit("City", unitTile, {}));
       const tileToCheck = game.map().ref(0, 0);
-      expect(grid.nearbyUnits(tileToCheck, 10, ["Port"])).toHaveLength(
-        0,
-      );
+      expect(grid.nearbyUnits(tileToCheck, 10, ["Port"])).toHaveLength(0);
     });
 
     test("One inside, one outside of range", async () => {

@@ -1,12 +1,12 @@
 import { z } from "zod";
 import { assetUrl } from "../../../core/AssetUrls";
 import { Config } from "../../../core/configuration/Config";
-import { 
-   AllPlayers,
-   BuildableAttacks,
-   PlayerActions,
-   PlayerBuildableUnitType,
-   Structures,
+import {
+  AllPlayers,
+  BuildableAttacks,
+  PlayerActions,
+  PlayerBuildableUnitType,
+  Structures,
 } from "../../../core/game/Game";
 import { TileRef } from "../../../core/game/GameMap";
 import { Emoji, findClosestBy, flattenedEmojiTable } from "../../../core/Util";

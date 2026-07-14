@@ -1,9 +1,5 @@
-import {
-  Ranking,
-} from "../src/client/components/baseComponents/ranking/GameInfoRanking";
-import {
-  GameMapType,
-} from "../src/core/game/Game";
+import { Ranking } from "../src/client/components/baseComponents/ranking/GameInfoRanking";
+import { GameMapType } from "../src/core/game/Game";
 import { AnalyticsRecord, GameConfig } from "../src/core/Schemas";
 import {
   GOLD_INDEX_STEAL,
@@ -182,9 +178,7 @@ describe("Ranking class", () => {
     );
     const ownTrain = p1.gold[GOLD_INDEX_TRAIN_SELF] ?? 0n;
     const otherTrain = p1.gold[GOLD_INDEX_TRAIN_OTHER] ?? 0n;
-    expect(r.score(p1, "TrainTrade")).toBe(
-      Number(ownTrain + otherTrain),
-    );
+    expect(r.score(p1, "TrainTrade")).toBe(Number(ownTrain + otherTrain));
     expect(r.score(p1, "ConqueredGold")).toBe(
       Number(p1.gold[GOLD_INDEX_WAR] ?? 0n),
     );

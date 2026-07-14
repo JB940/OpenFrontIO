@@ -1,4 +1,12 @@
-import { Execution, Game, Player, Structures, TerraNullius, TrajectoryTile, Unit } from "../game/Game";
+import {
+  Execution,
+  Game,
+  Player,
+  Structures,
+  TerraNullius,
+  TrajectoryTile,
+  Unit,
+} from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { UniversalPathFinding } from "../pathfinding/PathFinder";
 import { ParabolaUniversalPathFinder } from "../pathfinding/PathFinder.Parabola";
@@ -433,10 +441,7 @@ export class NukeExecution implements Execution {
     this.nuke.setReachedTarget();
     this.nuke.delete(false);
 
-    if (
-      this.nukeType === "AtomBomb" ||
-      this.nukeType === "HydrogenBomb"
-    ) {
+    if (this.nukeType === "AtomBomb" || this.nukeType === "HydrogenBomb") {
       const messageKey =
         this.nukeType === "AtomBomb"
           ? "events_display.atom_bomb_detonated"

@@ -3,8 +3,8 @@ import { customElement, query, state } from "lit/decorators.js";
 import { DirectiveResult } from "lit/directive.js";
 import { unsafeHTML, UnsafeHTMLDirective } from "lit/directives/unsafe-html.js";
 import { EventBus } from "../../../core/EventBus";
-import { AllPlayers } from "../../../core/game/Game";
 import type { MessageType } from "../../../core/game/Game";
+import { AllPlayers } from "../../../core/game/Game";
 import {
   AllianceExpiredUpdate,
   AllianceRequestReplyUpdate,
@@ -342,9 +342,7 @@ export class EventsDisplay extends LitElement implements Controller {
           ? translateText("events_display.alliance_accepted")
           : translateText("events_display.alliance_rejected"),
       }),
-      type: update.accepted
-        ? "ALLIANCE_ACCEPTED"
-        : "ALLIANCE_REJECTED",
+      type: update.accepted ? "ALLIANCE_ACCEPTED" : "ALLIANCE_REJECTED",
       highlight: true,
       createdAt: this.game.ticks(),
       focusID: update.request.recipientID,
@@ -455,9 +453,7 @@ export class EventsDisplay extends LitElement implements Controller {
 
     this.addEvent({
       description: translateText(messageKey, params),
-      type: isRecipient
-        ? "DONATION_RECEIVED"
-        : "DONATION_SENT",
+      type: isRecipient ? "DONATION_RECEIVED" : "DONATION_SENT",
       highlight: true,
       createdAt: this.game.ticks(),
       focusID: other.smallID(),

@@ -58,8 +58,7 @@ export class TransportShipExecution implements Execution {
     this.pathFinder = new WaterPathFinder(mg, stagger);
 
     if (
-      this.attacker.unitCount("TransportShip") >=
-      mg.config().boatMaxNumber()
+      this.attacker.unitCount("TransportShip") >= mg.config().boatMaxNumber()
     ) {
       mg.displayMessage(
         "events_display.no_boats_available",

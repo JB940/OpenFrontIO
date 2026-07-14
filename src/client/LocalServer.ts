@@ -25,11 +25,11 @@ import {
   GameSpeedUpIntentEvent,
   ReplaySpeedChangeEvent,
 } from "./InputHandler";
+import type { ReplaySpeedMultiplier } from "./utilities/ReplaySpeedMultiplier";
 import {
   defaultReplaySpeedMultiplier,
   ReplaySpeedMultiplierSchema,
 } from "./utilities/ReplaySpeedMultiplier";
-import type { ReplaySpeedMultiplier } from "./utilities/ReplaySpeedMultiplier";
 
 // Order: 0.5, 1, 2, max (same as ReplayPanel)
 const SPEED_ORDER: ReplaySpeedMultiplier[] = [
@@ -52,7 +52,8 @@ export class LocalServer {
   private startedAt: number;
 
   private paused = false;
-  private replaySpeedMultiplier: ReplaySpeedMultiplier = defaultReplaySpeedMultiplier;
+  private replaySpeedMultiplier: ReplaySpeedMultiplier =
+    defaultReplaySpeedMultiplier;
 
   private clientID: ClientID | undefined;
   private winner: ClientSendWinnerMessage | null = null;
@@ -86,7 +87,8 @@ export class LocalServer {
         ClientEnv.turnIntervalMs() * this.replaySpeedMultiplier;
       const backlog = Math.max(0, this.turns.length - this.turnsExecuted);
       const allowReplayBacklog =
-        this.replaySpeedMultiplier === ReplaySpeedMultiplierSchema.enum.Fastest &&
+        this.replaySpeedMultiplier ===
+          ReplaySpeedMultiplierSchema.enum.Fastest &&
         this.lobbyConfig.gameRecord !== undefined;
       const maxBacklog = allowReplayBacklog ? MAX_REPLAY_BACKLOG_TURNS : 0;
 

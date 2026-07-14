@@ -422,7 +422,10 @@ export class UnitPass {
       // Resolve to engine/carriage/loaded carriage based on trainType + loaded fields.
       if (atlasIdx === undefined && unit.unitType === UT_TRAIN) {
         const tt = unit.trainType;
-        if (tt === TrainTypeSchema.enum.Engine || tt === TrainTypeSchema.enum.TailEngine) {
+        if (
+          tt === TrainTypeSchema.enum.Engine ||
+          tt === TrainTypeSchema.enum.TailEngine
+        ) {
           atlasIdx = TRAIN_ENGINE_COL;
         } else {
           atlasIdx = unit.loaded

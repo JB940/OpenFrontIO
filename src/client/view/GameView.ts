@@ -1,14 +1,14 @@
 import { Config } from "../../core/configuration/Config";
-import { 
-   Cell, 
-   GameUpdates, 
-   PlayerID, 
-   TerraNullius, 
-   Tick, 
-   Unit, 
-   UnitInfo,
+import type { TerrainType, UnitType } from "../../core/game/Game";
+import {
+  Cell,
+  GameUpdates,
+  PlayerID,
+  TerraNullius,
+  Tick,
+  Unit,
+  UnitInfo,
 } from "../../core/game/Game";
-import type { UnitType, TerrainType } from "../../core/game/Game";
 import { GameMap, TileRef } from "../../core/game/GameMap";
 import {
   GameUpdateType,

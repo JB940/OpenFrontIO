@@ -142,10 +142,7 @@ export class NationAllianceBehavior {
 
   private hasTooManyAlliances(otherPlayer: Player): boolean {
     const { difficulty } = this.game.config().gameConfig();
-    if (
-      difficulty !== "Hard" &&
-      difficulty !== "Impossible"
-    ) {
+    if (difficulty !== "Hard" && difficulty !== "Impossible") {
       return false;
     }
 
@@ -301,7 +298,9 @@ export class NationAllianceBehavior {
     switch (difficulty) {
       case "Easy":
       case "Medium":
-        return this.player.relation(otherPlayer) === RelationSchema.enum.Friendly;
+        return (
+          this.player.relation(otherPlayer) === RelationSchema.enum.Friendly
+        );
       case "Hard":
         return (
           this.player.relation(otherPlayer) === RelationSchema.enum.Friendly &&
@@ -321,16 +320,16 @@ export class NationAllianceBehavior {
   private isAlliancePartnerSimilarlyStrong(otherPlayer: Player): boolean {
     const { difficulty } = this.game.config().gameConfig();
     const troopPercentRangeByDifficulty = {
-      "Easy": [60, 70],
-      "Medium": [70, 80],
-      "Hard": [75, 85],
-      "Impossible": [80, 90],
+      Easy: [60, 70],
+      Medium: [70, 80],
+      Hard: [75, 85],
+      Impossible: [80, 90],
     } as const;
     const tilePercentRangeByDifficulty = {
-      "Easy": [70, 80],
-      "Medium": [80, 90],
-      "Hard": [85, 95],
-      "Impossible": [90, 100],
+      Easy: [70, 80],
+      Medium: [80, 90],
+      Hard: [85, 95],
+      Impossible: [90, 100],
     } as const;
 
     const troopRange = troopPercentRangeByDifficulty[difficulty];

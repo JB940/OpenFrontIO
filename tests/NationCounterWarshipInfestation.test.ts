@@ -1,9 +1,5 @@
 import { NationExecution } from "../src/core/execution/NationExecution";
-import {
-  Cell,
-  Nation,
-  PlayerInfo,
-} from "../src/core/game/Game";
+import { Cell, Nation, PlayerInfo } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 
 // The half_land_half_ocean map is 16x16:
@@ -126,9 +122,7 @@ describe("Counter Warship Infestation", () => {
     expect(counterWarshipBuilt).toBe(true);
 
     // Verify nation now has a warship
-    expect(nation.units("Warship").length).toBeGreaterThan(
-      warshipCountBefore,
-    );
+    expect(nation.units("Warship").length).toBeGreaterThan(warshipCountBefore);
   });
 
   test("rich nation sends counter-warship in Team game when enemy team has too many warships", async () => {
@@ -265,8 +259,7 @@ describe("Counter Warship Infestation", () => {
     expect(enemy1.units("Warship").length).toBe(10);
     expect(enemy2.units("Warship").length).toBe(6);
     const totalEnemyTeamWarships =
-      enemy1.units("Warship").length +
-      enemy2.units("Warship").length;
+      enemy1.units("Warship").length + enemy2.units("Warship").length;
     expect(totalEnemyTeamWarships).toBeGreaterThan(15);
     expect(game.unitCount("Warship")).toBeGreaterThan(10);
     expect(nation.gold()).toBeGreaterThan(0n);
@@ -309,8 +302,6 @@ describe("Counter Warship Infestation", () => {
     expect(counterWarshipBuilt).toBe(true);
 
     // Verify nation now has a warship
-    expect(nation.units("Warship").length).toBeGreaterThan(
-      warshipCountBefore,
-    );
+    expect(nation.units("Warship").length).toBeGreaterThan(warshipCountBefore);
   });
 });

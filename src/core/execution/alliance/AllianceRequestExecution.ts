@@ -1,4 +1,10 @@
-import { AllianceRequest, Execution, Game, MessageType, Player, PlayerID } from "../../game/Game";
+import {
+  AllianceRequest,
+  Execution,
+  Game,
+  Player,
+  PlayerID,
+} from "../../game/Game";
 import { wouldNukeBreakAlliance } from "../Util";
 
 export class AllianceRequestExecution implements Execution {
@@ -84,10 +90,7 @@ export class AllianceRequestExecution implements Execution {
     const players = [this.requestor, recipient];
 
     for (const launcher of players) {
-      for (const unit of launcher.units(
-        "AtomBomb",
-        "HydrogenBomb",
-      )) {
+      for (const unit of launcher.units("AtomBomb", "HydrogenBomb")) {
         if (!unit.isActive() || unit.reachedTarget()) continue;
 
         const targetTile = unit.targetTile();

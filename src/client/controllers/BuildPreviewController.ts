@@ -12,8 +12,8 @@ import {
   listNukeBreakAlliance,
   wouldNukeBreakAlliance,
 } from "../../core/execution/Util";
-import { BuildableUnit, PlayerBuildableUnitType } from "../../core/game/Game";
 import type { UnitType } from "../../core/game/Game";
+import { BuildableUnit, PlayerBuildableUnitType } from "../../core/game/Game";
 import { TileRef } from "../../core/game/GameMap";
 import { UserSettings } from "../../core/game/UserSettings";
 import { Controller } from "../Controller";

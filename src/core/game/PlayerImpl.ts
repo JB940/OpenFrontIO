@@ -9,6 +9,7 @@ import {
   within,
 } from "../Util";
 import { AttackImpl } from "./AttackImpl";
+import type { PlayerType, Relation, UnitType } from "./Game";
 import {
   Alliance,
   AllianceInfo,
@@ -36,7 +37,6 @@ import {
   Unit,
   UnitParams,
 } from "./Game";
-import type { Relation, UnitType, PlayerType } from "./Game";
 import { GameImpl } from "./GameImpl";
 import { andFN, manhattanDistFN, TileRef } from "./GameMap";
 import {

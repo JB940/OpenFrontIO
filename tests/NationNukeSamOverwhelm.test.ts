@@ -1,11 +1,7 @@
 import { MissileSiloExecution } from "../src/core/execution/MissileSiloExecution";
 import { NationExecution } from "../src/core/execution/NationExecution";
 import { SAMLauncherExecution } from "../src/core/execution/SAMLauncherExecution";
-import {
-  Cell,
-  Nation,
-  PlayerInfo,
-} from "../src/core/game/Game";
+import { Cell, Nation, PlayerInfo } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 import { executeTicks } from "./util/utils";
 

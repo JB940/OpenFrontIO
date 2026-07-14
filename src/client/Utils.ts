@@ -1,4 +1,5 @@
 import IntlMessageFormat from "intl-messageformat";
+import type { MessageType } from "../core/game/Game";
 import {
   Duos,
   HumansVsNations,
@@ -8,7 +9,6 @@ import {
   Team,
   Trios,
 } from "../core/game/Game";
-import type { MessageType } from "../core/game/Game";
 import { GameConfig } from "../core/Schemas";
 import type { LangSelector } from "./LangSelector";
 import { Platform } from "./Platform";

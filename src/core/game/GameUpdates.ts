@@ -1,4 +1,5 @@
 import { AllPlayersStats, ClientID, Winner } from "../Schemas";
+import type { MessageType, PlayerType, TrainType, UnitType } from "./Game";
 import {
   EmojiMessage,
   GameUpdates,
@@ -10,7 +11,6 @@ import {
   TransportShipState,
   WarshipState,
 } from "./Game";
-import type { UnitType, TrainType, PlayerType, MessageType } from "./Game";
 import { TileRef } from "./GameMap";
 
 export interface GameUpdateViewData {

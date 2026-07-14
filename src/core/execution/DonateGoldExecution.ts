@@ -1,10 +1,4 @@
-import {
-  Execution,
-  Game,
-  Gold,
-  Player,
-  PlayerID,
-} from "../game/Game";
+import { Execution, Game, Gold, Player, PlayerID } from "../game/Game";
 import { PseudoRandom } from "../PseudoRandom";
 import { assertNever, toInt } from "../Util";
 import { EmojiExecution } from "./EmojiExecution";

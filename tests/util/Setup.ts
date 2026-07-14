@@ -4,8 +4,8 @@ import {
   Game,
   GameMapType,
   PlayerInfo,
+  PlayerType,
 } from "../../src/core/game/Game";
-import { PlayerType } from "../../src/core/game/Game";
 import { createGame } from "../../src/core/game/GameImpl";
 import {
   genTerrainFromBin,

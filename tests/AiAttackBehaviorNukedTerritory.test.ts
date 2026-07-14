@@ -2,8 +2,8 @@ import { AttackExecution } from "../src/core/execution/AttackExecution";
 import { NationAllianceBehavior } from "../src/core/execution/nation/NationAllianceBehavior";
 import { NationEmojiBehavior } from "../src/core/execution/nation/NationEmojiBehavior";
 import { AiAttackBehavior } from "../src/core/execution/utils/AiAttackBehavior";
-import { Difficulty, Game, Player, PlayerInfo } from "../src/core/game/Game";
 import type { UnitType } from "../src/core/game/Game";
+import { Difficulty, Game, Player, PlayerInfo } from "../src/core/game/Game";
 import { PseudoRandom } from "../src/core/PseudoRandom";
 import { setup } from "./util/Setup";
 import { executeTicks } from "./util/utils";
@@ -289,10 +289,9 @@ describe("AiAttackBehavior - nuked territory early-out", () => {
     });
 
     test("Easy difficulty: `nuked` strategy still fires when idle", async () => {
-      const { game, nation, attackBehavior } = await setupBehavior(
-        "Easy",
-        { withEnemy: false },
-      );
+      const { game, nation, attackBehavior } = await setupBehavior("Easy", {
+        withEnemy: false,
+      });
 
       const before = nation.outgoingAttacks().length;
       attackBehavior.maybeAttack();

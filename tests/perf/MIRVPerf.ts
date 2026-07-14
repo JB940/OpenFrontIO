@@ -35,11 +35,7 @@ claimRow(90, 15);
 claimRow(140, 15);
 claimRow(185, 15);
 
-sparsePlayer.buildUnit(
-  "MissileSilo",
-  sparseTerritoryGame.ref(10, 10),
-  {},
-);
+sparsePlayer.buildUnit("MissileSilo", sparseTerritoryGame.ref(10, 10), {});
 
 // Setup dense territory scenario (large target area)
 const denseTerritoryGame = await setup(

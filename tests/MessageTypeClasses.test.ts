@@ -1,7 +1,7 @@
 import { vi, type MockInstance } from "vitest";
 import { getMessageTypeClasses, severityColors } from "../src/client/Utils";
-import { MessageTypeSchema } from "../src/core/game/Game";
 import type { MessageType } from "../src/core/game/Game";
+import { MessageTypeSchema } from "../src/core/game/Game";
 
 describe("getMessageTypeClasses", () => {
   // Spy on console.warn to track when the default case is hit

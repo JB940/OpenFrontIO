@@ -1,5 +1,5 @@
-import { AllPlayers, Game, Gold, Player, Unit } from "../../game/Game";
 import type { UnitType } from "../../game/Game";
+import { AllPlayers, Game, Gold, Player, Unit } from "../../game/Game";
 import { TileRef } from "../../game/GameMap";
 import { PseudoRandom } from "../../PseudoRandom";
 import { ConstructionExecution } from "../ConstructionExecution";
@@ -299,10 +299,7 @@ export class NationWarshipBehavior {
 
     // Only the smart nations can do this
     const { difficulty } = this.game.config().gameConfig();
-    if (
-      difficulty !== "Hard" &&
-      difficulty !== "Impossible"
-    ) {
+    if (difficulty !== "Hard" && difficulty !== "Impossible") {
       return false;
     }
 
@@ -432,21 +429,14 @@ export class NationWarshipBehavior {
   }
 
   private buildCounterWarship(target: { player: Player; warship: Unit }): void {
-    const canBuild = this.player.canBuild(
-      "Warship",
-      target.warship.tile(),
-    );
+    const canBuild = this.player.canBuild("Warship", target.warship.tile());
     if (canBuild === false) {
       this.maybeMoveWarship(target.warship.tile());
       return;
     }
 
     this.game.addExecution(
-      new ConstructionExecution(
-        this.player,
-        "Warship",
-        target.warship.tile(),
-      ),
+      new ConstructionExecution(this.player, "Warship", target.warship.tile()),
     );
     this.emojiBehavior.sendEmoji(AllPlayers, EMOJI_WARSHIP_RETALIATION);
   }

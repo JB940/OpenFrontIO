@@ -20,9 +20,7 @@ import {
   LobbyInfoEvent,
   PublicGameInfo,
 } from "../core/Schemas";
-import {
-  HumansVsNations,
-} from "../core/game/Game";
+import { HumansVsNations } from "../core/game/Game";
 import { getApiBase } from "./Api";
 import { crazyGamesSDK } from "./CrazyGamesSDK";
 import { PublicLobbySocket } from "./LobbySocket";
@@ -156,8 +154,7 @@ export class JoinLobbyModal extends BaseModal {
                         .lobbyCreatorClientID=${hostClientID}
                         .currentClientID=${this.currentClientID}
                         .teamCount=${this.gameConfig?.playerTeams ?? 2}
-                        .isPublicGame=${this.gameConfig?.gameType ===
-                        "Public"}
+                        .isPublicGame=${this.gameConfig?.gameType === "Public"}
                         .nationCount=${nationsConfigToSlider(
                           this.gameConfig?.nations ?? "default",
                           this.nationCount,

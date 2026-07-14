@@ -1,7 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { RelationSchema } from "../../../core/game/Game";
 import type { Relation } from "../../../core/game/Game";
+import { RelationSchema } from "../../../core/game/Game";
 
 type FaceData = {
   color: string;

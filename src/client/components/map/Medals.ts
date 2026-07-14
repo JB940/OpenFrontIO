@@ -15,12 +15,11 @@ export const MEDAL_ORDER: readonly Difficulty[] = [
 ];
 
 export const MEDAL_COLORS: Record<Difficulty, string> = {
-  "Easy": "var(--medal-easy)",
-  "Medium": "var(--medal-medium)",
-  "Hard": "var(--medal-hard)",
-  "Impossible": "var(--medal-impossible)",
+  Easy: "var(--medal-easy)",
+  Medium: "var(--medal-medium)",
+  Hard: "var(--medal-hard)",
+  Impossible: "var(--medal-impossible)",
 };
-
 
 /**
  * A single colored medal glyph. Pass `earned=false` to dim it so it reads as

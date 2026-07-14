@@ -383,7 +383,7 @@ describe("diff + apply round-trip", () => {
   });
 
   it("no-change tick produces null diff so receiver state is untouched", () => {
-    const v0 = makePlayerUpdate({ gold: 100n, playerType: "Human"});
+    const v0 = makePlayerUpdate({ gold: 100n, playerType: "Human" });
     const v1 = makePlayerUpdate({ gold: 100n, playerType: "Human" });
     expect(diffPlayerUpdate(v0, v1)).toBeNull();
   });

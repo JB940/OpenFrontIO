@@ -107,37 +107,26 @@ export {
   type MapInfo,
 } from "./Maps.gen";
 
-export const GameTypeSchema = z.enum([
-  "Singleplayer",
-  "Public",
-  "Private",
-]);
+export const GameTypeSchema = z.enum(["Singleplayer", "Public", "Private"]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
 export const isGameType = (value: unknown): value is GameType =>
   GameTypeSchema.safeParse(value).success;
 
-
-export const GameModeSchema = z.enum([
-  "Free For All",
-  "Team",
-]);
+export const GameModeSchema = z.enum(["Free For All", "Team"]);
 
 export type GameMode = z.infer<typeof GameModeSchema>;
 
 export const RankedTypeSchema = z.enum({
-  "OneVOne": "1v1",
-})
+  OneVOne: "1v1",
+});
 
 export type RankedType = z.infer<typeof RankedTypeSchema>;
 
 export const isGameMode = (value: unknown): value is GameMode =>
   GameModeSchema.safeParse(value).success;
 
-export const GameMapSizeSchema = z.enum([
-  "Compact",
-  "Normal",
-]);
+export const GameMapSizeSchema = z.enum(["Compact", "Normal"]);
 
 export type GameMapSize = z.infer<typeof GameMapSizeSchema>;
 
@@ -194,11 +183,7 @@ export const UnitTypeSchema = z.enum([
 
 export type UnitType = z.infer<typeof UnitTypeSchema>;
 
-export const TrainTypeSchema = z.enum([
-  "Engine",
-  "TailEngine",
-  "Carriage",
-]);
+export const TrainTypeSchema = z.enum(["Engine", "TailEngine", "Carriage"]);
 
 export type TrainType = z.infer<typeof TrainTypeSchema>;
 
@@ -246,57 +231,57 @@ export type TrajectoryTile = {
   targetable: boolean;
 };
 export interface UnitParamsMap {
-  "TransportShip": {
+  TransportShip: {
     troops?: number;
     targetTile?: TileRef;
   };
 
-  "Warship": {
+  Warship: {
     patrolTile: TileRef;
   };
 
-  "Shell": Record<string, never>;
+  Shell: Record<string, never>;
 
-  "SAMMissile": Record<string, never>;
+  SAMMissile: Record<string, never>;
 
-  "Port": Record<string, never>;
+  Port: Record<string, never>;
 
-  "AtomBomb": {
+  AtomBomb: {
     targetTile?: number;
     trajectory: TrajectoryTile[];
   };
 
-  "HydrogenBomb": {
+  HydrogenBomb: {
     targetTile?: number;
     trajectory: TrajectoryTile[];
   };
 
-  "TradeShip": {
+  TradeShip: {
     targetUnit: Unit;
     lastSetSafeFromPirates?: number;
   };
 
-  "Train": {
+  Train: {
     trainType: TrainType;
     targetUnit?: Unit;
     loaded?: boolean;
   };
 
-  "Factory": Record<string, never>;
+  Factory: Record<string, never>;
 
-  "MissileSilo": Record<string, never>;
+  MissileSilo: Record<string, never>;
 
-  "DefensePost": Record<string, never>;
+  DefensePost: Record<string, never>;
 
-  "SAMLauncher": Record<string, never>;
+  SAMLauncher: Record<string, never>;
 
-  "City": Record<string, never>;
+  City: Record<string, never>;
 
-  "MIRV": {
+  MIRV: {
     targetTile?: number;
   };
 
-  "MIRVWarhead": {
+  MIRVWarhead: {
     targetTile?: number;
   };
 }
@@ -307,10 +292,10 @@ export type UnitParams<T extends UnitType> = UnitParamsMap[T];
 export type AllUnitParams = UnitParamsMap[keyof UnitParamsMap];
 
 export const RelationSchema = z.enum({
-  "Hostile": 0,
-  "Distrustful": 1,
-  "Neutral": 2,
-  "Friendly": 3,
+  Hostile: 0,
+  Distrustful: 1,
+  Neutral: 2,
+  Friendly: 3,
 });
 
 export type Relation = z.infer<typeof RelationSchema>;
@@ -357,11 +342,7 @@ export const TerrainTypeSchema = z.enum([
 export type TerrainType = z.infer<typeof TerrainTypeSchema>;
 
 /** Numeric player type — matching PlayerStatic.playerType. */
-export const  PlayerTypeSchema = z.enum([
-  "Human",
-  "Bot",
-  "Nation",
-]);
+export const PlayerTypeSchema = z.enum(["Human", "Bot", "Nation"]);
 
 export type PlayerType = z.infer<typeof PlayerTypeSchema>;
 
@@ -961,31 +942,30 @@ export const MessageCategorySchema = z.enum([
 
 export type MessageCategory = z.infer<typeof MessageCategorySchema>;
 
-
 // Ensures that all message types are included in a category
 export const MESSAGE_TYPE_CATEGORIES: Record<MessageType, MessageCategory> = {
-  "ATTACK_FAILED": "ATTACK",
-  "ATTACK_CANCELLED": "ATTACK",
-  "ATTACK_REQUEST": "ATTACK",
-  "CONQUERED_PLAYER": "ATTACK",
-  "MIRV_INBOUND": "NUKE",
-  "NUKE_INBOUND": "NUKE",
-  "NUKE_DETONATED": "NUKE",
-  "HYDROGEN_BOMB_INBOUND": "NUKE",
-  "NAVAL_INVASION_INBOUND": "ATTACK",
-  "SAM_MISS": "ATTACK",
-  "SAM_HIT": "ATTACK",
-  "CAPTURED_ENEMY_UNIT": "ATTACK",
-  "UNIT_DESTROYED": "ATTACK",
-  "ALLIANCE_ACCEPTED": "ALLIANCE",
-  "ALLIANCE_REJECTED": "ALLIANCE",
-  "ALLIANCE_REQUEST": "ALLIANCE",
-  "ALLIANCE_BROKEN": "ALLIANCE",
-  "ALLIANCE_EXPIRED": "ALLIANCE",
-  "RENEW_ALLIANCE": "ALLIANCE",
-  "DONATION_SENT": "TRADE",
-  "DONATION_RECEIVED": "TRADE",
-  "CHAT": "CHAT",
+  ATTACK_FAILED: "ATTACK",
+  ATTACK_CANCELLED: "ATTACK",
+  ATTACK_REQUEST: "ATTACK",
+  CONQUERED_PLAYER: "ATTACK",
+  MIRV_INBOUND: "NUKE",
+  NUKE_INBOUND: "NUKE",
+  NUKE_DETONATED: "NUKE",
+  HYDROGEN_BOMB_INBOUND: "NUKE",
+  NAVAL_INVASION_INBOUND: "ATTACK",
+  SAM_MISS: "ATTACK",
+  SAM_HIT: "ATTACK",
+  CAPTURED_ENEMY_UNIT: "ATTACK",
+  UNIT_DESTROYED: "ATTACK",
+  ALLIANCE_ACCEPTED: "ALLIANCE",
+  ALLIANCE_REJECTED: "ALLIANCE",
+  ALLIANCE_REQUEST: "ALLIANCE",
+  ALLIANCE_BROKEN: "ALLIANCE",
+  ALLIANCE_EXPIRED: "ALLIANCE",
+  RENEW_ALLIANCE: "ALLIANCE",
+  DONATION_SENT: "TRADE",
+  DONATION_RECEIVED: "TRADE",
+  CHAT: "CHAT",
 } as const;
 
 /**

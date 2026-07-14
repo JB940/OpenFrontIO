@@ -1,5 +1,12 @@
-import { Execution, Game, isUnit, OwnerComp, Unit, UnitParams } from "../game/Game";
 import type { UnitType } from "../game/Game";
+import {
+  Execution,
+  Game,
+  isUnit,
+  OwnerComp,
+  Unit,
+  UnitParams,
+} from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { WaterPathFinder } from "../pathfinding/PathFinder";
 import { PathStatus } from "../pathfinding/types";
@@ -19,9 +26,7 @@ export class WarshipExecution implements Execution {
   private activeHealingRemainder = 0;
   private lastEmittedCombat = false;
 
-  constructor(
-    private input: (UnitParams<"Warship"> & OwnerComp) | Unit,
-  ) {}
+  constructor(private input: (UnitParams<"Warship"> & OwnerComp) | Unit) {}
 
   init(mg: Game, ticks: number): void {
     this.mg = mg;
@@ -30,21 +35,14 @@ export class WarshipExecution implements Execution {
     if (isUnit(this.input)) {
       this.warship = this.input;
     } else {
-      const spawn = this.input.owner.canBuild(
-        "Warship",
-        this.input.patrolTile,
-      );
+      const spawn = this.input.owner.canBuild("Warship", this.input.patrolTile);
       if (spawn === false) {
         console.warn(
           `Failed to spawn warship for ${this.input.owner.name()} at ${this.input.patrolTile}`,
         );
         return;
       }
-      this.warship = this.input.owner.buildUnit(
-        "Warship",
-        spawn,
-        this.input,
-      );
+      this.warship = this.input.owner.buildUnit("Warship", spawn, this.input);
     }
     this.lastObservedPatrolTile = this.warship.warshipState().patrolTile;
   }
@@ -212,10 +210,7 @@ export class WarshipExecution implements Execution {
   }
 
   private findTargetUnit(): Unit | undefined {
-    return this.findBestTarget(
-      ["TransportShip", "Warship", "TradeShip"],
-      true,
-    );
+    return this.findBestTarget(["TransportShip", "Warship", "TradeShip"], true);
   }
 
   /**
@@ -256,8 +251,7 @@ export class WarshipExecution implements Execution {
         unit.owner() === owner ||
         !owner.canAttackPlayer(unit.owner(), true) ||
         this.alreadySentShell.has(unit) ||
-        (unit.type() === "Warship" &&
-          unit.warshipState().state === "docked")
+        (unit.type() === "Warship" && unit.warshipState().state === "docked")
       ) {
         continue;
       }

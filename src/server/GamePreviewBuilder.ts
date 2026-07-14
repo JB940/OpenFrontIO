@@ -2,7 +2,6 @@ import { z } from "zod";
 import { buildAssetUrl } from "../core/AssetUrls";
 import { ClanTagSchema, GameInfo, UsernameSchema } from "../core/Schemas";
 import { formatPlayerDisplayName } from "../core/Util";
-import { GameMode } from "../core/game/Game";
 import { getRuntimeAssetManifest } from "./RuntimeAssetManifest";
 import { ServerEnv } from "./ServerEnv";
 

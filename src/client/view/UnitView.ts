@@ -1,5 +1,5 @@
+import type { TrainType, UnitType } from "../../core/game/Game";
 import { Tick, TransportShipState, WarshipState } from "../../core/game/Game";
-import type { UnitType, TrainType } from "../../core/game/Game";
 import { TileRef } from "../../core/game/GameMap";
 import { UnitUpdate } from "../../core/game/GameUpdates";
 import type { UnitState } from "../render/types";

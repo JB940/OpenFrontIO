@@ -12,8 +12,8 @@ import {
   ServerMessage,
 } from "../core/Schemas";
 import { createPartialGameRecord, findClosestBy, replacer } from "../core/Util";
-import { BuildableUnit, Structures } from "../core/game/Game";
 import type { UnitType } from "../core/game/Game";
+import { BuildableUnit, Structures } from "../core/game/Game";
 import { TileRef } from "../core/game/GameMap";
 import { GameMapLoader } from "../core/game/GameMapLoader";
 import {
@@ -1154,17 +1154,15 @@ export class ClientGameRunner {
       this.myPlayer = myPlayer;
     }
 
-    this.myPlayer
-      .buildables(tile, ["TransportShip"])
-      .then((buildables) => {
-        if (this.canBoatAttack(buildables) !== false) {
-          this.sendBoatAttackIntent(tile);
-        } else {
-          console.warn(
-            "Boat attack triggered but can't send Transport Ship to tile",
-          );
-        }
-      });
+    this.myPlayer.buildables(tile, ["TransportShip"]).then((buildables) => {
+      if (this.canBoatAttack(buildables) !== false) {
+        this.sendBoatAttackIntent(tile);
+      } else {
+        console.warn(
+          "Boat attack triggered but can't send Transport Ship to tile",
+        );
+      }
+    });
   }
 
   private doGroundAttackUnderCursor(): void {

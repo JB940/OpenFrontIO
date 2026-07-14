@@ -195,16 +195,12 @@ describe("ActionableEvents - alliance renewal cleanup (allianceID based)", () =>
 
     const remaining = (display as any).events;
 
-    expect(
-      remaining.some((e: any) => e.type === "ALLIANCE_BROKEN"),
-    ).toBe(true);
+    expect(remaining.some((e: any) => e.type === "ALLIANCE_BROKEN")).toBe(true);
 
-    expect(
-      remaining.some((e: any) => e.type === "ALLIANCE_ACCEPTED"),
-    ).toBe(true);
+    expect(remaining.some((e: any) => e.type === "ALLIANCE_ACCEPTED")).toBe(
+      true,
+    );
 
-    expect(
-      remaining.some((e: any) => e.type === "RENEW_ALLIANCE"),
-    ).toBe(false);
+    expect(remaining.some((e: any) => e.type === "RENEW_ALLIANCE")).toBe(false);
   });
 });

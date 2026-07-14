@@ -5,12 +5,7 @@ import { NationEmojiBehavior } from "../src/core/execution/nation/NationEmojiBeh
 import { NationNukeBehavior } from "../src/core/execution/nation/NationNukeBehavior";
 import { NukeExecution } from "../src/core/execution/NukeExecution";
 import { AiAttackBehavior } from "../src/core/execution/utils/AiAttackBehavior";
-import {
-  Game,
-  GameMapType,
-  Player,
-  PlayerInfo,
-} from "../src/core/game/Game";
+import { Game, GameMapType, Player, PlayerInfo } from "../src/core/game/Game";
 import { createGame } from "../src/core/game/GameImpl";
 import { genTerrainFromBin } from "../src/core/game/TerrainMapLoader";
 import { UserSettings } from "../src/core/game/UserSettings";
@@ -182,9 +177,7 @@ describe("Impassable Terrain", () => {
   // ── Nukes: targeting ─────────────────────────────────────────────────
 
   test("canBuild(AtomBomb) returns false for impassable target", () => {
-    expect(player.canBuild("AtomBomb", game.ref(WALL_X, 50))).toBe(
-      false,
-    );
+    expect(player.canBuild("AtomBomb", game.ref(WALL_X, 50))).toBe(false);
   });
 
   test("canBuild(MIRV) returns false for impassable target", () => {
@@ -194,11 +187,7 @@ describe("Impassable Terrain", () => {
   test("nuke execution deactivates when targeting impassable tile", () => {
     player.conquer(game.ref(10, 10));
     player.buildUnit("MissileSilo", game.ref(10, 10), {});
-    const nuke = new NukeExecution(
-      "AtomBomb",
-      player,
-      game.ref(WALL_X, 10),
-    );
+    const nuke = new NukeExecution("AtomBomb", player, game.ref(WALL_X, 10));
     game.addExecution(nuke);
     executeTicks(game, 5);
     expect(nuke.isActive()).toBe(false);

@@ -1,6 +1,7 @@
 import { LitElement, PropertyValues, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { PlayerStatsLeaf, PlayerStatsTree } from "../../../../core/ApiSchemas";
+import type { RankedType } from "../../../../core/game/Game";
 import {
   Difficulty,
   GameMode,
@@ -10,7 +11,6 @@ import {
   isGameMode,
   isGameType,
 } from "../../../../core/game/Game";
-import type { RankedType } from "../../../../core/game/Game";
 import { PlayerStats } from "../../../../core/StatsSchemas";
 import { renderNumber, translateText } from "../../../Utils";
 import "./PlayerStatsGrid";
@@ -59,7 +59,9 @@ export class PlayerStatsTreeView extends LitElement {
 
   private get availableRankedTypes(): RankedType[] {
     if (!this.statsTree?.Ranked) return [];
-    return Object.keys(this.statsTree.Ranked).filter((k): k is RankedType => RankedTypeSchema.safeParse(k).success);
+    return Object.keys(this.statsTree.Ranked).filter(
+      (k): k is RankedType => RankedTypeSchema.safeParse(k).success,
+    );
   }
 
   private get availableDifficulties(): Difficulty[] {

@@ -11,12 +11,8 @@ import {
 import { hasActiveSubscription } from "../core/ApiSchemas";
 import { EventBus } from "../core/EventBus";
 import { DoomsdayClockSpeed } from "../core/game/DoomsdayClock";
+import type { Difficulty, GameMode, UnitType } from "../core/game/Game";
 import { GameMapType } from "../core/game/Game";
-import type {
-  Difficulty,
-  GameMode,
-  UnitType,
-} from "../core/game/Game";
 import { UserSettings } from "../core/game/UserSettings";
 import {
   ClientInfo,
@@ -1296,9 +1292,7 @@ export class HostLobbyModal extends BaseModal {
         detail: {
           config: {
             gameMap: this.selectedMap,
-            gameMapSize: this.compactMap
-              ? "Compact"
-              : "Normal",
+            gameMapSize: this.compactMap ? "Compact" : "Normal",
             difficulty: this.selectedDifficulty,
             bots: this.bots,
             infiniteGold: this.infiniteGold,

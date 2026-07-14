@@ -301,9 +301,7 @@ export class SAMLauncherExecution implements Execution {
     if (target || mirvWarheadTargets.length > 0) {
       this.sam.launch();
       const type =
-        mirvWarheadTargets.length > 0
-          ? "MIRVWarhead"
-          : target?.unit.type();
+        mirvWarheadTargets.length > 0 ? "MIRVWarhead" : target?.unit.type();
       if (type === undefined) throw new Error("Unknown unit type");
       if (mirvWarheadTargets.length > 0) {
         const samOwner = this.sam.owner();
@@ -325,11 +323,7 @@ export class SAMLauncherExecution implements Execution {
         // Record stats
         this.mg
           .stats()
-          .bombIntercept(
-            samOwner,
-            "MIRVWarhead",
-            mirvWarheadTargets.length,
-          );
+          .bombIntercept(samOwner, "MIRVWarhead", mirvWarheadTargets.length);
       } else if (target !== null) {
         target.unit.setTargetedBySAM(true);
         this.mg.addExecution(

@@ -3,7 +3,12 @@ import { customElement, state } from "lit/decorators.js";
 import { translateText } from "../../../client/Utils";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
-import { BuildableUnit, BuildMenus, Gold, PlayerBuildableUnitType } from "../../../core/game/Game";
+import {
+  BuildableUnit,
+  BuildMenus,
+  Gold,
+  PlayerBuildableUnitType,
+} from "../../../core/game/Game";
 import { TileRef } from "../../../core/game/GameMap";
 import { Controller } from "../../Controller";
 import {

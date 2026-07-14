@@ -8,18 +8,18 @@ import {
 } from "./CosmeticSchemas";
 import type { GameEvent } from "./EventBus";
 import {
+  AllPlayers,
   DifficultySchema,
+  Duos,
   GameMapSizeSchema,
   GameMapType,
   GameModeSchema,
   GameTypeSchema,
-  RankedTypeSchema,
-  UnitTypeSchema,
-  AllPlayers,
-  Duos,
   HumansVsNations,
   Quads,
+  RankedTypeSchema,
   Trios,
+  UnitTypeSchema,
 } from "./game/Game";
 import { PlayerStatsSchema } from "./StatsSchemas";
 import { flattenedEmojiTable } from "./Util";

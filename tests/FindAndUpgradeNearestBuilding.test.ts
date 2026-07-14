@@ -147,9 +147,7 @@ describe("findAndUpgradeNearestBuilding", () => {
     });
 
     test("does nothing when no buildings are upgradeable", async () => {
-      const buildableUnits = [
-        { type: "DefensePost", canUpgrade: false },
-      ];
+      const buildableUnits = [{ type: "DefensePost", canUpgrade: false }];
       const { runner, emitSpy } = makeRunner(buildableUnits, [], []);
 
       await runner.findAndUpgradeNearestBuilding(TILE);

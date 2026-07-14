@@ -1,15 +1,15 @@
 import { SAM_CONSTRUCTION_TICKS } from "../core/configuration/Config";
-import {
-   maps as allMaps,
-   Duos,
-   GameMapType,
-   GameMode,
-   HumansVsNations,
-   PublicGameModifiers,
-   Quads,
-   Trios,
-} from "../core/game/Game";
 import type { UnitType } from "../core/game/Game";
+import {
+  maps as allMaps,
+  Duos,
+  GameMapType,
+  GameMode,
+  HumansVsNations,
+  PublicGameModifiers,
+  Quads,
+  Trios,
+} from "../core/game/Game";
 import { PseudoRandom } from "../core/PseudoRandom";
 import {
   GameConfig,
@@ -136,8 +136,7 @@ export class MapPlaylist {
     const mode = type === "ffa" ? "Free For All" : "Team";
     const map = this.getNextMap(type);
 
-    const playerTeams =
-      mode === "Team" ? this.getTeamCount(map) : undefined;
+    const playerTeams = mode === "Team" ? this.getTeamCount(map) : undefined;
 
     let isCompact: boolean | undefined =
       this.playlists[type].length % 3 === 0 || undefined;
@@ -159,8 +158,7 @@ export class MapPlaylist {
       publicGameModifiers: {
         isCompact,
       },
-      difficulty:
-        playerTeams === HumansVsNations ? "Hard" : "Medium",
+      difficulty: playerTeams === HumansVsNations ? "Hard" : "Medium",
       infiniteGold: false,
       infiniteTroops: false,
       maxTimerValue: undefined,
@@ -182,8 +180,7 @@ export class MapPlaylist {
   private async getSpecialConfig(): Promise<GameConfig> {
     const mode = Math.random() < 0.5 ? "Free For All" : "Team";
     const map = this.getNextMap("special");
-    const playerTeams =
-      mode === "Team" ? this.getTeamCount(map) : undefined;
+    const playerTeams = mode === "Team" ? this.getTeamCount(map) : undefined;
 
     const excludedModifiers: ModifierKey[] = [];
 
@@ -358,9 +355,7 @@ export class MapPlaylist {
       goldMultiplier,
       disableAlliances: isAlliancesDisabled ? true : undefined,
       difficulty:
-        isHardNations || playerTeams === HumansVsNations
-          ? "Hard"
-          : "Medium",
+        isHardNations || playerTeams === HumansVsNations ? "Hard" : "Medium",
       infiniteGold: false,
       infiniteTroops: false,
       maxTimerValue: undefined,

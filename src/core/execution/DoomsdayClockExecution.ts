@@ -2,12 +2,7 @@ import {
   doomsdayClockDrain,
   doomsdayClockSideRequiredTiles,
 } from "../game/DoomsdayClock";
-import {
-  Execution,
-  Game,
-  Player,
-  Team,
-} from "../game/Game";
+import { Execution, Game, Player, Team } from "../game/Game";
 
 /**
  * Doomsday Clock (anti-stall). Once armed, every side must hold a rising

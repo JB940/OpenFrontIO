@@ -1,5 +1,5 @@
-import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import type { UnitType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo } from "../src/core/game/Game";
 import { setup } from "./util/Setup";
 
 let game: Game;
@@ -43,10 +43,7 @@ describe("PlayerImpl", () => {
 
   test("City can be upgraded from another city", () => {
     const city = player.buildUnit("City", game.ref(0, 0), {});
-    const cityToUpgrade = player.findUnitToUpgrade(
-      "City",
-      game.ref(0, 1),
-    );
+    const cityToUpgrade = player.findUnitToUpgrade("City", game.ref(0, 1));
     expect(cityToUpgrade).toBeTruthy();
     if (cityToUpgrade === false) {
       return;
@@ -55,19 +52,13 @@ describe("PlayerImpl", () => {
   });
   test("City cannot be upgraded when too far away", () => {
     player.buildUnit("City", game.ref(0, 0), {});
-    const cityToUpgrade = player.findUnitToUpgrade(
-      "City",
-      game.ref(50, 50),
-    );
+    const cityToUpgrade = player.findUnitToUpgrade("City", game.ref(50, 50));
     expect(cityToUpgrade).toBe(false);
   });
   test("Unit cannot be upgraded when not enough gold", () => {
     player.buildUnit("City", game.ref(0, 0), {});
     player.removeGold(BigInt(1000000));
-    const cityToUpgrade = player.findUnitToUpgrade(
-      "City",
-      game.ref(0, 1),
-    );
+    const cityToUpgrade = player.findUnitToUpgrade("City", game.ref(0, 1));
     expect(cityToUpgrade).toBe(false);
   });
 
@@ -104,28 +95,17 @@ describe("PlayerImpl", () => {
       expect(player.units("City", "MissileSilo")).toEqual(
         expected("City", "MissileSilo"),
       );
-      expect(
-        player.units("City", "DefensePost", "MissileSilo"),
-      ).toEqual(
+      expect(player.units("City", "DefensePost", "MissileSilo")).toEqual(
         expected("City", "DefensePost", "MissileSilo"),
       );
       // Duplicate types don't duplicate results.
-      expect(player.units("City", "City")).toEqual(
-        expected("City"),
-      );
+      expect(player.units("City", "City")).toEqual(expected("City"));
     });
 
     test("array of types (Set path) and no match", () => {
       expect(
-        player.units([
-          "City",
-          "DefensePost",
-          "MissileSilo",
-          "Port",
-        ]),
-      ).toEqual(
-        expected("City", "DefensePost", "MissileSilo"),
-      );
+        player.units(["City", "DefensePost", "MissileSilo", "Port"]),
+      ).toEqual(expected("City", "DefensePost", "MissileSilo"));
       expect(player.units("Port")).toEqual([]);
     });
   });

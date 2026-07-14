@@ -1,3 +1,4 @@
+import type { UnitType } from "../../game/Game";
 import {
   Game,
   Gold,
@@ -7,7 +8,6 @@ import {
   Tick,
   Unit,
 } from "../../game/Game";
-import type { UnitType } from "../../game/Game";
 import { TileRef, euclDistFN } from "../../game/GameMap";
 import { UniversalPathFinding } from "../../pathfinding/PathFinder";
 import { PseudoRandom } from "../../PseudoRandom";
@@ -155,10 +155,7 @@ export class NationNukeBehavior {
         bestValue = value;
       }
     }
-    if (
-      bestTile !== null &&
-      (bestValue > 0 || difficulty !== "Impossible")
-    ) {
+    if (bestTile !== null && (bestValue > 0 || difficulty !== "Impossible")) {
       this.sendNuke(bestTile, nukeType, nukeTarget);
     } else if (difficulty === "Impossible") {
       this.maybeDestroyEnemySam(nukeTarget);
@@ -451,10 +448,7 @@ export class NationNukeBehavior {
     }
 
     // Return the actual cost if we already have enough gold to buy both a MIRV and a hydro
-    if (
-      this.player.gold() >
-      this.cost("MIRV") + this.cost("HydrogenBomb")
-    ) {
+    if (this.player.gold() > this.cost("MIRV") + this.cost("HydrogenBomb")) {
       return this.cost(type);
     }
 
@@ -462,8 +456,7 @@ export class NationNukeBehavior {
     // The nation is probably going to get destroyed soon, so go all-in on nukes
     const difficulty = this.game.config().gameConfig().difficulty;
     if (
-      (difficulty === "Hard" ||
-        difficulty === "Impossible") &&
+      (difficulty === "Hard" || difficulty === "Impossible") &&
       this.isUnderHeavyAttack()
     ) {
       return this.cost(type);
@@ -508,10 +501,7 @@ export class NationNukeBehavior {
     const ourInnerRadius = this.game.config().nukeMagnitudes(nukeType).inner;
 
     // Get all active nukes in the game
-    const activeNukes = this.game.units(
-      "AtomBomb",
-      "HydrogenBomb",
-    );
+    const activeNukes = this.game.units("AtomBomb", "HydrogenBomb");
 
     // Check if any teammate's nuke blast radius overlaps with ours
     for (const nuke of activeNukes) {
@@ -659,8 +649,7 @@ export class NationNukeBehavior {
     if (owner === nukeTarget) return true;
     // On Hard & Impossible, allow TerraNullius (hit small islands) and in team games other non-friendly players
     if (
-      (difficulty === "Hard" ||
-        difficulty === "Impossible") &&
+      (difficulty === "Hard" || difficulty === "Impossible") &&
       (!owner.isPlayer() ||
         (this.game.config().gameConfig().gameMode === "Team" &&
           owner.isPlayer() &&
@@ -709,20 +698,14 @@ export class NationNukeBehavior {
       const dist50 = euclDistFN(tile, 50, false);
       const hasSam = targets.some(
         (unit) =>
-          unit.type() === "SAMLauncher" &&
-          dist50(this.game, unit.tile()),
+          unit.type() === "SAMLauncher" && dist50(this.game, unit.tile()),
       );
       if (hasSam) return -1;
     }
 
     // On Impossible difficulty and a hydrogen bomb, add value for SAMs that can be outranged
-    if (
-      difficulty === "Impossible" &&
-      nukeType === "HydrogenBomb"
-    ) {
-      const hydroMagnitude = this.game
-        .config()
-        .nukeMagnitudes("HydrogenBomb");
+    if (difficulty === "Impossible" && nukeType === "HydrogenBomb") {
+      const hydroMagnitude = this.game.config().nukeMagnitudes("HydrogenBomb");
       const nearbySams = this.game.nearbyUnits(
         tile,
         hydroMagnitude.outer,
@@ -1016,12 +999,7 @@ export class NationNukeBehavior {
       // Fire the salvo — NukeExecution will pick silos in the same
       // Manhattan distance order we planned.
       for (let i = 0; i < bombsToFire; i++) {
-        this.sendNuke(
-          targetTile,
-          "AtomBomb",
-          nukeTarget,
-          waitTicksPerBomb[i],
-        );
+        this.sendNuke(targetTile, "AtomBomb", nukeTarget, waitTicksPerBomb[i]);
       }
       return;
     }

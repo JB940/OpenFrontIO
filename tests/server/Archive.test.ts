@@ -76,10 +76,7 @@ describe("archive() singleplayer flag sanitization", () => {
   });
 
   it("preserves same-origin country flag paths", async () => {
-    await archive(
-      buildRecord("Singleplayer", "/flags/us.svg"),
-      new Set(),
-    );
+    await archive(buildRecord("Singleplayer", "/flags/us.svg"), new Set());
     expect(archivedBody(fetchMock).info.players[0].cosmetics.flag).toBe(
       "/flags/us.svg",
     );
@@ -108,10 +105,7 @@ describe("archive() singleplayer flag sanitization", () => {
 
   it("drops attacker-controlled URLs not in the trusted set", async () => {
     await archive(
-      buildRecord(
-        "Singleplayer",
-        "https://attacker.example/payload.png",
-      ),
+      buildRecord("Singleplayer", "https://attacker.example/payload.png"),
       new Set(["https://example.com/cool.png"]),
     );
     expect(
@@ -135,9 +129,7 @@ describe("archive() singleplayer flag sanitization", () => {
   });
 
   it("drops absolute URLs even when the trusted set is omitted", async () => {
-    await archive(
-      buildRecord("Singleplayer", "https://example.com/cool.png"),
-    );
+    await archive(buildRecord("Singleplayer", "https://example.com/cool.png"));
     expect(
       archivedBody(fetchMock).info.players[0].cosmetics?.flag,
     ).toBeUndefined();

@@ -1,5 +1,12 @@
-import { AllPlayers, Game, Gold, Player, PlayerID, Tick } from "../../game/Game";
 import type { UnitType } from "../../game/Game";
+import {
+  AllPlayers,
+  Game,
+  Gold,
+  Player,
+  PlayerID,
+  Tick,
+} from "../../game/Game";
 import { TileRef } from "../../game/GameMap";
 import { PseudoRandom } from "../../PseudoRandom";
 import { assertNever } from "../../Util";

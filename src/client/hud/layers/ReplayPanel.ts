@@ -3,11 +3,11 @@ import { customElement, property, state } from "lit/decorators.js";
 import { EventBus } from "../../../core/EventBus";
 import { Controller } from "../../Controller";
 import { ReplaySpeedChangeEvent } from "../../InputHandler";
+import type { ReplaySpeedMultiplier } from "../../utilities/ReplaySpeedMultiplier";
 import {
   defaultReplaySpeedMultiplier,
   ReplaySpeedMultiplierSchema,
 } from "../../utilities/ReplaySpeedMultiplier";
-import type { ReplaySpeedMultiplier } from "../../utilities/ReplaySpeedMultiplier";
 import { translateText } from "../../Utils";
 import { GameView } from "../../view";
 
@@ -27,7 +27,8 @@ export class ReplayPanel extends LitElement implements Controller {
   visible: boolean = false;
 
   @state()
-  private _replaySpeedMultiplier: ReplaySpeedMultiplier = defaultReplaySpeedMultiplier;
+  private _replaySpeedMultiplier: ReplaySpeedMultiplier =
+    defaultReplaySpeedMultiplier;
 
   @property({ type: Boolean })
   isSingleplayer = false;
@@ -80,8 +81,14 @@ export class ReplayPanel extends LitElement implements Controller {
             : translateText("replay_panel.game_speed")}
         </label>
         <div class="grid grid-cols-4 gap-2">
-          ${this.renderSpeedButton(ReplaySpeedMultiplierSchema.enum.Slow, "×0.5")}
-          ${this.renderSpeedButton(ReplaySpeedMultiplierSchema.enum.Normal, "×1")}
+          ${this.renderSpeedButton(
+            ReplaySpeedMultiplierSchema.enum.Slow,
+            "×0.5",
+          )}
+          ${this.renderSpeedButton(
+            ReplaySpeedMultiplierSchema.enum.Normal,
+            "×1",
+          )}
           ${this.renderSpeedButton(ReplaySpeedMultiplierSchema.enum.Fast, "×2")}
           ${this.renderSpeedButton(
             ReplaySpeedMultiplierSchema.enum.Fastest,

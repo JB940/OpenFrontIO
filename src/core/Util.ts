@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify";
 import { customAlphabet } from "nanoid";
-import { Cell, Unit } from "./game/Game";
 import type { PlayerType } from "./game/Game";
+import { Cell, Unit } from "./game/Game";
 import { GameMap, TileRef } from "./game/GameMap";
 import { TileSet } from "./game/TileSet";
 import {

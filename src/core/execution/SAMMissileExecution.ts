@@ -26,11 +26,7 @@ export class SAMMissileExecution implements Execution {
   }
 
   tick(ticks: number): void {
-    this.SAMMissile ??= this._owner.buildUnit(
-      "SAMMissile",
-      this.spawn,
-      {},
-    );
+    this.SAMMissile ??= this._owner.buildUnit("SAMMissile", this.spawn, {});
     if (!this.SAMMissile.isActive()) {
       this.active = false;
       return;

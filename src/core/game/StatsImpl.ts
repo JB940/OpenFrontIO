@@ -31,8 +31,8 @@ import {
   unitTypeToBombUnit,
   unitTypeToOtherUnit,
 } from "../StatsSchemas";
-import { Player, TerraNullius } from "./Game";
 import type { PlayerType } from "./Game";
+import { Player, TerraNullius } from "./Game";
 import { Stats } from "./Stats";
 
 type BigIntLike = bigint | number;

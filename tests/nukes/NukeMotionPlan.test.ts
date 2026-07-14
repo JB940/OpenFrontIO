@@ -30,11 +30,7 @@ describe("Nuke motion plan", () => {
   });
 
   function buildNuke(): Unit {
-    for (
-      let i = 0;
-      i < 10 && player.units("AtomBomb").length === 0;
-      i++
-    ) {
+    for (let i = 0; i < 10 && player.units("AtomBomb").length === 0; i++) {
       game.executeNextTick();
     }
     const nukes = player.units("AtomBomb");

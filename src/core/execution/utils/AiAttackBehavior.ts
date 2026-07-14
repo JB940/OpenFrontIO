@@ -869,14 +869,12 @@ export class AiAttackBehavior {
    */
   private isAttackTooWeak(troops: number, target: Player): boolean {
     if (this.player.type() === "Bot") return false;
-    if (this.game.config().gameConfig().gameMode === "Team")
-      return false;
+    if (this.game.config().gameConfig().gameMode === "Team") return false;
     // Nations under attack may retaliate freely
     if (this.player.incomingAttacks().length > 0) return false;
     const { difficulty } = this.game.config().gameConfig();
     return (
-      (difficulty === "Hard" ||
-        difficulty === "Impossible") &&
+      (difficulty === "Hard" || difficulty === "Impossible") &&
       troops < target.troops() * 0.2
     );
   }
@@ -894,8 +892,7 @@ export class AiAttackBehavior {
    */
   private troopSendCap(): number {
     if (this.player.type() === "Bot") return Infinity;
-    if (this.game.config().gameConfig().gameMode === "Team")
-      return Infinity;
+    if (this.game.config().gameConfig().gameMode === "Team") return Infinity;
 
     const { difficulty } = this.game.config().gameConfig();
     let retainFraction: number;

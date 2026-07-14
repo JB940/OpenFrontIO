@@ -1,6 +1,5 @@
 import { SpawnExecution } from "../src/core/execution/SpawnExecution";
-import { Game, Player, PlayerInfo } from "../src/core/game/Game";
-import { PlayerType } from "../src/core/game/Game";
+import { Game, Player, PlayerInfo, PlayerType } from "../src/core/game/Game";
 import { GameID } from "../src/core/Schemas";
 import { setup } from "./util/Setup";
 

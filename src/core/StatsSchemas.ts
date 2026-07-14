@@ -3,17 +3,13 @@ import { z } from "zod";
 export const bombUnits = ["abomb", "hbomb", "mirv", "mirvw"] as const;
 export const BombUnitSchema = z.enum(bombUnits);
 export type BombUnit = z.infer<typeof BombUnitSchema>;
-export type NukeType =
-  | "AtomBomb"
-  | "HydrogenBomb"
-  | "MIRV"
-  | "MIRVWarhead";
+export type NukeType = "AtomBomb" | "HydrogenBomb" | "MIRV" | "MIRVWarhead";
 
 export const unitTypeToBombUnit = {
-  "AtomBomb": "abomb",
-  "HydrogenBomb": "hbomb",
-  "MIRV": "mirv",
-  "MIRVWarhead": "mirvw",
+  AtomBomb: "abomb",
+  HydrogenBomb: "hbomb",
+  MIRV: "mirv",
+  MIRVWarhead: "mirvw",
 } as const satisfies Record<NukeType, BombUnit>;
 
 export const boatUnits = ["trade", "trans"] as const;

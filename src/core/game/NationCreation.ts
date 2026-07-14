@@ -1,11 +1,6 @@
 import { PseudoRandom } from "../PseudoRandom";
 import { GameStartInfo } from "../Schemas";
-import {
-  Cell,
-  HumansVsNations,
-  Nation,
-  PlayerInfo,
-} from "./Game";
+import { Cell, HumansVsNations, Nation, PlayerInfo } from "./Game";
 import { AdditionalNation, Nation as ManifestNation } from "./TerrainMapLoader";
 
 /**

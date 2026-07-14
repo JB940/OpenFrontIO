@@ -2,12 +2,7 @@ import { GameUpdateType } from "src/core/game/GameUpdates";
 import { vi, type Mocked } from "vitest";
 import { Config } from "../../../src/core/configuration/Config";
 import { TrainExecution } from "../../../src/core/execution/TrainExecution";
-import {
-  Game,
-  GameMapType,
-  Player,
-  Unit,
-} from "../../../src/core/game/Game";
+import { Game, GameMapType, Player, Unit } from "../../../src/core/game/Game";
 import { Cluster, TrainStation } from "../../../src/core/game/TrainStation";
 import { UserSettings } from "../../../src/core/game/UserSettings";
 import { GameConfig } from "../../../src/core/Schemas";
@@ -206,7 +201,7 @@ describe("Config.trainGold trade stop penalty", () => {
 
   beforeEach(() => {
     const gameConfig: GameConfig = {
-      gameMap:  GameMapType.Asia,
+      gameMap: GameMapType.Asia,
       gameMapSize: "Normal",
       gameMode: "Free For All",
       gameType: "Singleplayer",

@@ -4,13 +4,13 @@ import { translateText } from "../client/Utils";
 import { UserMeResponse } from "../core/ApiSchemas";
 import { assetUrl } from "../core/AssetUrls";
 import { DoomsdayClockSpeed } from "../core/game/DoomsdayClock";
-import {
-   DifficultySchema,
-   GameMapType,
-   maps,
-   UnitTypeSchema
-} from "../core/game/Game";
 import type { Difficulty, GameMode, UnitType } from "../core/game/Game";
+import {
+  DifficultySchema,
+  GameMapType,
+  maps,
+  UnitTypeSchema,
+} from "../core/game/Game";
 import { TeamCountConfig } from "../core/Schemas";
 import { generateID } from "../core/Util";
 import { hasLinkedAccount } from "./Api";
@@ -846,9 +846,7 @@ export class SinglePlayerModal extends BaseModal {
             ],
             config: {
               gameMap: this.selectedMap,
-              gameMapSize: this.compactMap
-                ? "Compact"
-                : "Normal",
+              gameMapSize: this.compactMap ? "Compact" : "Normal",
               gameType: "Singleplayer",
               gameMode: this.gameMode,
               playerTeams: this.teamCount,
@@ -861,10 +859,9 @@ export class SinglePlayerModal extends BaseModal {
               infiniteTroops: this.infiniteTroops,
               instantBuild: this.instantBuild,
               randomSpawn: this.randomSpawn,
-              disabledUnits: this.disabledUnits
-                .filter(
-                  (u): u is UnitType => UnitTypeSchema.safeParse(u).success
-                ), // safeParse already forbids undefined and checks valid UnitType
+              disabledUnits: this.disabledUnits.filter(
+                (u): u is UnitType => UnitTypeSchema.safeParse(u).success,
+              ), // safeParse already forbids undefined and checks valid UnitType
               nations: sliderToNationsConfig(
                 this.nations,
                 this.defaultNationCount,

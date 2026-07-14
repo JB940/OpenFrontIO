@@ -98,9 +98,7 @@ describe("NationStructureBehavior.shouldUseConnectivityScore", () => {
     for (const v of [0, 50, 99]) {
       const { behavior, random } = behaviorWithNextInt(v);
       vi.spyOn(random, "nextInt").mockReturnValue(v);
-      expect(
-        (behavior as any).shouldUseConnectivityScore("Easy"),
-      ).toBe(false);
+      expect((behavior as any).shouldUseConnectivityScore("Easy")).toBe(false);
     }
   });
 
@@ -114,22 +112,22 @@ describe("NationStructureBehavior.shouldUseConnectivityScore", () => {
   it("returns false for Medium when nextInt === 60 (boundary)", () => {
     const { behavior } = behaviorWithNextInt(60);
     expect(
-      (behavior as any).shouldUseConnectivityScore("Medium"  as Difficulty),
+      (behavior as any).shouldUseConnectivityScore("Medium" as Difficulty),
     ).toBe(false);
   });
 
   it("returns true for Hard when nextInt < 75", () => {
     const { behavior } = behaviorWithNextInt(74);
-    expect((behavior as any).shouldUseConnectivityScore("Hard" as Difficulty)).toBe(
-      true,
-    );
+    expect(
+      (behavior as any).shouldUseConnectivityScore("Hard" as Difficulty),
+    ).toBe(true);
   });
 
   it("returns false for Hard when nextInt === 75 (boundary)", () => {
     const { behavior } = behaviorWithNextInt(75);
-    expect((behavior as any).shouldUseConnectivityScore("Hard" as Difficulty)).toBe(
-      false,
-    );
+    expect(
+      (behavior as any).shouldUseConnectivityScore("Hard" as Difficulty),
+    ).toBe(false);
   });
 
   it("always returns true for Impossible (randomChance = 100)", () => {
@@ -137,7 +135,9 @@ describe("NationStructureBehavior.shouldUseConnectivityScore", () => {
       const { behavior, random } = behaviorWithNextInt(v);
       vi.spyOn(random, "nextInt").mockReturnValue(v);
       expect(
-        (behavior as any).shouldUseConnectivityScore("Impossible" as Difficulty),
+        (behavior as any).shouldUseConnectivityScore(
+          "Impossible" as Difficulty,
+        ),
       ).toBe(true);
     }
   });
@@ -367,9 +367,7 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
   }
 
   it("returns false on Easy regardless of ratio", () => {
-    expect(callTryBuild("Easy", 100, [makeLandAttack(5000)])).toBe(
-      false,
-    );
+    expect(callTryBuild("Easy", 100, [makeLandAttack(5000)])).toBe(false);
   });
 
   it("returns false when there are no incoming attacks", () => {
@@ -377,15 +375,11 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
   });
 
   it("returns false when only boat attacks are incoming", () => {
-    expect(callTryBuild("Hard", 100, [makeBoatAttack(5000)])).toBe(
-      false,
-    );
+    expect(callTryBuild("Hard", 100, [makeBoatAttack(5000)])).toBe(false);
   });
 
   it("returns false when land-attack ratio is below 0.35", () => {
-    expect(callTryBuild("Hard", 1000, [makeLandAttack(349)])).toBe(
-      false,
-    );
+    expect(callTryBuild("Hard", 1000, [makeLandAttack(349)])).toBe(false);
   });
 
   it("returns false when own troops are zero", () => {
@@ -584,9 +578,7 @@ describe("NationStructureBehavior.defensePostNeeded", () => {
   });
 
   it("sums troops across multiple land attacks for the ratio", () => {
-    expect(
-      call("Hard", 1000, [makeAttack(200), makeAttack(200)]),
-    ).toBe(true);
+    expect(call("Hard", 1000, [makeAttack(200), makeAttack(200)])).toBe(true);
   });
 });
 

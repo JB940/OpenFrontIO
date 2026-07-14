@@ -36,10 +36,7 @@ export class TradeShipExecution implements Execution {
     }
 
     if (this.tradeShip === undefined) {
-      const spawn = this.origOwner.canBuild(
-        "TradeShip",
-        this.srcPort.tile(),
-      );
+      const spawn = this.origOwner.canBuild("TradeShip", this.srcPort.tile());
       if (spawn === false) {
         console.warn(`cannot build trade ship`);
         this.active = false;

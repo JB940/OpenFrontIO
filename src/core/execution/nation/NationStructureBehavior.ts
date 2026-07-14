@@ -1,3 +1,4 @@
+import type { UnitType } from "../../game/Game";
 import {
   Attack,
   Difficulty,
@@ -7,7 +8,6 @@ import {
   Structures,
   Unit,
 } from "../../game/Game";
-import type { UnitType } from "../../game/Game";
 import { TileRef } from "../../game/GameMap";
 import { Cluster } from "../../game/TrainStation";
 import { PseudoRandom } from "../../PseudoRandom";
@@ -30,10 +30,10 @@ interface StructureRatioConfig {
 
 /** SAM launcher ratio per city, keyed by difficulty */
 const SAM_RATIO_BY_DIFFICULTY: Record<Difficulty, number> = {
-  "Easy": 0.15,
-  "Medium": 0.2,
-  "Hard": 0.25,
-  "Impossible": 0.3,
+  Easy: 0.15,
+  Medium: 0.2,
+  Hard: 0.25,
+  Impossible: 0.3,
 };
 
 /**
@@ -189,8 +189,7 @@ export class NationStructureBehavior {
   private tryBuildDefensePost(): boolean {
     const { difficulty } = this.game.config().gameConfig();
     if (difficulty === "Easy") return false;
-    if (difficulty === "Medium" && !this.random.chance(2))
-      return false;
+    if (difficulty === "Medium" && !this.random.chance(2)) return false;
 
     const player = this.player;
     const landAttacks = player
@@ -219,11 +218,7 @@ export class NationStructureBehavior {
     const cost = this.cost("DefensePost");
     if (player.gold() < cost) return false;
 
-    const tiles = this.sampleTilesNearFront(
-      frontTiles,
-      25,
-      "DefensePost",
-    );
+    const tiles = this.sampleTilesNearFront(frontTiles, 25, "DefensePost");
     for (const tile of tiles) {
       if (!player.canBuild("DefensePost", tile)) continue;
       this.game.addExecution(
@@ -333,9 +328,7 @@ export class NationStructureBehavior {
     // Spread: prefer front tiles far from existing defense posts so successive
     // posts don't cluster at the same spot along the attack line.
     const spreadRangeSquared = (borderSpacing * 1.5) ** 2;
-    const existingDPTiles = player
-      .units("DefensePost")
-      .map((u) => u.tile());
+    const existingDPTiles = player.units("DefensePost").map((u) => u.tile());
 
     let anchors: TileRef[];
     if (existingDPTiles.length > 0) {
@@ -465,9 +458,7 @@ export class NationStructureBehavior {
       this.isHighNationDensity()
     ) {
       const preferredFirst =
-        hasCoastalTiles && !config.isUnitDisabled("Port")
-          ? "Port"
-          : "Factory";
+        hasCoastalTiles && !config.isUnitDisabled("Port") ? "Port" : "Factory";
       if (
         !config.isUnitDisabled(preferredFirst) &&
         this.maybeSpawnStructure(preferredFirst)
@@ -503,8 +494,7 @@ export class NationStructureBehavior {
       // Skip missile silos and SAM launchers if all nukes are disabled
       if (
         !nukesEnabled &&
-        (structureType === "MissileSilo" ||
-          structureType === "SAMLauncher")
+        (structureType === "MissileSilo" || structureType === "SAMLauncher")
       ) {
         continue;
       }
@@ -1099,11 +1089,7 @@ export class NationStructureBehavior {
     // Own structures — weighted by "self" trade gold.
     const selfWeight =
       Number(game.config().trainGold("self", 0, player)) / maxTradeGold;
-    for (const unit of player.units(
-      "City",
-      "Port",
-      "Factory",
-    )) {
+    for (const unit of player.units("City", "Port", "Factory")) {
       if (unitToCluster.has(unit)) {
         result.push({
           tile: unit.tile(),
@@ -1125,11 +1111,7 @@ export class NationStructureBehavior {
           : "other";
       const weight =
         Number(game.config().trainGold(relType, 0, player)) / maxTradeGold;
-      for (const unit of neighbor.units(
-        "City",
-        "Port",
-        "Factory",
-      )) {
+      for (const unit of neighbor.units("City", "Port", "Factory")) {
         if (unitToCluster.has(unit)) {
           result.push({
             tile: unit.tile(),
@@ -1257,8 +1239,7 @@ export class NationStructureBehavior {
     const { borderSpacing, structureSpacing } = this.spacingConstants();
 
     const { difficulty } = game.config().gameConfig();
-    const weightByLevel =
-      difficulty === "Hard" || difficulty === "Impossible";
+    const weightByLevel = difficulty === "Hard" || difficulty === "Impossible";
 
     const protectEntries: { tile: TileRef; weight: number }[] = [];
     for (const unit of player.units()) {
@@ -1343,9 +1324,7 @@ export class NationStructureBehavior {
     borderSpacing: number;
     structureSpacing: number;
   } {
-    const borderSpacing = this.game
-      .config()
-      .nukeMagnitudes("AtomBomb").outer;
+    const borderSpacing = this.game.config().nukeMagnitudes("AtomBomb").outer;
     return { borderSpacing, structureSpacing: borderSpacing * 2 };
   }
 }

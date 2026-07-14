@@ -11,15 +11,15 @@ import {
   DOOMSDAY_CLOCK_SPEEDS,
   DoomsdayClockSpeed,
 } from "../../core/game/DoomsdayClock";
+import type { Difficulty, GameMode, UnitType } from "../../core/game/Game";
 import {
-   DifficultySchema,
+  DifficultySchema,
   Duos,
   GameMapType,
   HumansVsNations,
   Quads,
   Trios,
 } from "../../core/game/Game";
-import type { Difficulty, GameMode, UnitType } from "../../core/game/Game";
 import { TeamCountConfig } from "../../core/Schemas";
 import { translateText } from "../Utils";
 import "./Difficulties";
@@ -41,7 +41,9 @@ function cardClass(active: boolean, extra = ""): string {
 const CARD_LABEL_CLASS =
   "text-xs uppercase font-bold tracking-wider leading-tight break-words hyphens-auto";
 
-const DIFFICULTY_OPTIONS = Object.entries(DifficultySchema.enum) as Array<[string, Difficulty]>;
+const DIFFICULTY_OPTIONS = Object.entries(DifficultySchema.enum) as Array<
+  [string, Difficulty]
+>;
 const TEAM_COUNT_OPTIONS: TeamCountConfig[] = [
   2,
   3,

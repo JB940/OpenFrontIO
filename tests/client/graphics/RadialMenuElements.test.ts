@@ -8,8 +8,8 @@ import {
   slotSchema,
 } from "../../../src/client/hud/layers/RadialMenuElements";
 import { GameView, PlayerView } from "../../../src/client/view";
-import { TileRef } from "../../../src/core/game/GameMap";
 import { UnitTypeSchema } from "../../../src/core/game/Game";
+import { TileRef } from "../../../src/core/game/GameMap";
 
 vi.mock("../../../src/client/Utils", () => ({
   translateText: vi.fn((key: string) => key),
@@ -181,12 +181,7 @@ describe("RadialMenuElements", () => {
       expect(subMenu).toBeDefined();
       expect(subMenu.length).toBeGreaterThan(0);
 
-      const attackUnitTypes = [
-        "AtomBomb",
-        "MIRV",
-        "HydrogenBomb",
-        "Warship",
-      ];
+      const attackUnitTypes = ["AtomBomb", "MIRV", "HydrogenBomb", "Warship"];
       const returnedUnitTypes = subMenu.map((item) => {
         const unitTypeStr = item.id.replace("attack_", "");
         return Object.values(UnitTypeSchema).find(
@@ -267,12 +262,7 @@ describe("RadialMenuElements", () => {
     it("should not include attack units in build menu", () => {
       const subMenu = buildMenuElement.subMenu!(mockParams);
 
-      const attackUnitTypes = [
-        "AtomBomb",
-        "MIRV",
-        "HydrogenBomb",
-        "Warship",
-      ];
+      const attackUnitTypes = ["AtomBomb", "MIRV", "HydrogenBomb", "Warship"];
       const returnedUnitTypes = subMenu.map((item) => {
         const unitTypeStr = item.id.replace("build_", "");
         return Object.values(UnitTypeSchema).find(

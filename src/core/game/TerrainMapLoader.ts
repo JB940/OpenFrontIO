@@ -1,5 +1,5 @@
-import { GameMapType, TeamGameSpawnAreas } from "./Game";
 import type { GameMapSize } from "./Game";
+import { GameMapType, TeamGameSpawnAreas } from "./Game";
 import { GameMap, GameMapImpl } from "./GameMap";
 import { GameMapLoader } from "./GameMapLoader";
 

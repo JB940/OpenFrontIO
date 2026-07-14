@@ -2,8 +2,13 @@ import { html, LitElement } from "lit";
 import { customElement } from "lit/decorators.js";
 import { assetUrl } from "../../../core/AssetUrls";
 import { EventBus } from "../../../core/EventBus";
-import { BuildableUnit, BuildMenus, Gold, PlayerBuildableUnitType } from "../../../core/game/Game";
 import type { UnitType } from "../../../core/game/Game";
+import {
+  BuildableUnit,
+  BuildMenus,
+  Gold,
+  PlayerBuildableUnitType,
+} from "../../../core/game/Game";
 import { UserSettings } from "../../../core/game/UserSettings";
 import { Controller } from "../../Controller";
 import { ToggleStructureEvent } from "../../InputHandler";
@@ -268,10 +273,7 @@ export class UnitDisplay extends LitElement implements Controller {
               case "AtomBomb":
               case "HydrogenBomb":
                 this.eventBus?.emit(
-                  new ToggleStructureEvent([
-                    "MissileSilo",
-                    "SAMLauncher",
-                  ]),
+                  new ToggleStructureEvent(["MissileSilo", "SAMLauncher"]),
                 );
                 break;
               case "Warship":

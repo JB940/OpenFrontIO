@@ -1,15 +1,15 @@
 import { simpleHash, toInt, withinInt } from "../Util";
+import type { TrainType, UnitType } from "./Game";
 import {
-   AllUnitParams,
-   Player,
-   Tick,
-   TrajectoryTile,
-   TransportShipState,
-   Unit,
-   UnitInfo,
-   WarshipState,
+  AllUnitParams,
+  Player,
+  Tick,
+  TrajectoryTile,
+  TransportShipState,
+  Unit,
+  UnitInfo,
+  WarshipState,
 } from "./Game";
-import type { UnitType, TrainType } from "./Game";
 import { GameImpl } from "./GameImpl";
 import { TileRef } from "./GameMap";
 import { GameUpdateType, UnitUpdate } from "./GameUpdates";
@@ -326,10 +326,7 @@ export class UnitImpl implements Unit {
   private displayMessageOnDeleted(): void {
     // Only warships and transport ships are worth notifying about; everything
     // else is either visible on the map or too low-stakes to surface.
-    if (
-      this._type !== "Warship" &&
-      this._type !== "TransportShip"
-    ) {
+    if (this._type !== "Warship" && this._type !== "TransportShip") {
       return;
     }
 

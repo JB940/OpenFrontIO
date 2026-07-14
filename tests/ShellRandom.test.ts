@@ -25,13 +25,9 @@ describe("Shell Random Damage", () => {
   });
 
   test("Shell damage varies randomly between 200-300 base damage", () => {
-    const target = player2.buildUnit(
-      "Warship",
-      game.ref(coastX + 5, 10),
-      {
-        patrolTile: game.ref(coastX + 5, 10),
-      },
-    );
+    const target = player2.buildUnit("Warship", game.ref(coastX + 5, 10), {
+      patrolTile: game.ref(coastX + 5, 10),
+    });
     const initialHealth = target.health();
 
     const damages: number[] = [];
@@ -78,21 +74,13 @@ describe("Shell Random Damage", () => {
   test("Warship shell attacks have random damage", () => {
     player1.buildUnit("Port", game.ref(coastX, 10), {});
 
-    const warship = player1.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      {
-        patrolTile: game.ref(coastX + 1, 10),
-      },
-    );
+    const warship = player1.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
 
-    const target = player2.buildUnit(
-      "Warship",
-      game.ref(coastX + 2, 10),
-      {
-        patrolTile: game.ref(coastX + 2, 10),
-      },
-    );
+    const target = player2.buildUnit("Warship", game.ref(coastX + 2, 10), {
+      patrolTile: game.ref(coastX + 2, 10),
+    });
     const initialHealth = target.health();
 
     warship.setTargetUnit(target);
@@ -140,13 +128,9 @@ describe("Shell Random Damage", () => {
     const defensePostUnit = player1.buildUnit("DefensePost", spawn, {});
     const defensePost = new DefensePostExecution(defensePostUnit);
 
-    const target = player2.buildUnit(
-      "Warship",
-      game.ref(coastX + 1, 10),
-      {
-        patrolTile: game.ref(coastX + 1, 10),
-      },
-    );
+    const target = player2.buildUnit("Warship", game.ref(coastX + 1, 10), {
+      patrolTile: game.ref(coastX + 1, 10),
+    });
     const initialHealth = target.health();
 
     defensePost.init(game, game.ticks());
@@ -185,13 +169,9 @@ describe("Shell Random Damage", () => {
   });
 
   test("Shell damage distribution follows expected pattern", () => {
-    const target = player2.buildUnit(
-      "Warship",
-      game.ref(coastX + 5, 10),
-      {
-        patrolTile: game.ref(coastX + 5, 10),
-      },
-    );
+    const target = player2.buildUnit("Warship", game.ref(coastX + 5, 10), {
+      patrolTile: game.ref(coastX + 5, 10),
+    });
     const initialHealth = target.health();
 
     const damages: number[] = [];
@@ -238,13 +218,9 @@ describe("Shell Random Damage", () => {
   });
 
   test("Shell damage is consistent with same random seed", () => {
-    const target = player2.buildUnit(
-      "Warship",
-      game.ref(coastX + 5, 10),
-      {
-        patrolTile: game.ref(coastX + 5, 10),
-      },
-    );
+    const target = player2.buildUnit("Warship", game.ref(coastX + 5, 10), {
+      patrolTile: game.ref(coastX + 5, 10),
+    });
     const initialHealth = target.health();
 
     const shell1 = new ShellExecution(

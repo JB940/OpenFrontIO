@@ -10,9 +10,9 @@ import {
   Game,
   GameMode,
   Player,
+  PlayerType,
   Team,
 } from "../src/core/game/Game";
-import { PlayerType } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
 import { playerInfo, setup } from "./util/Setup";
 

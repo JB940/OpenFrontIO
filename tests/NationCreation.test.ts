@@ -1,7 +1,4 @@
-import {
-  GameMapType,
-  Nation,
-} from "../src/core/game/Game";
+import { GameMapType, Nation } from "../src/core/game/Game";
 import { createNationsForGame } from "../src/core/game/NationCreation";
 import {
   AdditionalNation,
