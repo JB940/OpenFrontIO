@@ -1,9 +1,13 @@
 import { TileRef } from "./GameMap";
+import { z } from "zod";
 
-export enum PackedMotionPlanKind {
-  GridPathSet = 1,
-  TrainRailPathSet = 2,
-}
+export const PackedMotionPlanKindSchema = z.enum({
+  GridPathSet: 1,
+  TrainRailPathSet: 2,
+});
+
+export type PackedMotionPlanKind = z.infer<typeof PackedMotionPlanKindSchema>;
+
 
 export interface GridPathPlan {
   kind: "grid";
@@ -67,7 +71,7 @@ export function packMotionPlans(
         const pathLen = path.length >>> 0;
         const wordCount = 2 + 5 + pathLen;
 
-        out[offset++] = PackedMotionPlanKind.GridPathSet;
+        out[offset++] = PackedMotionPlanKindSchema.enum.GridPathSet;
         out[offset++] = wordCount >>> 0;
         out[offset++] = record.unitId >>> 0;
         out[offset++] = record.planId >>> 0;
@@ -88,7 +92,7 @@ export function packMotionPlans(
         const pathLen = path.length >>> 0;
 
         const wordCount = 2 + 7 + carCount + pathLen;
-        out[offset++] = PackedMotionPlanKind.TrainRailPathSet;
+        out[offset++] = PackedMotionPlanKindSchema.enum.TrainRailPathSet;
         out[offset++] = wordCount >>> 0;
         out[offset++] = record.engineUnitId >>> 0;
         out[offset++] = record.planId >>> 0;
@@ -135,7 +139,7 @@ export function unpackMotionPlans(packed: Uint32Array): MotionPlanRecord[] {
     }
 
     switch (kind) {
-      case PackedMotionPlanKind.GridPathSet: {
+      case PackedMotionPlanKindSchema.enum.GridPathSet: {
         if (wordCount < 2 + 5) {
           break;
         }
@@ -164,7 +168,7 @@ export function unpackMotionPlans(packed: Uint32Array): MotionPlanRecord[] {
         });
         break;
       }
-      case PackedMotionPlanKind.TrainRailPathSet: {
+      case PackedMotionPlanKindSchema.enum.TrainRailPathSet: {
         if (wordCount < 2 + 7) {
           break;
         }
